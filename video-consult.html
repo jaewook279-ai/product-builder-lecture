@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>외식전문가 — 화상 상담</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Gmarket+Sans:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="video-consult.css">
+</head>
+<body>
+<!-- 상단 바 -->
+<div class="video-topbar">
+  <div class="vt-left">
+    <div class="vt-logo">🍽️ 외식전문가</div>
+    <span class="vt-sep">|</span>
+    <div class="vt-title">부가세 신고 화상 상담</div>
+    <div class="vt-badge"><div class="vt-dot"></div>진행 중</div>
+  </div>
+  <div class="vt-time" id="timer">00:00</div>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <div style="font-size:12px;color:rgba(255,255,255,.5);">HD · 암호화됨 🔒</div>
+    <button id="settingsBtn" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:9px;color:rgba(255,255,255,.7);font-size:13px;padding:7px 12px;cursor:pointer;">⚙️</button>
+  </div>
+</div>
+
+<!-- 비디오 영역 -->
+<div class="video-area">
+  <!-- 메인 비디오 (전문가) -->
+  <div class="main-video">
+    <div class="mv-avatar">👨‍💼</div>
+    <div class="mv-name-badge"><span class="mv-mic-icon">🎤</span>김세무 세무사 · 세무·회계 전문가</div>
+    <div class="mv-quality">HD ●</div>
+    <!-- 화면공유 오버레이 -->
+    <div class="share-overlay" id="shareOverlay">
+      <div style="font-size:14px;color:rgba(255,255,255,.7);font-weight:700;">📊 전문가가 화면을 공유 중입니다</div>
+      <div class="share-screen-mock">
+        <div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:8px;">📊 부가세 계산 시뮬레이터</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px;color:var(--gray-5);">
+          <div>매출 (과세): <strong>₩18,420,000</strong></div>
+          <div>매입 공제: <strong>₩4,200,000</strong></div>
+          <div>납부 세액: <strong style="color:var(--red);">₩1,422,000</strong></div>
+          <div>환급 가능: <strong style="color:var(--green);">₩0</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 사이드 패널 -->
+  <div class="side-panel">
+    <!-- 내 비디오 -->
+    <div class="my-video">
+      👨‍🍳
+      <div class="my-name-badge">나 (김철수)</div>
+    </div>
+
+    <!-- 참가자 -->
+    <div class="participants">
+      <div class="part-title">참가자 (2)</div>
+      <div class="part-item"><div class="part-avatar" style="background:rgba(52,152,219,.2);">👨‍💼</div><span class="part-name">김세무 세무사</span><div class="part-icons">🎤 📹</div></div>
+      <div class="part-item"><div class="part-avatar" style="background:rgba(14,148,136,.2);">👨‍🍳</div><span class="part-name">나 (김철수)</span><div class="part-icons">🎤 📹</div></div>
+    </div>
+
+    <!-- 채팅 -->
+    <div class="side-chat">
+      <div class="sc-head">💬 채팅</div>
+      <div class="sc-msgs" id="scMsgs">
+        <div class="sc-msg you"><div class="sc-msg-name">김세무 세무사</div><div class="sc-bubble">안녕하세요! 화상으로 뵙게 되어 반갑습니다 😊</div></div>
+        <div class="sc-msg you"><div class="sc-bubble">준비하신 서류 보여드리면서 설명드릴게요</div></div>
+        <div class="sc-msg me"><div class="sc-msg-name">나</div><div class="sc-bubble">네! 잘 부탁드립니다</div></div>
+      </div>
+      <div class="sc-input-wrap">
+        <input class="sc-input" id="scInput" placeholder="메시지...">
+        <button class="sc-send" id="scSendBtn">➤</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 하단 컨트롤 -->
+<div class="control-bar">
+  <div class="ctrl-group">
+    <div class="ctrl-btn" id="micBtn">
+      <div class="ctrl-icon" id="micIcon">🎤</div>
+      <div class="ctrl-label">마이크</div>
+    </div>
+    <div class="ctrl-btn" id="camBtn">
+      <div class="ctrl-icon" id="camIcon">📹</div>
+      <div class="ctrl-label">카메라</div>
+    </div>
+  </div>
+  <div class="ctrl-group">
+    <div class="ctrl-btn" id="shareBtn">
+      <div class="ctrl-icon blue" id="shareIcon">💻</div>
+      <div class="ctrl-label">화면 공유</div>
+    </div>
+    <div class="ctrl-btn" id="recordBtn">
+      <div class="ctrl-icon">⏺️</div>
+      <div class="ctrl-label">녹화</div>
+    </div>
+    <div class="ctrl-btn" id="chatBtn">
+      <div class="ctrl-icon">💬</div>
+      <div class="ctrl-label">채팅</div>
+    </div>
+  </div>
+  <div class="ctrl-group">
+    <button class="end-btn" id="endBtn">📵</button>
+    <div class="ctrl-label" style="color:rgba(255,255,255,.5);font-size:11px;margin-top:4px;">상담 종료</div>
+  </div>
+</div>
+
+<!-- 종료 모달 -->
+<div class="overlay" id="endOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title">📵 화상 상담을 종료하시겠어요?</div>
+      <div class="modal-sub">종료 후 리뷰를 작성해 주시면 큰 도움이 됩니다</div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-stats">
+        <div class="mstat"><div class="mstat-v" id="totalTime">00:00</div><div class="mstat-l">상담 시간</div></div>
+        <div class="mstat"><div class="mstat-v">2</div><div class="mstat-l">참가자</div></div>
+        <div class="mstat"><div class="mstat-v">HD</div><div class="mstat-l">화질</div></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="modal-cont" id="continueBtn">계속하기</button>
+      <button class="modal-end" id="confirmEndBtn">종료 후 리뷰 작성</button>
+    </div>
+  </div>
+</div>
+
+<div id="toastEl"><span id="toastMsg"></span></div>
+
+<script src="video-consult.js"></script>
+</body>
+</html>
