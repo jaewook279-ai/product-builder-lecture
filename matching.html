@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>외식전문가 — 매칭 현황</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Gmarket+Sans:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="matching.css">
+</head>
+<body>
+
+<!-- ════════════════ SIDEBAR ════════════════ -->
+<aside class="sidebar" id="sidebar">
+  <a href="index.html" class="sidebar-logo">
+    <div class="logo-box">🍽️</div>
+    <div>
+      <div class="logo-text">외식전문가</div>
+      <div class="logo-sub">소상공인 포털</div>
+    </div>
+  </a>
+  <div class="sidebar-user">
+    <div class="su-avatar">👨‍🍳</div>
+    <div>
+      <div class="su-name">김철수 사장님</div>
+      <div class="su-plan">마포구 삼겹살집</div>
+    </div>
+    <div class="su-badge">스탠다드</div>
+  </div>
+  <div class="sidebar-quota">
+    <div class="sq-label">이번 달 남은 상담</div>
+    <div class="sq-bar-wrap"><div class="sq-bar"></div></div>
+    <div class="sq-nums"><span><strong>3</strong>회 남음</span><span>5회 중</span></div>
+  </div>
+  <nav style="flex:1;overflow-y:auto;padding:6px 0;">
+    <div class="nav-section">메인</div>
+    <a href="dashboard.html" class="nav-item"><span class="nav-icon">🏠</span> 대시보드</a>
+    <a href="ask.html" class="nav-item"><span class="nav-icon">✏️</span> 질문 등록</a>
+    <a href="#" class="nav-item active"><span class="nav-icon">🔗</span> 매칭 현황 <span class="nav-badge sky">4</span></a>
+    <a href="#" class="nav-item"><span class="nav-icon">💬</span> 상담방 <span class="nav-badge">1</span></a>
+    <div class="nav-section">관리</div>
+    <a href="#" class="nav-item"><span class="nav-icon">📋</span> 상담 이력</a>
+    <a href="#" class="nav-item"><span class="nav-icon">📁</span> 서류 보관함</a>
+    <a href="#" class="nav-item"><span class="nav-icon">🔔</span> 알림 <span class="nav-badge">5</span></a>
+    <div class="nav-section">계정</div>
+    <a href="#" class="nav-item"><span class="nav-icon">💳</span> 구독 관리</a>
+    <a href="#" class="nav-item"><span class="nav-icon">⚙️</span> 설정</a>
+  </nav>
+  <div class="sidebar-bottom">
+    <a href="ask.html" class="ask-btn">✏️ 새 질문 등록하기</a>
+  </div>
+</aside>
+
+<!-- ════════════════ MAIN ════════════════ -->
+<div class="main-wrap">
+  <header class="header">
+    <div class="header-left">
+      <button class="mob-toggle" id="mobileToggle">☰</button>
+      <div>
+        <div class="header-title">🔗 매칭 현황</div>
+        <div class="header-sub">전문가 연결 및 상담 진행 상황</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <button class="hbtn">🔍</button>
+      <button class="hbtn" id="notifBtn">🔔<div class="hbtn-dot"></div></button>
+      <a href="ask.html" class="new-ask-btn">✏️ 새 질문 등록</a>
+    </div>
+  </header>
+
+  <main class="content">
+
+    <!-- 탭 필터 -->
+    <div class="filter-bar">
+      <div class="tab-group" id="tabGroup">
+        <button class="tab active" data-type="all">전체 <span class="tab-count">4</span></button>
+        <button class="tab" data-type="active">진행 중 <span class="tab-count">2</span></button>
+        <button class="tab" data-type="waiting">대기 중 <span class="tab-count">1</span></button>
+        <button class="tab" data-type="done">완료 <span class="tab-count">1</span></button>
+      </div>
+      <div class="filter-right">
+        <select class="sort-select"><option>최신순</option><option>긴급순</option><option>분야순</option></select>
+      </div>
+    </div>
+
+    <!-- 요약 스트립 -->
+    <div class="summary-strip">
+      <div class="strip-card">
+        <div class="strip-icon" style="background:var(--light);">💬</div>
+        <div><div class="strip-v">2</div><div class="strip-l">진행 중 상담</div></div>
+      </div>
+      <div class="strip-card">
+        <div class="strip-icon" style="background:var(--amber-l);">⏳</div>
+        <div><div class="strip-v">1</div><div class="strip-l">전문가 매칭 대기</div></div>
+      </div>
+      <div class="strip-card">
+        <div class="strip-icon" style="background:var(--green-l);">✅</div>
+        <div><div class="strip-v">1</div><div class="strip-l">이번 달 완료</div></div>
+      </div>
+      <div class="strip-card">
+        <div class="strip-icon" style="background:var(--purple-l);">⭐</div>
+        <div><div class="strip-v">3</div><div class="strip-l">남은 상담 횟수</div></div>
+      </div>
+    </div>
+
+    <!-- ══════ 매칭 카드 목록 ══════ -->
+    <div class="match-list" id="matchList">
+
+      <!-- ── 카드 1: 상담 중 (채팅) ── -->
+      <div class="match-card" id="card1">
+        <div class="mc-head">
+          <div class="mc-field-icon" style="background:var(--amber-l);">💰</div>
+          <div class="mc-info">
+            <div class="mc-title-row">
+              <span class="mc-title">2024년 부가세 신고, 어떻게 해야 하나요?</span>
+              <div class="mc-chips">
+                <span class="chip chip-field">세무·회계</span>
+                <span class="chip chip-urgent">🚨 긴급</span>
+              </div>
+            </div>
+            <div class="mc-body-text">처음 부가세 신고를 앞두고 막막합니다. 매입·매출 계산서 정리부터 신고서 제출까지 전 과정이 궁금해요.</div>
+          </div>
+          <div class="mc-right">
+            <span class="mc-time">오늘 14:32</span>
+            <button class="mc-toggle">▼</button>
+          </div>
+        </div>
+
+        <!-- 스텝바: 상담 중 -->
+        <div class="mc-steps">
+          <div class="steps-wrap">
+            <div class="step done"><div class="step-circle">✓</div><div class="step-label">질문<br>등록</div></div>
+            <div class="step-line done"></div>
+            <div class="step done"><div class="step-circle">✓</div><div class="step-label">전문가<br>매칭</div></div>
+            <div class="step-line done"></div>
+            <div class="step active"><div class="step-circle">💬</div><div class="step-label">상담<br>진행 중</div></div>
+            <div class="step-line active"></div>
+            <div class="step wait"><div class="step-circle">4</div><div class="step-label">완료 &<br>리뷰</div></div>
+          </div>
+        </div>
+
+        <div class="mc-status-badge" style="background:var(--green-l);color:var(--green);">
+          <span class="badge-dot blink"></span> 세무사 김○○ 님과 상담이 진행 중입니다
+        </div>
+
+        <!-- 펼침 상세 -->
+        <div class="mc-detail">
+          <div class="expert-section">
+            <div class="es-title">배정된 전문가</div>
+            <div class="expert-profile-card">
+              <div class="ep-ava">👨‍💼</div>
+              <div style="flex:1;">
+                <div class="ep-name">김세무 세무사</div>
+                <div class="ep-sub">세무·회계 · 외식업 전문 8년 · 세무사 자격증 보유</div>
+                <div class="ep-badges">
+                  <span class="ep-badge">⭐ 4.97</span>
+                  <span class="ep-badge">✓ 인증 전문가</span>
+                  <span class="ep-badge">🏆 이달의 전문가</span>
+                </div>
+              </div>
+              <div class="ep-stats">
+                <div class="ep-stat-item"><div class="ep-stat-v">1,204</div><div class="ep-stat-l">총 상담</div></div>
+                <div class="ep-stat-item"><div class="ep-stat-v" style="color:var(--green);">98%</div><div class="ep-stat-l">응답률</div></div>
+              </div>
+            </div>
+            <div class="ep-action-btns">
+              <button class="ep-btn primary" data-toast="채팅방으로 이동합니다" data-icon="💬">💬 채팅방 바로가기</button>
+              <button class="ep-btn outline" data-toast="전문가 프로필을 확인합니다" data-icon="👤">👤 프로필 보기</button>
+              <button class="ep-btn gray cancel-trigger">상담 취소</button>
+            </div>
+          </div>
+          <div class="timeline-section">
+            <div class="tl-title">진행 이력</div>
+            <div class="tl-list">
+              <div class="tl-item">
+                <div class="tl-dot done">✓</div>
+                <div class="tl-text"><div class="tl-label">질문 등록 완료</div><div class="tl-time">오늘 14:32</div></div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-dot done">✓</div>
+                <div class="tl-text"><div class="tl-label">AI 분야 분류 완료 — 세무·회계</div><div class="tl-time">오늘 14:32 (자동)</div></div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-dot done">✓</div>
+                <div class="tl-text"><div class="tl-label">김세무 세무사님 매칭 완료</div><div class="tl-time">오늘 14:55 (23분 소요)</div></div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-dot active">💬</div>
+                <div class="tl-text"><div class="tl-label" style="color:var(--sky);">채팅 상담 진행 중</div><div class="tl-time">오늘 15:02 ~</div></div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-dot wait">○</div>
+                <div class="tl-text"><div class="tl-label" style="color:var(--gray-4);">상담 완료 및 리뷰 작성</div><div class="tl-time">미완료</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="attach-section">
+            <div class="attach-title">첨부 서류</div>
+            <div class="attach-list">
+              <div class="attach-item" data-toast="파일을 다운로드합니다" data-icon="📄">
+                <span class="attach-icon">📄</span>
+                <div><div class="attach-name">매출_세금계산서.pdf</div><div class="attach-size">2.4 MB</div></div>
+              </div>
+              <div class="attach-item" data-toast="파일을 다운로드합니다" data-icon="🖼️">
+                <span class="attach-icon">🖼️</span>
+                <div><div class="attach-name">간이영수증_사본.jpg</div><div class="attach-size">840 KB</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── 카드 2: 매칭됨 (화상 예정) ── -->
+      <div class="match-card" id="card2">
+        <div class="mc-head">
+          <div class="mc-field-icon" style="background:var(--teal-l);">👥</div>
+          <div class="mc-info">
+            <div class="mc-title-row">
+              <span class="mc-title">아르바이트 주휴수당 계산 방법이 궁금해요</span>
+              <div class="mc-chips">
+                <span class="chip chip-field" style="background:var(--teal-l);color:var(--teal);">노무</span>
+                <span class="chip chip-normal">일반</span>
+              </div>
+            </div>
+            <div class="mc-body-text">단기 알바 2명 고용 중인데 주 15시간 넘으면 주휴수당이 발생한다고 들었어요. 정확한 계산법을 알고 싶습니다.</div>
+          </div>
+          <div class="mc-right">
+            <span class="mc-time">어제 18:05</span>
+            <button class="mc-toggle">▼</button>
+          </div>
+        </div>
+
+        <div class="mc-steps">
+          <div class="steps-wrap">
+            <div class="step done"><div class="step-circle">✓</div><div class="step-label">질문<br>등록</div></div>
+            <div class="step-line done"></div>
+            <div class="step done"><div class="step-circle">✓</div><div class="step-label">전문가<br>매칭</div></div>
+            <div class="step-line done"></div>
+            <div class="step active" style="--step-color:var(--teal);"><div class="step-circle" style="border-color:var(--teal);color:var(--teal);">📅</div><div class="step-label" style="color:var(--teal);">상담<br>일정 조율</div></div>
+            <div class="step-line"></div>
+            <div class="step wait"><div class="step-circle">4</div><div class="step-label">완료 &<br>리뷰</div></div>
+          </div>
+        </div>
+
+        <div class="mc-status-badge" style="background:var(--teal-l);color:var(--teal);">
+          <span class="badge-dot blink" style="background:var(--teal);"></span> 이노무 노무사 님이 화상 상담 일정을 제안했습니다
+        </div>
+
+        <div class="mc-detail">
+          <div class="expert-section">
+            <div class="es-title">배정된 전문가</div>
+            <div class="expert-profile-card">
+              <div class="ep-ava">👩‍⚖️</div>
+              <div style="flex:1;">
+                <div class="ep-name">이노무 공인노무사</div>
+                <div class="ep-sub">노무 · 소상공인 특화 · 노무사 자격증 보유</div>
+                <div class="ep-badges">
+                  <span class="ep-badge" style="background:var(--teal-l);color:var(--teal);">⭐ 4.95</span>
+                  <span class="ep-badge" style="background:var(--teal-l);color:var(--teal);">✓ 인증 전문가</span>
+                </div>
+              </div>
+              <div class="ep-stats">
+                <div class="ep-stat-item"><div class="ep-stat-v">892</div><div class="ep-stat-l">총 상담</div></div>
+                <div class="ep-stat-item"><div class="ep-stat-v" style="color:var(--green);">96%</div><div class="ep-stat-l">응답률</div></div>
+              </div>
+            </div>
+            <!-- 일정 제안 카드 -->
+            <div style="margin-top:14px;background:var(--teal-l);border:1.5px solid rgba(14,148,136,.2);border-radius:12px;padding:14px 16px;">
+              <div style="font-size:13px;font-weight:700;color:var(--teal);margin-bottom:10px;">📅 화상 상담 일정 제안</div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+                <button class="time-btn" data-time="오늘 16:00">오늘 16:00</button>
+                <button class="time-btn" data-time="내일 10:00">내일 10:00</button>
+                <button class="time-btn" data-time="내일 14:00">내일 14:00</button>
+              </div>
+              <div class="ep-action-btns" style="margin-top:0;">
+                <button class="ep-btn primary confirm-time-btn" style="background:var(--teal);">✅ 일정 확정하기</button>
+                <button class="ep-btn gray" data-toast="채팅으로 일정을 조율합니다" data-icon="💬">💬 채팅으로 조율</button>
+              </div>
+            </div>
+          </div>
+          <div class="timeline-section">
+            <div class="tl-title">진행 이력</div>
+            <div class="tl-list">
+              <div class="tl-item"><div class="tl-dot done">✓</div><div class="tl-text"><div class="tl-label">질문 등록 완료</div><div class="tl-time">어제 18:05</div></div></div>
+              <div class="tl-item"><div class="tl-dot done">✓</div><div class="tl-text"><div class="tl-label">이노무 노무사님 매칭 완료</div><div class="tl-time">어제 18:41 (36분 소요)</div></div></div>
+              <div class="tl-item"><div class="tl-dot active">📅</div><div class="tl-text"><div class="tl-label" style="color:var(--teal);">화상 상담 일정 조율 중</div><div class="tl-time">오늘 09:15 ~</div></div></div>
+              <div class="tl-item"><div class="tl-dot wait">○</div><div class="tl-text"><div class="tl-label" style="color:var(--gray-4);">화상 상담 진행</div><div class="tl-time">미완료</div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── 카드 3: 전문가 배정 대기 중 ── -->
+      <div class="match-card" id="card3">
+        <div class="mc-head">
+          <div class="mc-field-icon" style="background:var(--purple-l);">💻</div>
+          <div class="mc-info">
+            <div class="mc-title-row">
+              <span class="mc-title">POS 시스템 교체 추천해주세요</span>
+              <div class="mc-chips">
+                <span class="chip chip-field" style="background:var(--purple-l);color:var(--purple);">DX 전환</span>
+                <span class="chip chip-normal">일반</span>
+              </div>
+            </div>
+            <div class="mc-body-text">현재 구형 포스기를 쓰고 있는데 교체를 고민 중입니다. 배달앱 연동이 되는 최신 포스 시스템 추천 부탁드립니다.</div>
+          </div>
+          <div class="mc-right">
+            <span class="mc-time">방금 전</span>
+            <button class="mc-toggle">▼</button>
+          </div>
+        </div>
+
+        <div class="mc-steps">
+          <div class="steps-wrap">
+            <div class="step done"><div class="step-circle">✓</div><div class="step-label">질문<br>등록</div></div>
+            <div class="step-line done"></div>
+            <div class="step active"><div class="step-circle" style="border-color:var(--amber);color:var(--amber);">⟳</div><div class="step-label" style="color:var(--amber);">전문가<br>매칭 중</div></div>
+            <div class="step-line"></div>
+            <div class="step wait"><div class="step-circle">3</div><div class="step-label">상담<br>진행</div></div>
+            <div class="step-line"></div>
+            <div class="step wait"><div class="step-circle">4</div><div class="step-label">완료 &<br>리뷰</div></div>
+          </div>
+        </div>
+
+        <div class="mc-status-badge" style="background:var(--amber-l);color:var(--amber);">
+          <span class="badge-dot blink" style="background:var(--amber);"></span> AI가 최적의 DX 전환 전문가를 탐색 중입니다
+        </div>
+
+        <div class="mc-detail">
+          <div class="waiting-section">
+            <div class="waiting-anim">
+              <div class="waiting-circle"></div>
+              <div class="waiting-arc"></div>
+              <div class="waiting-icon">💻</div>
+            </div>
+            <div class="waiting-title">전문가 매칭 중...</div>
+            <div class="waiting-sub">AI가 DX 전환 분야 전문가 풀을 분석해<br>가장 적합한 전문가를 자동으로 배정하고 있어요.</div>
+            <div class="waiting-eta">⏱️ 예상 대기 시간: 약 2~8시간</div>
+            <div style="margin-top:16px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+              <button class="action-btn" data-toast="매칭이 완료되면 푸시 알림을 보내드립니다" data-icon="🔔" style="padding:9px 16px;border-radius:9px;border:1.5px solid var(--gray-2);background:var(--white);font-family:var(--font-b);font-size:13px;color:var(--gray-7);cursor:pointer;font-weight:600;">🔔 알림 설정</button>
+              <button class="action-btn cancel-trigger" style="padding:9px 16px;border-radius:9px;border:1.5px solid var(--gray-2);background:var(--white);font-family:var(--font-b);font-size:13px;color:var(--red);cursor:pointer;font-weight:600;">취소하기</button>
+            </div>
+          </div>
+          <div class="timeline-section" style="border-top:1px solid var(--gray-1);">
+            <div class="tl-title">진행 이력</div>
+            <div class="tl-list">
+              <div class="tl-item"><div class="tl-dot done">✓</div><div class="tl-text"><div class="tl-label">질문 등록 완료</div><div class="tl-time">방금 전</div></div></div>
+              <div class="tl-item"><div class="tl-dot done">✓</div><div class="tl-text"><div class="tl-label">AI 분야 분류 완료 — DX 전환</div><div class="tl-time">방금 전 (자동)</div></div></div>
+              <div class="tl-item"><div class="tl-dot active" style="border-color:var(--amber);color:var(--amber);">⟳</div><div class="tl-text"><div class="tl-label" style="color:var(--amber);">전문가 매칭 중...</div><div class="tl-time">진행 중</div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── 카드 4: 상담 완료 ── -->
+      <div class="match-card" id="card4" style="opacity:.85;">
+        <div class="mc-head">
+          <div class="mc-field-icon" style="background:#FEE2E2;">⚖️</div>
+          <div class="mc-info">
+            <div class="mc-title-row">
+              <span class="mc-title">임대인이 갑자기 월세를 올려달라고 해요</span>
+              <div class="mc-chips">
+                <span class="chip chip-field" style="background:#FEE2E2;color:var(--red);">법무</span>
+                <span class="chip" style="background:var(--green-l);color:var(--green);">✅ 완료</span>
+              </div>
+            </div>
+            <div class="mc-body-text">임대차 계약 기간 중 임대인이 월세 인상을 요구하고 있어요. 법적으로 거부할 수 있는지, 대응 방법이 궁금합니다.</div>
+          </div>
+          <div class="mc-right">
+            <span class="mc-time">3일 전</span>
+            <button class="mc-toggle">▼</button>
+          </div>
+        </div>
+
+        <div class="mc-steps">
+          <div class="steps-wrap">
+            <div class="step done green"><div class="step-circle">✓</div><div class="step-label">질문<br>등록</div></div>
+            <div class="step-line green"></div>
+            <div class="step done green"><div class="step-circle">✓</div><div class="step-label">전문가<br>매칭</div></div>
+            <div class="step-line green"></div>
+            <div class="step done green"><div class="step-circle">✓</div><div class="step-label">상담<br>진행</div></div>
+            <div class="step-line green"></div>
+            <div class="step done green"><div class="step-circle">✓</div><div class="step-label">완료 &<br>리뷰</div></div>
+          </div>
+        </div>
+
+        <div class="mc-status-badge" style="background:var(--green-l);color:var(--green);">
+          <span class="badge-dot" style="background:var(--green);"></span> 상담이 완료됐습니다 · 최이법무 변호사
+        </div>
+
+        <div class="mc-detail">
+          <div class="done-section">
+            <div class="done-header">
+              <div class="done-icon">🎉</div>
+              <div>
+                <div class="done-title">상담이 성공적으로 완료됐습니다!</div>
+                <div class="done-sub">최이법무 변호사 · 2026.02.22 · 총 45분 상담</div>
+              </div>
+            </div>
+            <div class="review-ask">
+              <div>
+                <div class="review-ask-text">상담은 어떠셨나요?</div>
+                <div style="font-size:12px;color:var(--gray-4);margin-top:2px;">리뷰를 남기면 다른 사장님들께 도움이 됩니다</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div class="review-stars-input" id="reviewStars">
+                  <span class="star-btn active" data-index="1">★</span>
+                  <span class="star-btn active" data-index="2">★</span>
+                  <span class="star-btn active" data-index="3">★</span>
+                  <span class="star-btn active" data-index="4">★</span>
+                  <span class="star-btn active" data-index="5">★</span>
+                </div>
+                <button class="review-write-btn">리뷰 작성</button>
+              </div>
+            </div>
+          </div>
+          <div class="expert-section" style="background:none;">
+            <div class="es-title">담당 전문가</div>
+            <div class="expert-profile-card">
+              <div class="ep-ava">👨‍🏫</div>
+              <div style="flex:1;">
+                <div class="ep-name">최이법무 변호사</div>
+                <div class="ep-sub">법무 · 임대차·계약 전문 · 변호사 자격증 보유</div>
+                <div class="ep-badges">
+                  <span class="ep-badge" style="background:#FEE2E2;color:var(--red);">⭐ 4.88</span>
+                  <span class="ep-badge" style="background:#FEE2E2;color:var(--red);">✓ 인증 전문가</span>
+                </div>
+              </div>
+            </div>
+            <div class="ep-action-btns">
+              <button class="ep-btn outline" data-toast="채팅 이력을 확인합니다" data-icon="💬">💬 채팅 이력 보기</button>
+              <button class="ep-btn gray" data-toast="서류를 다운로드합니다" data-icon="📁">📁 서류 다운로드</button>
+              <button class="ep-btn primary" data-toast="재상담을 신청합니다" data-icon="🔄">🔄 재상담 신청</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /match-list -->
+  </main>
+</div>
+
+<!-- ════════ 취소 모달 ════════ -->
+<div class="overlay" id="cancelOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title">상담 취소 사유를 선택해 주세요</div>
+        <div class="modal-sub">취소 시 이번 달 상담 횟수 1회가 차감됩니다</div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="cancel-reasons">
+        <button class="reason-btn">문제가 스스로 해결됐어요</button>
+        <button class="reason-btn">전문가 배정이 너무 오래 걸려요</button>
+        <button class="reason-btn">다른 전문가를 원해요</button>
+        <button class="reason-btn">질문 내용을 수정하고 싶어요</button>
+        <button class="reason-btn">기타</button>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="modal-keep" id="modalKeepBtn">유지하기</button>
+      <button class="modal-cancel-confirm" id="modalConfirmBtn">상담 취소하기</button>
+    </div>
+  </div>
+</div>
+
+<!-- 토스트 -->
+<div class="toast" id="toastEl">
+  <span id="toastIcon">✅</span>
+  <span id="toastMsg"></span>
+</div>
+
+<script src="matching.js"></script>
+</body>
+</html>
