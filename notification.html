@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>외식전문가 — 알림 설정</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Gmarket+Sans:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="notification.css">
+</head>
+<body>
+
+<!-- ════════════ SIDEBAR ════════════ -->
+<aside class="sidebar" id="sidebar">
+  <a href="index.html" class="sb-logo">
+    <div class="sb-logo-box">🍽️</div>
+    <span class="sb-logo-text">외식전문가</span>
+  </a>
+  <div class="sb-user">
+    <div class="sb-avatar">👨‍🍳</div>
+    <div>
+      <div class="sb-name">김철수 사장님</div>
+      <div class="sb-plan">마포구 삼겹살집</div>
+    </div>
+  </div>
+  <div class="sb-quota">
+    <div class="sq-label">이번 달 남은 상담</div>
+    <div class="sq-bar-wrap"><div class="sq-bar" style="width: 60%;"></div></div>
+    <div class="sq-nums"><span><strong>3</strong>회 남음</span><span>5회 중</span></div>
+  </div>
+  <nav style="flex:1;overflow-y:auto;padding:6px 0;">
+    <div class="nav-section">메인</div>
+    <a href="dashboard.html" class="nav-item"><span class="nav-icon">🏠</span> 대시보드</a>
+    <a href="ask.html" class="nav-item"><span class="nav-icon">✏️</span> 질문 등록</a>
+    <a href="matching.html" class="nav-item"><span class="nav-icon">🔗</span> 매칭 현황 <span class="nav-badge" style="background:var(--sky);">2</span></a>
+    <a href="chat.html" class="nav-item"><span class="nav-icon">💬</span> 상담방 <span class="nav-badge">1</span></a>
+    <div class="nav-section">관리</div>
+    <a href="history.html" class="nav-item"><span class="nav-icon">📋</span> 상담 이력</a>
+    <a href="subscription.html" class="nav-item"><span class="nav-icon">💳</span> 구독 관리</a>
+    <a href="#" class="nav-item active"><span class="nav-icon">🔔</span> 알림 설정</a>
+    <div class="nav-section">계정</div>
+    <a href="#" class="nav-item"><span class="nav-icon">👤</span> 내 정보</a>
+    <a href="#" class="nav-item"><span class="nav-icon">⚙️</span> 설정</a>
+  </nav>
+</aside>
+
+<!-- ════════════ MAIN ════════════ -->
+<div class="main">
+
+  <!-- 헤더 -->
+  <header class="header">
+    <div class="header-left">
+      <button class="mob-toggle" id="mobileToggle">☰</button>
+      <div>
+        <div class="header-title">🔔 알림 설정</div>
+        <div class="header-sub">알림 수신 항목 및 채널 관리</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <button class="hbtn" id="headerNotifBtn">🔔<div class="hbtn-dot"></div></button>
+      <button class="save-header-btn" id="headerSaveBtn">
+        💾 변경사항 저장
+        <span class="unsaved-badge" id="unsavedBadge">● 미저장</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="content">
+  <div class="content-inner">
+
+    <!-- 마스터 토글 배너 -->
+    <div class="master-banner">
+      <div class="mb-left">
+        <div class="mb-title">🔔 전체 알림 관리</div>
+        <div class="mb-sub">모든 알림을 한 번에 켜거나 끌 수 있습니다. 개별 설정도 아래에서 조정 가능합니다.</div>
+      </div>
+      <div class="mb-right">
+        <span class="mb-label" id="masterLabel">켜짐</span>
+        <label class="sw">
+          <input type="checkbox" id="masterToggle" checked>
+          <span class="sw-slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- 채널별 알림 수 요약 -->
+    <div class="channel-summary">
+      <div class="ch-sum-card active" data-channel="push">
+        <div class="ch-sum-icon">📱</div>
+        <div class="ch-sum-name">푸시 알림</div>
+        <div class="ch-sum-count" id="pushCount">6</div>
+        <div class="ch-sum-label">항목 활성화</div>
+      </div>
+      <div class="ch-sum-card" data-channel="sms">
+        <div class="ch-sum-icon">💬</div>
+        <div class="ch-sum-name">문자 (SMS)</div>
+        <div class="ch-sum-count" id="smsCount">3</div>
+        <div class="ch-sum-label">항목 활성화</div>
+      </div>
+      <div class="ch-sum-card" data-channel="email">
+        <div class="ch-sum-icon">📧</div>
+        <div class="ch-sum-name">이메일</div>
+        <div class="ch-sum-count" id="emailCount">4</div>
+        <div class="ch-sum-label">항목 활성화</div>
+      </div>
+      <div class="ch-sum-card" data-channel="kakao">
+        <div class="ch-sum-icon">🟡</div>
+        <div class="ch-sum-name">카카오톡</div>
+        <div class="ch-sum-count" id="kakaoCount">5</div>
+        <div class="ch-sum-label">항목 활성화</div>
+      </div>
+    </div>
+
+    <!-- 최근 알림 리스트 -->
+    <div class="notif-preview-card">
+      <div class="card-head">
+        <div class="card-title">🕐 최근 받은 알림 <span style="font-size:11px;font-weight:400;color:var(--gray-4);margin-left:4px;" id="unreadCount">미읽음 3건</span></div>
+        <button class="card-action" id="markAllReadBtn">전체 읽음 처리</button>
+      </div>
+
+      <div class="notif-item unread" id="ni1">
+        <div class="ni-unread-dot" id="nd1"></div>
+        <div class="ni-icon-wrap" style="background:var(--light);">🔗</div>
+        <div class="ni-body">
+          <div class="ni-title" id="nt1">전문가 매칭 완료 — 김세무 세무사님이 배정됐습니다</div>
+          <div class="ni-time">5분 전 · 푸시 알림</div>
+        </div>
+        <span class="ni-badge" style="background:var(--green-l);color:var(--green);">매칭</span>
+      </div>
+
+      <div class="notif-item unread" id="ni2">
+        <div class="ni-unread-dot" id="nd2"></div>
+        <div class="ni-icon-wrap" style="background:#FEF3C7;">💬</div>
+        <div class="ni-body">
+          <div class="ni-title" id="nt2">새 메시지 — "파일 확인했습니다. 부가세 신고 기준..."</div>
+          <div class="ni-time">22분 전 · 푸시 + 카카오톡</div>
+        </div>
+        <span class="ni-badge" style="background:var(--amber-l);color:var(--amber);">채팅</span>
+      </div>
+
+      <div class="notif-item unread" id="ni3">
+        <div class="ni-unread-dot" id="nd3"></div>
+        <div class="ni-icon-wrap" style="background:var(--purple-l);">⚡</div>
+        <div class="ni-body">
+          <div class="ni-title" id="nt3">상담 잔여 횟수 알림 — 이번 달 1회 남았습니다</div>
+          <div class="ni-time">오늘 09:00 · 푸시 + 문자</div>
+        </div>
+        <span class="ni-badge" style="background:var(--purple-l);color:var(--purple);">잔여</span>
+      </div>
+    </div>
+
+    <!-- ══ 알림 설정 그룹 1: 매칭 & 상담 ══ -->
+    <div class="settings-card">
+      <div class="settings-card-head">
+        <div class="sch-left">
+          <div class="sch-icon" style="background:var(--light);">🔗</div>
+          <div>
+            <div class="sch-title">매칭 & 상담 알림</div>
+            <div class="sch-sub">전문가 배정 및 상담 진행 관련 알림</div>
+          </div>
+        </div>
+        <label class="sw sw-sm">
+          <input type="checkbox" checked class="section-master" data-section="matching">
+          <span class="sw-slider"></span>
+        </label>
+      </div>
+
+      <div class="setting-row">
+        <div class="sr-icon">🔗</div>
+        <div class="sr-body">
+          <div class="sr-label">전문가 매칭 완료</div>
+          <div class="sr-desc">질문에 전문가가 배정되면 즉시 알려드립니다</div>
+        </div>
+        <div class="sr-right">
+          <div class="ch-btns">
+            <button class="ch-btn push on">📱 푸시</button>
+            <button class="ch-btn sms on">💬 SMS</button>
+            <button class="ch-btn kakao on">🟡 카톡</button>
+          </div>
+          <label class="sw sw-sm"><input type="checkbox" checked class="item-toggle"><span class="sw-slider"></span></label>
+        </div>
+      </div>
+
+      <div class="setting-row">
+        <div class="sr-icon">💬</div>
+        <div class="sr-body">
+          <div class="sr-label">새 채팅 메시지</div>
+          <div class="sr-desc">전문가에게 새 메시지가 도착하면 알려드립니다</div>
+        </div>
+        <div class="sr-right">
+          <div class="ch-btns">
+            <button class="ch-btn push on">📱 푸시</button>
+            <button class="ch-btn kakao on">🟡 카톡</button>
+            <button class="ch-btn email">📧 이메일</button>
+          </div>
+          <label class="sw sw-sm"><input type="checkbox" checked class="item-toggle"><span class="sw-slider"></span></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 방해금지 설정 ══ -->
+    <div class="dnd-card">
+      <div class="dnd-header">
+        <div class="dnd-title-wrap">
+          <div class="dnd-icon">🌙</div>
+          <div>
+            <div class="dnd-title">방해 금지 시간 설정</div>
+            <div class="sch-sub">설정한 시간에는 푸시 알림을 보내지 않습니다</div>
+          </div>
+        </div>
+        <label class="sw sw-sm">
+          <input type="checkbox" id="dndToggle">
+          <span class="sw-slider"></span>
+        </label>
+      </div>
+
+      <div class="dnd-body" id="dndBody">
+        <div class="dnd-time-row">
+          <div class="time-label">시작</div>
+          <select class="time-select">
+            <option>22:00</option><option>21:00</option><option>23:00</option><option>00:00</option>
+          </select>
+          <div class="time-sep">—</div>
+          <div class="time-label">종료</div>
+          <select class="time-select">
+            <option>08:00</option><option>07:00</option><option>09:00</option><option>06:00</option>
+          </select>
+        </div>
+        <div class="dnd-days-label">반복 요일</div>
+        <div class="dnd-days">
+          <button class="day-btn">월</button>
+          <button class="day-btn">화</button>
+          <button class="day-btn">수</button>
+          <button class="day-btn">목</button>
+          <button class="day-btn">금</button>
+          <button class="day-btn active">토</button>
+          <button class="day-btn active">일</button>
+          <button id="allDaysBtn" style="padding:0 14px;height:40px;border-radius:11px;border:1.5px solid var(--gray-2);background:var(--white);font-family:var(--font-b);font-size:12px;font-weight:700;color:var(--gray-5);cursor:pointer;transition:all .18s;">매일</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 저장 바 ══ -->
+    <div class="save-bar">
+      <div class="save-bar-info">
+        마지막 저장: <strong>오늘 14:32</strong>
+        <span class="unsaved-badge" id="unsavedBadge2">● 미저장 변경사항 있음</span>
+      </div>
+      <div class="save-bar-btns">
+        <button class="reset-btn" id="resetBtn">↩️ 초기화</button>
+        <button class="save-btn" id="saveBtn">💾 저장하기</button>
+      </div>
+    </div>
+
+  </div>
+  </main>
+</div>
+
+<!-- 토스트 -->
+<div class="toast" id="toastEl">
+  <span id="toastIcon">✅</span>
+  <span id="toastMsg"></span>
+</div>
+
+<script src="notification.js"></script>
+</body>
+</html>
