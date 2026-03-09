@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>외식전문가 — 상담 이력</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Gmarket+Sans:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="history.css">
+</head>
+<body>
+<aside class="sidebar">
+  <a href="index.html" class="sb-logo">
+    <div class="sb-logo-box">🍽️</div>
+    <span class="sb-logo-text">외식전문가</span>
+  </a>
+  <div class="sb-user">
+    <div class="sb-avatar">👨‍🍳</div>
+    <div>
+      <div class="sb-name">김철수 사장님</div>
+      <div class="sb-plan">마포구 삼겹살집</div>
+    </div>
+  </div>
+  <nav style="flex:1;overflow-y:auto;padding:6px 0;">
+    <div class="nav-section">메인</div>
+    <a href="dashboard.html" class="nav-item"><span class="nav-icon">🏠</span> 대시보드</a>
+    <a href="ask.html" class="nav-item"><span class="nav-icon">✏️</span> 질문 등록</a>
+    <a href="matching.html" class="nav-item"><span class="nav-icon">🔗</span> 매칭 현황 <span class="nav-badge" style="background:var(--sky);">2</span></a>
+    <a href="chat.html" class="nav-item"><span class="nav-icon">💬</span> 상담방</a>
+    <div class="nav-section">관리</div>
+    <a href="history.html" class="nav-item active"><span class="nav-icon">📋</span> 상담 이력</a>
+    <a href="#" class="nav-item"><span class="nav-icon">💳</span> 구독 관리</a>
+    <a href="#" class="nav-item"><span class="nav-icon">🔔</span> 알림 설정</a>
+  </nav>
+</aside>
+
+<div class="main">
+  <div class="header">
+    <div>
+      <div class="header-title">📋 상담 이력</div>
+      <div class="header-sub">전체 상담 기록 조회</div>
+    </div>
+  </div>
+  <div class="content">
+    <!-- 통계 -->
+    <div class="stat-strip">
+      <div class="stat-card"><div class="sc-icon" style="background:var(--light);">💬</div><div><div class="sc-v">12</div><div class="sc-l">전체 상담</div></div></div>
+      <div class="stat-card"><div class="sc-icon" style="background:var(--green-l);">✅</div><div><div class="sc-v">10</div><div class="sc-l">완료 상담</div></div></div>
+      <div class="stat-card"><div class="sc-icon" style="background:var(--amber-l);">⭐</div><div><div class="sc-v">4.9</div><div class="sc-l">평균 평점</div></div></div>
+      <div class="stat-card"><div class="sc-icon" style="background:var(--purple-l);">📂</div><div><div class="sc-v">3</div><div class="sc-l">분야 이용</div></div></div>
+    </div>
+
+    <!-- 필터 -->
+    <div class="filter-bar">
+      <div class="tab-group" id="filterTabs">
+        <button class="tab active" data-type="all">전체</button>
+        <button class="tab" data-type="done">완료</button>
+        <button class="tab" data-type="progress">진행중</button>
+      </div>
+      <select class="filter-select" id="fieldSelect">
+        <option>분야 전체</option>
+        <option>세무·회계</option>
+        <option>노무</option>
+        <option>법무</option>
+        <option>마케팅</option>
+      </select>
+      <select class="filter-select" id="periodSelect">
+        <option>최근 6개월</option>
+        <option>최근 1년</option>
+        <option>전체</option>
+      </select>
+      <input class="search-input" id="historySearch" placeholder="🔍 상담 내용 검색...">
+    </div>
+
+    <!-- 이력 목록 -->
+    <div class="history-list">
+
+      <div class="h-card" id="hc1">
+        <div class="h-card-head">
+          <div class="hc-field-icon" style="background:var(--amber-l);">💰</div>
+          <div class="hc-info">
+            <div class="hc-title">2024년 부가세 신고, 어떻게 해야 하나요?</div>
+            <div class="hc-meta">
+              <span class="hc-chip" style="background:var(--amber-l);color:var(--amber);">세무·회계</span>
+              <span class="hc-chip" style="background:var(--green-l);color:var(--green);">화상 상담</span>
+              <span class="hc-date">2026.02.25</span>
+            </div>
+          </div>
+          <div class="hc-right">
+            <span class="hc-status" style="background:var(--green-l);color:var(--green);">✅ 완료</span>
+            <span class="hc-rating">★★★★★</span>
+            <button class="h-expand-toggle">▼</button>
+          </div>
+        </div>
+        <div class="h-card-body">
+          <div class="hb-expert">
+            <div class="hbe-avatar">👨‍💼</div>
+            <div><div class="hbe-name">김세무 세무사</div><div class="hbe-field">세무·회계 · 인증 전문가 · ⭐ 4.97</div></div>
+          </div>
+          <div style="padding:10px 0;font-size:13px;color:var(--gray-5);line-height:1.7;">상담 시간: 45분 · 화상 상담 · 첨부파일 3개 · 답변 완료</div>
+          <div class="hb-actions">
+            <a href="chat.html" class="hb-btn outline">💬 채팅 이력</a>
+            <button class="hb-btn gray" data-toast="서류를 다운로드합니다 📄">📄 서류 다운로드</button>
+            <a href="ask.html" class="hb-btn green">🔄 재상담</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="h-card" id="hc2">
+        <div class="h-card-head">
+          <div class="hc-field-icon" style="background:var(--teal-l);">👥</div>
+          <div class="hc-info">
+            <div class="hc-title">아르바이트 주휴수당 계산 방법이 궁금해요</div>
+            <div class="hc-meta">
+              <span class="hc-chip" style="background:var(--teal-l);color:var(--teal);">노무</span>
+              <span class="hc-chip" style="background:var(--light);color:var(--blue);">채팅 상담</span>
+              <span class="hc-date">2026.02.20</span>
+            </div>
+          </div>
+          <div class="hc-right">
+            <span class="hc-status" style="background:var(--green-l);color:var(--green);">✅ 완료</span>
+            <span class="hc-rating">★★★★★</span>
+            <button class="h-expand-toggle">▼</button>
+          </div>
+        </div>
+        <div class="h-card-body">
+          <div class="hb-expert">
+            <div class="hbe-avatar">👩‍⚖️</div>
+            <div><div class="hbe-name">이노무 공인노무사</div><div class="hbe-field">노무 · 인증 전문가 · ⭐ 4.95</div></div>
+          </div>
+          <div style="padding:10px 0;font-size:13px;color:var(--gray-5);">상담 시간: 30분 · 채팅 상담 · 첨부파일 1개 · 답변 완료</div>
+          <div class="hb-actions">
+            <a href="chat.html" class="hb-btn outline">💬 채팅 이력</a>
+            <a href="ask.html" class="hb-btn green">🔄 재상담</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="h-card" id="hc3">
+        <div class="h-card-head">
+          <div class="hc-field-icon" style="background:var(--red-l);">⚖️</div>
+          <div class="hc-info">
+            <div class="hc-title">임대인이 갑자기 월세를 올려달라고 해요</div>
+            <div class="hc-meta">
+              <span class="hc-chip" style="background:var(--red-l);color:var(--red);">법무</span>
+              <span class="hc-chip" style="background:var(--light);color:var(--blue);">채팅 상담</span>
+              <span class="hc-date">2026.02.10</span>
+            </div>
+          </div>
+          <div class="hc-right">
+            <span class="hc-status" style="background:var(--green-l);color:var(--green);">✅ 완료</span>
+            <span class="hc-rating">★★★★☆</span>
+            <button class="h-expand-toggle">▼</button>
+          </div>
+        </div>
+        <div class="h-card-body">
+          <div class="hb-expert">
+            <div class="hbe-avatar">👨‍🏫</div>
+            <div><div class="hbe-name">최이법무 변호사</div><div class="hbe-field">법무 · 인증 전문가 · ⭐ 4.88</div></div>
+          </div>
+          <div style="padding:10px 0;font-size:13px;color:var(--gray-5);">상담 시간: 25분 · 채팅 상담 · 리뷰 작성 완료</div>
+          <div class="hb-actions">
+            <a href="chat.html" class="hb-btn outline">💬 채팅 이력</a>
+            <a href="ask.html" class="hb-btn green">🔄 재상담</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="h-card" id="hc4">
+        <div class="h-card-head">
+          <div class="hc-field-icon" style="background:var(--light);">📣</div>
+          <div class="hc-info">
+            <div class="hc-title">배달앱 메뉴 사진 어떻게 찍어야 잘 팔리나요?</div>
+            <div class="hc-meta">
+              <span class="hc-chip" style="background:var(--light);color:var(--blue);">마케팅</span>
+              <span class="hc-chip" style="background:var(--red-l);color:var(--red);">🚨 긴급</span>
+              <span class="hc-date">2026.01.28</span>
+            </div>
+          </div>
+          <div class="hc-right">
+            <span class="hc-status" style="background:var(--green-l);color:var(--green);">✅ 완료</span>
+            <span class="hc-rating">★★★★★</span>
+            <button class="h-expand-toggle">▼</button>
+          </div>
+        </div>
+        <div class="h-card-body">
+          <div class="hb-expert">
+            <div class="hbe-avatar">🧑‍💻</div>
+            <div><div class="hbe-name">박마케팅 전문가</div><div class="hbe-field">마케팅 · 배달앱 특화 · ⭐ 4.91</div></div>
+          </div>
+          <div style="padding:10px 0;font-size:13px;color:var(--gray-5);">상담 시간: 40분 · 채팅 + 파일 공유 · 리뷰 완료</div>
+          <div class="hb-actions">
+            <a href="chat.html" class="hb-btn outline">💬 채팅 이력</a>
+            <a href="ask.html" class="hb-btn green">🔄 재상담</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div id="toastEl"><span id="toastMsg"></span></div>
+
+<script src="history.js"></script>
+</body>
+</html>
