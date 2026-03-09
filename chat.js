@@ -139,8 +139,10 @@ function initChatPage() {
     if (submitReviewBtn) {
         submitReviewBtn.addEventListener('click', () => {
             hideOverlay();
-            toast('상담이 완료됐습니다. 리뷰 감사합니다! 🎉', '🎉');
-            setTimeout(() => toast('다음 번에도 이용해 주세요 😊', '⭐'), 3800);
+            toast('상담이 완료됐습니다. 리뷰 페이지로 이동합니다! 🎉', '🎉');
+            setTimeout(() => {
+                window.location.href = 'review.html';
+            }, 1600);
         });
     }
 

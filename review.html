@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>외식전문가 — 상담 완료 & 리뷰</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Gmarket+Sans:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="review.css">
+</head>
+<body>
+<div class="back-bar">
+  <button class="back-btn" onclick="history.back()">← 돌아가기</button>
+  <span style="font-size:14px;color:var(--gray-4);">상담 완료 & 리뷰</span>
+</div>
+<div class="page">
+  <!-- 완료 히어로 -->
+  <div class="complete-hero">
+    <div class="ch-icon">🎉</div>
+    <div class="ch-title">상담이 완료됐습니다!</div>
+    <div class="ch-sub">부가세 신고 상담 · 2026년 2월 25일</div>
+    <div class="ch-stats">
+      <div class="ch-stat"><div class="ch-stat-v">45분</div><div class="ch-stat-l">상담 시간</div></div>
+      <div class="ch-stat"><div class="ch-stat-v">3개</div><div class="ch-stat-l">첨부 서류</div></div>
+      <div class="ch-stat"><div class="ch-stat-v">화상</div><div class="ch-stat-l">상담 방식</div></div>
+    </div>
+  </div>
+
+  <!-- 전문가 요약 -->
+  <div class="expert-summary">
+    <div class="es-avatar">👨‍💼</div>
+    <div style="flex:1;">
+      <div class="es-name">김세무 세무사</div>
+      <div class="es-field">세무·회계 · 외식업 전문</div>
+      <div class="es-badges"><span class="es-badge">⭐ 4.97</span><span class="es-badge">✓ 인증 전문가</span></div>
+    </div>
+    <a href="expert-profile.html" class="profile-link-btn">프로필 보기</a>
+  </div>
+
+  <!-- 리뷰 작성 -->
+  <div class="review-card">
+    <div class="rc-title">⭐ 상담은 어떠셨나요?</div>
+    <div class="stars-row" id="mainStars">
+      <span class="star active" data-index="1">★</span>
+      <span class="star active" data-index="2">★</span>
+      <span class="star active" data-index="3">★</span>
+      <span class="star active" data-index="4">★</span>
+      <span class="star active" data-index="5">★</span>
+    </div>
+    <div class="star-label" id="starLabel">아주 훌륭해요! 😊</div>
+
+    <div class="review-aspects">
+      <div class="aspect-item">
+        <div class="asp-label">📚 전문성</div>
+        <div class="asp-stars" id="asp1">
+          <span class="asp-star active" data-index="1">★</span><span class="asp-star active" data-index="2">★</span><span class="asp-star active" data-index="3">★</span><span class="asp-star active" data-index="4">★</span><span class="asp-star active" data-index="5">★</span>
+        </div>
+      </div>
+      <div class="aspect-item">
+        <div class="asp-label">💬 소통</div>
+        <div class="asp-stars" id="asp2">
+          <span class="asp-star active" data-index="1">★</span><span class="asp-star active" data-index="2">★</span><span class="asp-star active" data-index="3">★</span><span class="asp-star active" data-index="4">★</span><span class="asp-star active" data-index="5">★</span>
+        </div>
+      </div>
+      <div class="aspect-item">
+        <div class="asp-label">⚡ 응답 속도</div>
+        <div class="asp-stars" id="asp3">
+          <span class="asp-star active" data-index="1">★</span><span class="asp-star active" data-index="2">★</span><span class="asp-star active" data-index="3">★</span><span class="asp-star active" data-index="4">★</span><span class="asp-star active" data-index="5">★</span>
+        </div>
+      </div>
+      <div class="aspect-item">
+        <div class="asp-label">💰 가성비</div>
+        <div class="asp-stars" id="asp4">
+          <span class="asp-star active" data-index="1">★</span><span class="asp-star active" data-index="2">★</span><span class="asp-star active" data-index="3">★</span><span class="asp-star active" data-index="4">★</span><span class="asp-star active" data-index="5">★</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="font-size:13px;font-weight:700;color:var(--gray-7);margin-bottom:8px;">한 줄 평가 키워드 선택</div>
+    <div class="kw-row">
+      <button class="kw-btn active">✅ 전문성이 높아요</button>
+      <button class="kw-btn active">💬 친절해요</button>
+      <button class="kw-btn">⚡ 빠른 답변</button>
+      <button class="kw-btn">📖 이해하기 쉬워요</button>
+      <button class="kw-btn">🎯 핵심을 잘 짚어요</button>
+      <button class="kw-btn">🔄 재이용 의향 있음</button>
+    </div>
+
+    <div style="font-size:13px;font-weight:700;color:var(--gray-7);margin:12px 0 8px;">상세 리뷰 작성</div>
+    <textarea id="reviewText" placeholder="다른 사장님들께 도움이 되는 솔직한 리뷰를 남겨주세요. (선택 사항)"></textarea>
+    <div class="char-c" id="charCount">0 / 300자</div>
+
+    <button class="submit-btn" id="submitReviewBtn" style="margin-top:16px;">⭐ 리뷰 등록하기</button>
+    <button class="skip-btn" id="skipBtn">나중에 작성하기</button>
+  </div>
+
+  <!-- 다음 액션 -->
+  <div class="recommend-card">
+    <div class="rc2-title">📋 다음에 무엇을 하시겠어요?</div>
+    <div class="next-actions">
+      <a href="ask.html" class="na-btn blue">✏️ 새 질문 등록</a>
+      <a href="matching.html" class="na-btn outline">📋 매칭 현황 보기</a>
+      <a href="dashboard.html" class="na-btn outline">🏠 대시보드</a>
+      <a href="expert-profile.html" class="na-btn outline">🔄 재상담 신청</a>
+    </div>
+  </div>
+</div>
+
+<div id="toastEl"><span id="toastMsg"></span></div>
+
+<script src="review.js"></script>
+</body>
+</html>

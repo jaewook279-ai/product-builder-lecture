@@ -123,10 +123,10 @@ function closeEndModal() {
 
 function endCall() {
     clearInterval(timerInterval);
-    // Redirect back to matching or chat
-    toast('상담이 종료되었습니다. 매칭 현황으로 이동합니다.', '📵');
+    // Redirect to review page
+    toast('상담이 종료되었습니다. 리뷰 페이지로 이동합니다.', '📵');
     setTimeout(() => {
-        window.location.href = 'matching.html';
+        window.location.href = 'review.html';
     }, 1500);
 }
 
