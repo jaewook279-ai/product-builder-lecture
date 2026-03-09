@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>외식전문가 — 상담 채팅방</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Gmarket+Sans:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="chat.css">
+</head>
+<body>
+
+<!-- ══════════════════════════════
+  LEFT PANEL — 채팅방 목록
+══════════════════════════════ -->
+<aside class="rooms-panel">
+  <div class="rooms-header">
+    <div class="rh-top">
+      <a href="index.html" class="rh-logo">
+        <div class="rh-logo-box">🍽️</div>
+        <span class="rh-logo-text">외식전문가</span>
+      </a>
+      <button class="rh-new-btn" id="newChatBtn">✏️</button>
+    </div>
+    <div class="rh-user">
+      <div class="rh-avatar">👨‍🍳</div>
+      <div>
+        <div class="rh-name">김철수 사장님</div>
+        <div class="rh-plan">마포구 삼겹살집</div>
+      </div>
+      <div class="rh-status"><div class="rh-dot"></div>온라인</div>
+    </div>
+  </div>
+
+  <div class="rooms-search">
+    <div class="search-input-wrap">
+      <span>🔍</span>
+      <input class="search-input" type="text" placeholder="전문가 이름 또는 주제 검색">
+    </div>
+  </div>
+
+  <div class="rooms-list">
+    <div class="room-section-label">진행 중 상담</div>
+
+    <!-- 활성 채팅방 -->
+    <div class="room-item active" data-room="tax">
+      <div class="ri-avatar" style="background:var(--light);">👨‍💼<div class="ri-online"></div></div>
+      <div class="ri-info">
+        <div class="ri-top">
+          <span class="ri-name">김세무 세무사</span>
+          <span class="ri-time">14:32</span>
+        </div>
+        <div class="ri-preview">네, 부가세 신고는 매입·매출...</div>
+        <div class="ri-bottom">
+          <span class="ri-field" style="background:var(--amber-l);color:var(--amber);">💰 세무·회계</span>
+          <span class="ri-unread">3</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="room-item" data-room="labor">
+      <div class="ri-avatar" style="background:#CCFBF1;">👩‍⚖️<div class="ri-online" style="background:var(--amber);"></div></div>
+      <div class="ri-info">
+        <div class="ri-top">
+          <span class="ri-name">이노무 노무사</span>
+          <span class="ri-time">어제</span>
+        </div>
+        <div class="ri-preview">주휴수당 계산서 보내드릴게요</div>
+        <div class="ri-bottom">
+          <span class="ri-field" style="background:var(--teal-l);color:var(--teal);">👥 노무</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="room-section-label">완료된 상담</div>
+
+    <div class="room-item" data-room="law">
+      <div class="ri-avatar" style="background:#FEE2E2;">👨‍🏫</div>
+      <div class="ri-info">
+        <div class="ri-top">
+          <span class="ri-name">최이법무 변호사</span>
+          <span class="ri-time">3일 전</span>
+        </div>
+        <div class="ri-preview">임대차 보호법 관련 안내드렸...</div>
+        <div class="ri-bottom">
+          <span class="ri-field" style="background:var(--red-l);color:var(--red);">⚖️ 법무</span>
+          <span style="font-size:11px;color:var(--green);font-weight:700;">✅ 완료</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="room-item" data-room="mkt">
+      <div class="ri-avatar" style="background:var(--purple-l);">🧑‍💻</div>
+      <div class="ri-info">
+        <div class="ri-top">
+          <span class="ri-name">박마케팅 전문가</span>
+          <span class="ri-time">1주 전</span>
+        </div>
+        <div class="ri-preview">배달앱 키워드 최적화 완료!</div>
+        <div class="ri-bottom">
+          <span class="ri-field" style="background:var(--purple-l);color:var(--purple);">📣 마케팅</span>
+          <span style="font-size:11px;color:var(--green);font-weight:700;">✅ 완료</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- ══════════════════════════════
+  CENTER — 채팅 대화창
+══════════════════════════════ -->
+<section class="chat-panel">
+
+  <!-- 채팅 헤더 -->
+  <div class="chat-header">
+    <div class="ch-left">
+      <div class="ch-avatar" style="background:var(--light);">
+        👨‍💼
+        <div class="ch-online"></div>
+      </div>
+      <div>
+        <div class="ch-name">김세무 세무사</div>
+        <div class="ch-sub">
+          세무·회계 전문 · 인증 전문가
+          <span class="ch-typing" id="typingIndicator" style="display:none;">· 입력 중...</span>
+        </div>
+      </div>
+    </div>
+    <div class="ch-right">
+      <button class="ch-btn" id="videoCallBtn" title="화상 상담">📹</button>
+      <button class="ch-btn" id="infoBtn" title="정보">ℹ️</button>
+      <button class="ch-btn" id="settingsBtn" title="설정">⚙️</button>
+    </div>
+  </div>
+
+  <!-- 메시지 목록 -->
+  <div class="chat-messages" id="chatMessages">
+
+    <div class="date-divider"><div class="date-label">2026년 2월 25일 (화)</div></div>
+
+    <!-- 시스템 메시지 -->
+    <div class="sys-msg"><span>🔗 김세무 세무사님과 상담이 연결됐습니다</span></div>
+    <div class="sys-msg" style="margin-bottom:10px;"><span>💡 상담 내용은 안전하게 암호화되어 보관됩니다</span></div>
+
+    <!-- 전문가 첫 인사 -->
+    <div class="msg-row you">
+      <div class="msg-avatar">👨‍💼</div>
+      <div class="msg-group">
+        <div class="msg-meta-top">김세무 세무사 · 14:33</div>
+        <div class="bubble you">안녕하세요, 김철수 사장님! 저는 세무·회계를 담당하게 된 김세무 세무사입니다. 😊</div>
+        <div class="bubble you">부가세 신고 관련해서 궁금하신 점을 자세히 여쭤볼게요. 먼저 현재 사용하고 계신 매출 증빙 방법은 무엇인가요? 카드 단말기, 현금영수증, 세금계산서 등 어떤 방식을 주로 사용하시나요?</div>
+      </div>
+    </div>
+
+    <!-- 소상공인 답변 -->
+    <div class="msg-row me">
+      <div class="msg-group">
+        <div class="bubble me">안녕하세요! 주로 카드 결제고요, 배달앱(배달의민족, 쿠팡이츠)도 사용하고 있어요. 현금 손님도 가끔 있는데 그때는 현금영수증 발행하고 있습니다.</div>
+      </div>
+      <div class="msg-avatar invisible">👨‍🍳</div>
+    </div>
+    <div class="msg-row me">
+      <div class="msg-group">
+        <div class="bubble me">세금계산서는 재료 매입할 때만 받고 있고요, 직원은 아르바이트 2명 있습니다.</div>
+      </div>
+      <div class="msg-avatar invisible"></div>
+    </div>
+    <div class="msg-row me">
+      <div class="msg-time-read"><span class="msg-time">14:35</span><span class="msg-read">✓✓ 읽음</span></div>
+    </div>
+
+    <!-- 전문가 안내 -->
+    <div class="msg-row you">
+      <div class="msg-avatar">👨‍💼</div>
+      <div class="msg-group">
+        <div class="bubble you">말씀해 주신 내용으로 보면 일반과세자이신 것 같아요. 부가세 신고에 필요한 자료를 정리해 드릴게요! 📋</div>
+        <div class="bubble you">
+          <strong>📌 부가세 신고 준비 서류</strong><br><br>
+          ① <strong>매출 자료</strong><br>
+          &nbsp;&nbsp;• 카드 매출 내역 (여신금융협회 조회)<br>
+          &nbsp;&nbsp;• 배달앱 정산 내역서<br>
+          &nbsp;&nbsp;• 현금영수증 발행 내역<br><br>
+          ② <strong>매입 자료</strong><br>
+          &nbsp;&nbsp;• 수취한 세금계산서 원본/사본<br>
+          &nbsp;&nbsp;• 신용카드 매입 내역<br><br>
+          ③ <strong>기타</strong><br>
+          &nbsp;&nbsp;• 사업자등록증 사본<br>
+          &nbsp;&nbsp;• 직전 기간 납세증명서
+        </div>
+      </div>
+    </div>
+
+    <div class="msg-row you">
+      <div class="msg-avatar invisible"></div>
+      <div class="msg-group">
+        <div class="bubble you">이 자료들이 준비되시면 제가 신고서 작성까지 단계별로 도와드릴게요. 혹시 자료 중에 준비가 안 된 것이 있으신가요?</div>
+      </div>
+    </div>
+
+    <!-- 파일 첨부 메시지 -->
+    <div class="msg-row me">
+      <div class="msg-group">
+        <div class="bubble me">아, 이미 일부 자료는 모아뒀어요! 첨부해드릴게요.</div>
+        <div class="file-bubble" data-file="매출_카드내역_1월.pdf">
+          <div class="file-icon" style="background:var(--red-l);">📄</div>
+          <div>
+            <div class="file-name">매출_카드내역_1월.pdf</div>
+            <div class="file-size">1.8 MB · PDF</div>
+            <div class="file-dl">탭하여 열기 →</div>
+          </div>
+        </div>
+        <div class="img-bubble">
+          <div class="img-placeholder">🧾</div>
+        </div>
+      </div>
+      <div class="msg-avatar invisible"></div>
+    </div>
+    <div class="msg-row me">
+      <div class="msg-time-read"><span class="msg-time">14:41</span><span class="msg-read">✓✓ 읽음</span></div>
+    </div>
+
+    <!-- 전문가 파일 검토 -->
+    <div class="msg-row you">
+      <div class="msg-avatar">👨‍💼</div>
+      <div class="msg-group">
+        <div class="bubble you">파일 잘 받았습니다! 잠깐 확인해볼게요. 🔍</div>
+      </div>
+    </div>
+
+    <div class="date-divider"><div class="date-label">조금 전</div></div>
+
+    <div class="msg-row you">
+      <div class="msg-avatar">👨‍💼</div>
+      <div class="msg-group">
+        <div class="bubble you">카드 매출 내역 확인했습니다. 1월 매출이 ₩18,420,000원이네요. 배달앱 정산서도 함께 첨부해주시면 전체 매출액 합산해서 신고 금액 산정해드릴 수 있어요!</div>
+        <div class="file-bubble" data-file="부가세신고_준비_체크리스트.xlsx">
+          <div class="file-icon" style="background:var(--light);">📋</div>
+          <div>
+            <div class="file-name">부가세신고_준비_체크리스트.xlsx</div>
+            <div class="file-size">245 KB · Excel · 작성 양식</div>
+            <div class="file-dl">다운로드 →</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 타이핑 인디케이터 (숨김 상태) -->
+    <div class="typing-row" id="typingRow" style="display:none;">
+      <div class="msg-avatar">👨‍💼</div>
+      <div class="typing-bubble">
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      </div>
+    </div>
+
+  </div><!-- /chat-messages -->
+
+  <!-- 빠른 답변 템플릿 -->
+  <div class="quick-replies" id="quickReplies">
+    <button class="qr-btn">📎 배달앱 정산서 첨부했어요</button>
+    <button class="qr-btn">✅ 확인했습니다!</button>
+    <button class="qr-btn">❓ 이 부분이 잘 이해가 안 돼요</button>
+    <button class="qr-btn">📞 통화 가능하신가요?</button>
+  </div>
+
+  <!-- 입력창 -->
+  <div class="chat-input-wrap">
+    <div class="attach-preview" id="attachPreview">
+      <span>📎</span>
+      <span class="ap-name" id="attachFileName">파일명.pdf</span>
+      <button class="ap-remove" id="removeAttachBtn">✕</button>
+    </div>
+    <div class="chat-input-row">
+      <div class="chat-input-actions">
+        <button class="input-action-btn" id="attachBtn" title="파일 첨부">📎</button>
+        <button class="input-action-btn" id="quickReplyBtn" title="빠른 답변">⚡</button>
+      </div>
+      <div class="chat-textarea-wrap">
+        <textarea class="chat-textarea" id="msgInput" placeholder="세무사님께 메시지 보내기..." rows="1"></textarea>
+      </div>
+      <button class="send-btn" id="sendBtn" disabled>➤</button>
+    </div>
+  </div>
+
+</section>
+
+<!-- ══════════════════════════════
+  RIGHT PANEL — 컨텍스트
+══════════════════════════════ -->
+<aside class="context-panel" id="contextPanel">
+  <div class="cp-header">
+    <div class="cp-title">ℹ️ 상담 정보</div>
+    <button class="cp-close" id="closeInfoBtn">✕</button>
+  </div>
+
+  <!-- 전문가 정보 -->
+  <div class="cp-expert">
+    <div class="cp-exp-card">
+      <div class="cp-exp-top">
+        <div class="cp-exp-ava">
+          👨‍💼
+          <div class="cp-exp-online"></div>
+        </div>
+        <div>
+          <div class="cp-exp-name">김세무 세무사</div>
+          <div class="cp-exp-field">세무·회계 · 외식업 전문 8년</div>
+          <div class="cp-exp-verified">✓ 자격증 인증 완료</div>
+        </div>
+      </div>
+      <div class="cp-exp-stats">
+        <div class="ces"><div class="ces-v" style="color:#F59E0B;">4.97</div><div class="ces-l">평점</div></div>
+        <div class="ces"><div class="ces-v">1,204</div><div class="ces-l">상담수</div></div>
+        <div class="ces"><div class="ces-v" style="color:var(--green);">98%</div><div class="ces-l">응답률</div></div>
+      </div>
+      <div class="cp-exp-btns">
+        <a href="expert-profile.html" class="cp-exp-btn outline">👤 프로필</a>
+        <button class="cp-exp-btn solid" id="contextVideoBtn">📹 화상 상담</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 원래 질문 -->
+  <div class="cp-section">
+    <div class="cp-section-title">등록한 질문</div>
+    <div class="cp-question-box">
+      <div class="cp-q-field-chip">💰 세무·회계</div>
+      <div class="cp-q-title">2024년 부가세 신고, 어떻게 해야 하나요?</div>
+      <div class="cp-q-body">처음 부가세 신고를 앞두고 막막합니다. 매입·매출 계산서 정리부터 신고서 제출까지 전 과정이 궁금해요. 외식업 특화 팁도 알고 싶습니다.</div>
+      <div class="cp-q-meta">
+        <span class="cp-q-urgent">🚨 긴급</span>
+        <span class="cp-q-date">2026.02.25 14:32 등록</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 첨부 파일 -->
+  <div class="cp-section">
+    <div class="cp-section-title">공유된 파일 (3)</div>
+    <div class="cp-attach-list">
+      <div class="cp-attach-item" data-file="매출_카드내역_1월.pdf">
+        <span class="cp-attach-icon">📄</span>
+        <span class="cp-attach-name">매출_카드내역_1월.pdf</span>
+        <span class="cp-attach-size">1.8MB</span>
+      </div>
+      <div class="cp-attach-item" data-file="영수증_사본.jpg">
+        <span class="cp-attach-icon">🖼️</span>
+        <span class="cp-attach-name">영수증_사본.jpg</span>
+        <span class="cp-attach-size">840KB</span>
+      </div>
+      <div class="cp-attach-item" data-file="부가세신고_체크리스트.xlsx">
+        <span class="cp-attach-icon">📋</span>
+        <span class="cp-attach-name">부가세신고_체크리스트.xlsx</span>
+        <span class="cp-attach-size">245KB</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 상담 진행 단계 -->
+  <div class="cp-status-bar">
+    <div class="cp-section-title">진행 상태</div>
+    <div class="cp-status-steps">
+      <div class="cp-step">
+        <div class="cp-step-dot done">✓</div>
+        <div class="cp-step-text"><div class="cp-step-label">질문 등록</div><div class="cp-step-time">14:32</div></div>
+      </div>
+      <div class="cp-step-line done"></div>
+      <div class="cp-step">
+        <div class="cp-step-dot done">✓</div>
+        <div class="cp-step-text"><div class="cp-step-label">전문가 매칭</div><div class="cp-step-time">14:55 (23분)</div></div>
+      </div>
+      <div class="cp-step-line done"></div>
+      <div class="cp-step">
+        <div class="cp-step-dot active">💬</div>
+        <div class="cp-step-text"><div class="cp-step-label active">채팅 상담 중</div><div class="cp-step-time">15:02 ~</div></div>
+      </div>
+      <div class="cp-step-line"></div>
+      <div class="cp-step">
+        <div class="cp-step-dot wait">4</div>
+        <div class="cp-step-text"><div class="cp-step-label wait">완료 & 리뷰</div><div class="cp-step-time">미완료</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 액션 버튼 -->
+  <div class="cp-actions">
+    <button class="cp-complete-btn" id="completeBtn">✅ 상담 완료 처리</button>
+    <button class="cp-report-btn" id="reportBtn">🚩 문제 신고</button>
+  </div>
+
+</aside><!-- /context-panel -->
+
+<!-- ════ 상담 완료 모달 ════ -->
+<div class="overlay" id="completeOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title">🎉 상담을 완료하시겠어요?</div>
+        <div class="modal-sub">완료 후 전문가에게 리뷰를 남겨주세요</div>
+      </div>
+      <button class="modal-x" id="closeOverlayBtn">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="text-align:center;margin-bottom:8px;font-size:14px;color:var(--gray-5);">상담 만족도를 선택해 주세요</div>
+      <div class="modal-stars" id="modalStars">
+        <span class="modal-star active" data-index="1">★</span>
+        <span class="modal-star active" data-index="2">★</span>
+        <span class="modal-star active" data-index="3">★</span>
+        <span class="modal-star active" data-index="4">★</span>
+        <span class="modal-star active" data-index="5">★</span>
+      </div>
+      <textarea class="modal-textarea" id="reviewText" placeholder="세무사님과의 상담은 어떠셨나요? 다른 사장님들께 도움이 되는 솔직한 리뷰를 남겨주세요."></textarea>
+    </div>
+    <div class="modal-foot">
+      <button class="modal-cancel" id="laterBtn">나중에 하기</button>
+      <button class="modal-submit" id="submitReviewBtn">⭐ 리뷰 작성 완료</button>
+    </div>
+  </div>
+</div>
+
+<!-- 토스트 -->
+<div class="toast" id="toastEl">
+  <span id="toastIcon">✅</span>
+  <span id="toastMsg"></span>
+</div>
+
+<script src="chat.js"></script>
+</body>
+</html>
