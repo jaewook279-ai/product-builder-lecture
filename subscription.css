@@ -1,0 +1,241 @@
+:root {
+  --navy:    #0D1B2A;
+  --blue:    #1A5276;
+  --mid:     #2471A3;
+  --sky:     #3498DB;
+  --light:   #EBF5FB;
+  --teal:    #0E9488;
+  --green:   #16A34A;
+  --green-l: #DCFCE7;
+  --amber:   #D97706;
+  --amber-l: #FEF3C7;
+  --red:     #DC2626;
+  --red-l:   #FEE2E2;
+  --purple:  #7C3AED;
+  --purple-l:#EDE9FE;
+  --gray-l:  #F7F9FC;
+  --gray-1:  #F1F4F8;
+  --gray-2:  #E2E8F0;
+  --gray-3:  #CBD5E1;
+  --gray-4:  #94A3B8;
+  --gray-5:  #64748B;
+  --gray-7:  #334155;
+  --white:   #FFFFFF;
+  --sidebar-w: 256px;
+  --font-d:  'Gmarket Sans', 'Noto Sans KR', sans-serif;
+  --font-b:  'Noto Sans KR', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-b);
+  background: var(--gray-l);
+  min-height: 100vh;
+  display: flex;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Sidebar ── */
+.sidebar {
+  position: fixed; left: 0; top: 0; bottom: 0;
+  width: var(--sidebar-w);
+  background: var(--navy);
+  display: flex; flex-direction: column;
+  z-index: 200;
+}
+
+.sb-logo {
+  display: flex; align-items: center; gap: 10px;
+  padding: 20px;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+  text-decoration: none;
+}
+
+.sb-logo-box {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--blue);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+
+.sb-logo-text { font-family: var(--font-d); font-size: 17px; font-weight: 700; color: #fff; }
+
+.sb-user {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+
+.sb-avatar {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--sky), var(--teal));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; flex-shrink: 0;
+}
+
+.sb-name { font-size: 13px; font-weight: 700; color: #fff; }
+.sb-plan { font-size: 11px; color: rgba(255,255,255,.4); margin-top: 1px; }
+
+.nav-section {
+  font-size: 10px; font-weight: 700; letter-spacing: .7px;
+  text-transform: uppercase; color: rgba(255,255,255,.25);
+  padding: 12px 20px 4px;
+}
+
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 14px; margin: 1px 8px;
+  border-radius: 9px; cursor: pointer; text-decoration: none;
+  color: rgba(255,255,255,.5); font-size: 13px; font-weight: 500;
+  transition: all .18s;
+}
+
+.nav-item:hover { background: rgba(255,255,255,.07); color: rgba(255,255,255,.8); }
+.nav-item.active { background: rgba(52,152,219,.2); color: #fff; font-weight: 700; }
+.nav-icon { font-size: 15px; width: 20px; text-align: center; flex-shrink: 0; }
+
+/* ── Main ── */
+.main { margin-left: var(--sidebar-w); flex: 1; display: flex; flex-direction: column; }
+
+.header {
+  height: 60px; background: var(--white);
+  border-bottom: 1px solid var(--gray-2);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 28px; box-shadow: 0 1px 4px rgba(13,27,42,.06);
+  position: sticky; top: 0; z-index: 100;
+}
+
+.header-title { font-family: var(--font-d); font-size: 17px; font-weight: 700; color: var(--navy); }
+.header-sub { font-size: 13px; color: var(--gray-4); }
+
+.content { padding: 24px 28px; flex: 1; max-width: 860px; }
+
+/* ─── 플랜 카드 ─── */
+.current-plan {
+  background: linear-gradient(135deg, var(--navy), var(--blue));
+  border-radius: 20px; padding: 26px 28px; margin-bottom: 22px;
+  display: flex; align-items: center; gap: 20px; position: relative; overflow: hidden;
+}
+
+.current-plan::after {
+  content: ''; position: absolute; right: -40px; top: -40px;
+  width: 180px; height: 180px; border-radius: 50%;
+  background: rgba(255,255,255,.06);
+}
+
+.cp-badge {
+  background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.2);
+  font-size: 12px; font-weight: 700; color: #fff; padding: 4px 12px;
+  border-radius: 100px; margin-bottom: 10px; display: inline-block;
+}
+
+.cp-plan-name { font-family: var(--font-d); font-size: 28px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+.cp-price { font-size: 15px; color: rgba(255,255,255,.65); }
+
+.cp-right { margin-left: auto; position: relative; z-index: 1; }
+.cp-renew { font-size: 13px; color: rgba(255,255,255,.65); margin-bottom: 10px; }
+
+.cp-quota { background: rgba(255,255,255,.1); border-radius: 12px; padding: 14px 18px; text-align: center; }
+.cp-quota-v { font-family: var(--font-d); font-size: 24px; font-weight: 700; color: #fff; }
+.cp-quota-l { font-size: 12px; color: rgba(255,255,255,.55); margin-top: 3px; }
+.cp-progress { height: 5px; background: rgba(255,255,255,.15); border-radius: 3px; overflow: hidden; margin-top: 8px; }
+.cp-bar { height: 100%; background: linear-gradient(90deg, #4ADE80, #22C55E); border-radius: 3px; }
+
+/* ─── 플랜 업그레이드 ─── */
+.billing-toggle {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--white); border: 1px solid var(--gray-2);
+  border-radius: 11px; padding: 5px; margin-bottom: 18px;
+  width: fit-content; box-shadow: 0 1px 4px rgba(13,27,42,.05);
+}
+
+.bt-option {
+  padding: 8px 18px; border-radius: 8px; font-size: 14px; font-weight: 700;
+  cursor: pointer; color: var(--gray-5); transition: all .18s;
+  border: none; background: transparent; font-family: var(--font-b);
+}
+
+.bt-option.active { background: var(--blue); color: #fff; }
+.bt-save { font-size: 11px; font-weight: 700; color: var(--green); background: var(--green-l); padding: 3px 8px; border-radius: 100px; margin-left: 4px; }
+
+.plans-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 22px; }
+.plan-card { background: var(--white); border: 2px solid var(--gray-2); border-radius: 16px; padding: 22px 20px; text-align: center; transition: all .22s cubic-bezier(.34, 1.56, .64, 1); cursor: pointer; position: relative; }
+.plan-card:hover { border-color: var(--sky); box-shadow: 0 8px 28px rgba(13,27,42,.1); transform: translateY(-3px); }
+.plan-card.current { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26,82,118, .12); }
+.plan-card.recommend { border-color: var(--amber); box-shadow: 0 0 0 3px rgba(217,119,6, .1); }
+
+.plan-popular { position: absolute; top: -1px; left: 50%; transform: translateX(-50%); background: var(--amber); color: #fff; font-size: 11px; font-weight: 700; padding: 3px 12px; border-radius: 0 0 10px 10px; }
+.plan-icon { font-size: 32px; margin-bottom: 10px; }
+.plan-name { font-family: var(--font-d); font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+.plan-price-wrap { margin: 14px 0; }
+.plan-price { font-family: var(--font-d); font-size: 28px; font-weight: 700; color: var(--navy); }
+.plan-period { font-size: 13px; color: var(--gray-4); }
+
+.plan-features { text-align: left; margin: 14px 0; display: flex; flex-direction: column; gap: 6px; }
+.pf-item { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--gray-5); }
+.pf-item.ok { color: var(--navy); }
+.pf-icon { font-size: 14px; flex-shrink: 0; }
+
+.plan-btn { width: 100%; padding: 11px; border-radius: 11px; font-family: var(--font-b); font-size: 13px; font-weight: 700; cursor: pointer; transition: all .22s cubic-bezier(.34, 1.56, .64, 1); border: none; margin-top: 6px; }
+.plan-btn.current-btn { background: var(--gray-1); color: var(--gray-5); cursor: default; }
+.plan-btn.upgrade { background: var(--blue); color: #fff; }
+.plan-btn.premium { background: linear-gradient(135deg, var(--amber), #B45309); color: #fff; }
+
+/* ─── 결제 및 청구 카드 ─── */
+.section-card { background: var(--white); border: 1px solid var(--gray-2); border-radius: 16px; padding: 22px 24px; margin-bottom: 16px; box-shadow: 0 1px 4px rgba(13,27,42, .05); }
+.sc-title { font-family: var(--font-d); font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+
+.payment-card { display: flex; align-items: center; gap: 14px; background: var(--gray-l); border: 1.5px solid var(--gray-2); border-radius: 13px; padding: 14px 16px; margin-bottom: 10px; }
+.pc-icon { width: 42px; height: 28px; border-radius: 7px; background: linear-gradient(135deg, #1a5276, #3498db); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; color: #fff; }
+.pc-name { font-size: 14px; font-weight: 700; color: var(--navy); }
+.pc-num { font-size: 13px; color: var(--gray-5); margin-top: 1px; }
+.pc-default { margin-left: auto; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 100px; background: var(--green-l); color: var(--green); }
+.pc-btns { display: flex; gap: 6px; }
+.pc-btn { padding: 7px 13px; border-radius: 8px; font-family: var(--font-b); font-size: 12px; font-weight: 700; cursor: pointer; transition: background .18s; border: none; }
+.pc-btn.gray { border: 1.5px solid var(--gray-2); background: var(--white); color: var(--gray-7); }
+
+.add-card-btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 12px; border: 2px dashed var(--gray-3); border-radius: 12px; background: transparent; font-family: var(--font-b); font-size: 14px; font-weight: 700; color: var(--gray-5); cursor: pointer; transition: all .18s; }
+.add-card-btn:hover { border-color: var(--sky); color: var(--sky); background: var(--light); }
+
+.invoice-list { display: flex; flex-direction: column; gap: 8px; }
+.invoice-item { display: flex; align-items: center; gap: 12px; padding: 13px 14px; background: var(--gray-l); border-radius: 11px; }
+.inv-icon { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+.inv-label { flex: 1; }
+.inv-name { font-size: 13px; font-weight: 700; color: var(--navy); }
+.inv-date { font-size: 12px; color: var(--gray-4); margin-top: 1px; }
+.inv-amount { font-size: 14px; font-weight: 700; color: var(--navy); }
+.inv-status { font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 100px; }
+.inv-dl { font-size: 20px; cursor: pointer; color: var(--gray-4); transition: color .18s; }
+
+.cancel-zone { border: 1.5px solid rgba(220, 38, 38, .2); border-radius: 13px; padding: 16px 18px; background: rgba(254, 226, 226, .3); }
+.cz-title { font-size: 14px; font-weight: 700; color: var(--red); margin-bottom: 6px; }
+.cz-desc { font-size: 13px; color: var(--gray-5); margin-bottom: 12px; line-height: 1.6; }
+.cz-btn { padding: 10px 20px; border-radius: 10px; border: 1.5px solid var(--red); background: var(--white); color: var(--red); font-family: var(--font-b); font-size: 13px; font-weight: 700; cursor: pointer; transition: all .18s; }
+
+@keyframes fadeUpSub { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+.content > * { animation: fadeUpSub .35s ease both; }
+
+#toastEl {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--navy);
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 8px 32px rgba(0,0,0,.2);
+  transform: translateY(70px);
+  opacity: 0;
+  transition: all .35s cubic-bezier(.34, 1.56, .64, 1);
+  z-index: 600;
+}
+
+@media(max-width: 860px) {
+  .sidebar { display: none; }
+  .main { margin-left: 0; }
+  .plans-grid { grid-template-columns: 1fr; }
+  #toastEl { left: 24px; }
+}

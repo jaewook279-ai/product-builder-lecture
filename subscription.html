@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>외식전문가 — 구독 관리</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Gmarket+Sans:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="subscription.css">
+</head>
+<body>
+<aside class="sidebar">
+  <a href="index.html" class="sb-logo">
+    <div class="sb-logo-box">🍽️</div>
+    <span class="sb-logo-text">외식전문가</span>
+  </a>
+  <div class="sb-user">
+    <div class="sb-avatar">👨‍🍳</div>
+    <div>
+      <div class="sb-name">김철수 사장님</div>
+      <div class="sb-plan">마포구 삼겹살집</div>
+    </div>
+  </div>
+  <nav style="flex:1;overflow-y:auto;padding:6px 0;">
+    <div class="nav-section">메인</div>
+    <a href="dashboard.html" class="nav-item"><span class="nav-icon">🏠</span> 대시보드</a>
+    <a href="ask.html" class="nav-item"><span class="nav-icon">✏️</span> 질문 등록</a>
+    <a href="matching.html" class="nav-item"><span class="nav-icon">🔗</span> 매칭 현황</a>
+    <a href="chat.html" class="nav-item"><span class="nav-icon">💬</span> 상담방</a>
+    <div class="nav-section">관리</div>
+    <a href="history.html" class="nav-item"><span class="nav-icon">📋</span> 상담 이력</a>
+    <a href="#" class="nav-item active"><span class="nav-icon">💳</span> 구독 관리</a>
+    <a href="#" class="nav-item"><span class="nav-icon">🔔</span> 알림 설정</a>
+  </nav>
+</aside>
+
+<div class="main">
+  <div class="header">
+    <div>
+      <div class="header-title">💳 구독 관리</div>
+      <div class="header-sub">현재 플랜 및 결제 관리</div>
+    </div>
+  </div>
+  <div class="content">
+
+    <!-- 현재 플랜 -->
+    <div class="current-plan">
+      <div>
+        <div class="cp-badge">현재 구독 중</div>
+        <div class="cp-plan-name">⚡ 스탠다드 플랜</div>
+        <div class="cp-price">₩59,900/월 · 자동 갱신</div>
+      </div>
+      <div class="cp-right">
+        <div class="cp-renew">다음 갱신일: 2026.03.01</div>
+        <div class="cp-quota">
+          <div class="cp-quota-v">3회</div>
+          <div class="cp-quota-l">이번 달 남은 상담</div>
+          <div class="cp-progress"><div class="cp-bar" style="width: 60%;"></div></div>
+          <div style="font-size:11px;color:rgba(255,255,255,.45);margin-top:4px;">5회 중 2회 사용</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 요금제 선택 -->
+    <div style="font-family:var(--font-d);font-size:15px;font-weight:700;color:var(--navy);margin-bottom:12px;">📋 플랜 비교</div>
+    <div class="billing-toggle">
+      <button class="bt-option active" id="monthlyBtn">월간 결제</button>
+      <button class="bt-option" id="yearlyBtn">연간 결제 <span class="bt-save">17% 할인</span></button>
+    </div>
+    <div class="plans-grid">
+      <div class="plan-card" data-plan="basic">
+        <div class="plan-icon">🌱</div>
+        <div class="plan-name">베이직</div>
+        <div class="plan-price-wrap"><div class="plan-price" id="basicPrice">₩29,900</div><div class="plan-period" id="basicPeriod">/월</div></div>
+        <div class="plan-features">
+          <div class="pf-item ok"><span class="pf-icon">✅</span> 월 3회 상담</div>
+          <div class="pf-item ok"><span class="pf-icon">✅</span> 채팅 상담</div>
+          <div class="pf-item ok"><span class="pf-icon">✅</span> 파일 첨부</div>
+          <div class="pf-item"><span class="pf-icon" style="color:var(--gray-3);">✕</span> <span style="color:var(--gray-4);">화상 상담</span></div>
+          <div class="pf-item"><span class="pf-icon" style="color:var(--gray-3);">✕</span> <span style="color:var(--gray-4);">긴급 상담</span></div>
+        </div>
+        <button class="plan-btn upgrade" data-msg="베이직으로 변경합니다 (현재 스탠다드보다 낮은 등급)">다운그레이드</button>
+      </div>
+      <div class="plan-card current">
+        <div class="plan-icon">⚡</div>
+        <div class="plan-name">스탠다드</div>
+        <div class="plan-price-wrap"><div class="plan-price" id="stdPrice">₩59,900</div><div class="plan-period" id="stdPeriod">/월</div></div>
+        <div class="plan-features">
+          <div class="pf-item ok"><span class="pf-icon">✅</span> 월 5회 상담</div>
+          <div class="pf-item ok"><span class="pf-icon">✅</span> 채팅 + 화상 상담</div>
+          <div class="pf-item ok"><span class="pf-icon">✅</span> 파일 첨부</div>
+          <div class="pf-item ok"><span class="pf-icon">✅</span> 긴급 상담 가능</div>
+          <div class="pf-item"><span class="pf-icon" style="color:var(--gray-3);">✕</span> <span style="color:var(--gray-4);">전문가 찜하기</span></div>
+        </div>
+        <button class="plan-btn current-btn">✅ 현재 플랜</button>
+      </div>
+      <div class="plan-card recommend">
+        <div class="plan-popular">⭐ 추천</div>
+        <div class="plan-icon">👑</div>
+        <div class="plan-name">프리미엄</div>
+        <div class="plan-price-wrap"><div class="plan-price" id="premPrice">₩99,900</div><div class="plan-period" id="premPeriod">/월</div></div>
+        <div class="plan-features">
+          <div class="pf-item ok"><span class="pf-icon">✅</span> 월 무제한 상담</div>
+          <div class="pf-item ok"><span class="pf-icon">✅</span> 채팅 + 화상 + 방문</div>
+          <div class="pf-item ok"><span class="pf-icon">✅</span> 전담 세무사 배정</div>
+          <div class="pf-item ok"><span class="pf-icon">✅</span> 긴급 상담 우선</div>
+          <div class="pf-item ok"><span class="pf-icon">✅</span> 전문가 찜하기</div>
+        </div>
+        <button class="plan-btn premium" data-msg="프리미엄 업그레이드를 시작합니다 🚀">👑 업그레이드 →</button>
+      </div>
+    </div>
+
+    <!-- 결제 수단 -->
+    <div class="section-card">
+      <div class="sc-title">💳 결제 수단</div>
+      <div class="payment-card">
+        <div class="pc-icon">💳</div>
+        <div class="pc-info"><div class="pc-name">신한카드 체크</div><div class="pc-num">●●●● ●●●● ●●●● 4521</div></div>
+        <span class="pc-default">기본 결제</span>
+        <div class="pc-btns"><button class="pc-btn gray" id="changeCardBtn">변경</button></div>
+      </div>
+      <button class="add-card-btn" id="addCardBtn">➕ 결제 수단 추가</button>
+    </div>
+
+    <!-- 청구 내역 -->
+    <div class="section-card">
+      <div class="sc-title">🧾 최근 청구 내역</div>
+      <div class="invoice-list">
+        <div class="invoice-item"><div class="inv-icon" style="background:var(--green-l);">✅</div><div class="inv-label"><div class="inv-name">스탠다드 플랜 — 2월</div><div class="inv-date">2026.02.01 결제</div></div><div class="inv-amount">₩59,900</div><span class="inv-status" style="background:var(--green-l);color:var(--green);">결제 완료</span><span class="inv-dl" data-toast="영수증을 다운로드합니다 📄">📄</span></div>
+        <div class="invoice-item"><div class="inv-icon" style="background:var(--green-l);">✅</div><div class="inv-label"><div class="inv-name">스탠다드 플랜 — 1월</div><div class="inv-date">2026.01.01 결제</div></div><div class="inv-amount">₩59,900</div><span class="inv-status" style="background:var(--green-l);color:var(--green);">결제 완료</span><span class="inv-dl" data-toast="영수증을 다운로드합니다 📄">📄</span></div>
+        <div class="invoice-item"><div class="inv-icon" style="background:var(--green-l);">✅</div><div class="inv-label"><div class="inv-name">스탠다드 플랜 — 12월</div><div class="inv-date">2025.12.01 결제</div></div><div class="inv-amount">₩59,900</div><span class="inv-status" style="background:var(--green-l);color:var(--green);">결제 완료</span><span class="inv-dl" data-toast="영수증을 다운로드합니다 📄">📄</span></div>
+      </div>
+    </div>
+
+    <!-- 구독 해지 -->
+    <div class="section-card">
+      <div class="sc-title">⚠️ 구독 해지</div>
+      <div class="cancel-zone">
+        <div class="cz-title">구독을 해지하면 어떻게 되나요?</div>
+        <div class="cz-desc">해지 후에도 현재 결제 기간(~2026.03.01)까지 서비스를 이용하실 수 있습니다. 기간 만료 후 자동 갱신이 중단되며, 남은 상담 횟수는 소멸됩니다.</div>
+        <button class="cz-btn" id="cancelSubBtn">구독 해지 신청</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="toastEl"><span id="toastMsg"></span></div>
+
+<script src="subscription.js"></script>
+</body>
+</html>
