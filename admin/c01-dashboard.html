@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MATCHPRO — 관리자 홈 C-01</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #F5F6FA;
+  --surface:   #FFFFFF;
+  --surface2:  #F9FAFB;
+  --border:    #E8EAF0;
+  --border2:   #D1D5E0;
+  --text0:     #111827;
+  --text1:     #374151;
+  --text2:     #6B7280;
+  --text3:     #9CA3AF;
+  --text4:     #C4C9D4;
+
+  --blue:      #3B6FFF;
+  --blue-lt:   #EEF2FF;
+  --green:     #10B981;
+  --green-lt:  #D1FAE5;
+  --orange:    #F59E0B;
+  --orange-lt: #FEF3C7;
+  --red:       #EF4444;
+  --red-lt:    #FEE2E2;
+  --purple:    #8B5CF6;
+  --purple-lt: #EDE9FE;
+  --teal:      #06B6D4;
+  --teal-lt:   #CFFAFE;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  --shadow:    0 4px 12px rgba(0,0,0,.07), 0 1px 3px rgba(0,0,0,.05);
+  --shadow-lg: 0 10px 30px rgba(0,0,0,.09), 0 4px 10px rgba(0,0,0,.05);
+
+  --radius:    12px;
+  --radius-sm: 8px;
+  --mono:      'DM Mono', 'Courier New', monospace;
+  --sans:      'DM Sans', 'Helvetica Neue', sans-serif;
+}
+
+html, body { height: 100%; background: var(--bg); color: var(--text1); font-family: var(--sans); }
+
+/* LAYOUT */
+.app { display: flex; height: 100vh; overflow: hidden; }
+
+/* SIDEBAR */
+.sidebar {
+  width: 232px; flex-shrink: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; z-index: 10;
+}
+.logo { padding: 22px 20px 18px; border-bottom: 1px solid var(--border); cursor: pointer; text-decoration: none; }
+.logo-inner { display: flex; align-items: center; gap: 11px; }
+.logo-mark {
+  width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--blue) 0%, var(--purple) 100%);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 700; color: #fff;
+  box-shadow: 0 3px 10px rgba(59,111,255,.35);
+}
+.logo-name { font-size: 14px; font-weight: 700; color: var(--text0); letter-spacing: -.01em; }
+.logo-sub  { font-size: 9px; color: var(--text3); letter-spacing: .1em; margin-top: 2px; text-transform: uppercase; }
+
+nav { flex: 1; padding: 14px 10px; overflow-y: auto; }
+.nav-section-title {
+  font-size: 9px; font-weight: 600; color: var(--text4);
+  letter-spacing: .12em; text-transform: uppercase;
+  padding: 0 10px; margin: 0 0 6px;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 9px;
+  padding: 9px 12px; border-radius: var(--radius-sm);
+  cursor: pointer; transition: background .15s; margin-bottom: 2px;
+  text-decoration: none;
+}
+.nav-item:hover { background: var(--bg); }
+.nav-item.active { background: var(--blue-lt); }
+.nav-icon {
+  width: 28px; height: 28px; border-radius: 7px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; background: var(--bg); transition: background .15s;
+}
+.nav-item.active .nav-icon { background: var(--blue); }
+.nav-label { font-size: 12.5px; color: var(--text2); font-weight: 400; flex: 1; }
+.nav-item.active .nav-label { color: var(--blue); font-weight: 600; }
+.nav-badge {
+  background: var(--red); color: #fff;
+  font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 10px;
+}
+.nav-id { font-size: 9px; color: var(--text4); }
+
+.sidebar-footer {
+  padding: 14px 16px; border-top: 1px solid var(--border);
+  display: flex; align-items: center; gap: 10px;
+}
+.avatar {
+  width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--blue), var(--purple));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: #fff;
+}
+.user-name  { font-size: 12px; font-weight: 600; color: var(--text0); }
+.user-email { font-size: 10px; color: var(--text3); margin-top: 1px; }
+.logout-btn {
+  margin-left: auto; background: none; border: 1px solid var(--border);
+  cursor: pointer; color: var(--text3); font-size: 13px;
+  width: 26px; height: 26px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  transition: color .15s, border-color .15s;
+}
+.logout-btn:hover { color: var(--text1); border-color: var(--border2); }
+
+/* MAIN */
+.main { flex: 1; overflow-y: auto; background: var(--bg); }
+
+/* TOPBAR */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 15px 28px;
+  background: rgba(255,255,255,.88);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 9;
+}
+.page-title { font-size: 17px; font-weight: 700; color: var(--text0); letter-spacing: -.02em; }
+.page-code  { font-size: 10px; color: var(--text3); letter-spacing: .1em; margin-left: 8px; }
+.page-sub   { font-size: 11px; color: var(--text3); margin-top: 2px; }
+
+.topbar-right { display: flex; align-items: center; gap: 10px; }
+.live-pill {
+  display: flex; align-items: center; gap: 5px;
+  background: var(--green-lt); border-radius: 20px; padding: 4px 10px;
+}
+.live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1}50%{opacity:.35} }
+.live-text { font-size: 10px; font-weight: 600; color: var(--green); letter-spacing: .06em; }
+
+#clock {
+  font-family: var(--mono); font-size: 11px; color: var(--text2);
+  background: var(--surface); border: 1px solid var(--border);
+  padding: 5px 11px; border-radius: 7px;
+}
+.icon-btn {
+  width: 34px; height: 34px; border-radius: 8px;
+  background: var(--surface); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 14px; position: relative;
+  transition: box-shadow .15s;
+}
+.icon-btn:hover { box-shadow: var(--shadow-sm); }
+.notif-dot {
+  position: absolute; top: 5px; right: 5px;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--red); border: 1.5px solid #fff;
+}
+
+/* CONTENT */
+.content { padding: 24px 28px; display: flex; flex-direction: column; gap: 22px; }
+
+/* ALERTS */
+.alerts { display: flex; flex-direction: column; gap: 8px; }
+.alert-item {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 11px 16px;
+  box-shadow: var(--shadow-sm);
+}
+.alert-icon { font-size: 14px; }
+.alert-text { font-size: 12.5px; color: var(--text1); flex: 1; }
+.alert-text strong { font-weight: 600; color: var(--text0); }
+.alert-badge {
+  font-size: 9px; font-weight: 700; padding: 2px 8px;
+  border-radius: 4px; letter-spacing: .04em; white-space: nowrap;
+}
+.alert-btn {
+  font-size: 11px; font-weight: 600; padding: 5px 12px;
+  border-radius: 6px; cursor: pointer; letter-spacing: .02em;
+  border: none; white-space: nowrap; transition: opacity .15s;
+}
+.alert-btn:hover { opacity: .75; }
+
+/* KPI GRID */
+.kpi-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+.kpi-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 22px 20px;
+  box-shadow: var(--shadow-sm); position: relative; overflow: hidden;
+  transition: box-shadow .2s, transform .2s;
+}
+.kpi-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+.kpi-accent { position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: var(--radius) var(--radius) 0 0; }
+.kpi-icon-wrap {
+  width: 40px; height: 40px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; margin-bottom: 14px;
+}
+.kpi-label { font-size: 11px; color: var(--text2); font-weight: 500; margin-bottom: 6px; }
+.kpi-value { font-size: 24px; font-weight: 700; color: var(--text0); letter-spacing: -.03em; line-height: 1; font-family: var(--mono); }
+.kpi-footer { display: flex; align-items: center; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.delta { font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 5px; }
+.kpi-sub { font-size: 10.5px; color: var(--text3); }
+
+/* CARDS */
+.chart-row   { display: grid; gap: 16px; }
+.chart-row-2 { grid-template-columns: 1fr 1fr; }
+.chart-row-3 { grid-template-columns: 2fr 1fr; }
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow-sm);
+}
+.card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 18px; }
+.card-title  { font-size: 13px; font-weight: 600; color: var(--text0); }
+.card-sub    { font-size: 11px; color: var(--text3); margin-top: 3px; }
+.legend      { display: flex; gap: 14px; flex-wrap: wrap; padding-top: 2px; }
+.legend span { font-size: 10.5px; color: var(--text2); display: flex; align-items: center; gap: 5px; }
+.legend-dot  { width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+
+.today-badge { display: flex; align-items: baseline; gap: 4px; font-family: var(--mono); }
+.today-num   { font-size: 22px; font-weight: 700; color: var(--green); }
+.today-unit  { font-size: 11px; color: var(--text3); }
+
+/* MINI STATS */
+.mini-stats-wrap { display: flex; flex-direction: column; gap: 14px; }
+.stat-top  { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+.stat-name { font-size: 11px; color: var(--text2); }
+.stat-val  { font-size: 12px; font-weight: 700; color: var(--text0); font-family: var(--mono); }
+.bar-track { height: 4px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.bar-fill  { height: 100%; border-radius: 3px; transition: width 1.2s cubic-bezier(.4,0,.2,1); }
+
+/* ACTIVITY */
+.log-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.view-all {
+  font-size: 11px; font-weight: 600; color: var(--blue);
+  background: var(--blue-lt); border: none;
+  padding: 5px 12px; border-radius: 6px; cursor: pointer; transition: opacity .15s;
+}
+.view-all:hover { opacity: .75; }
+.log-row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 10px 6px; border-bottom: 1px solid var(--border);
+  border-radius: 6px; transition: background .12s;
+}
+.log-row:last-child { border-bottom: none; }
+.log-row:hover { background: var(--surface2); }
+.log-dot  { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.log-id   { font-family: var(--mono); font-size: 10px; color: var(--text3); min-width: 54px; }
+.log-type { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 5px; white-space: nowrap; }
+.log-text { font-size: 12.5px; color: var(--text1); flex: 1; }
+.log-time { font-size: 10.5px; color: var(--text3); white-space: nowrap; }
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 10px; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <a href="../index.html" class="logo">
+      <div class="logo-inner">
+        <div class="logo-mark">M</div>
+        <div>
+          <div class="logo-name">MatchPro</div>
+          <div class="logo-sub">Admin Console</div>
+        </div>
+      </div>
+    </a>
+    <nav id="nav"></nav>
+    <div class="sidebar-footer">
+      <div class="avatar">관</div>
+      <div>
+        <div class="user-name">슈퍼 관리자</div>
+        <div class="user-email">admin@matchpro.kr</div>
+      </div>
+      <button class="logout-btn" title="로그아웃" onclick="location.href='../index.html'">↪</button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <header class="topbar">
+      <div>
+        <div>
+          <span class="page-title">관리자 홈</span>
+          <span class="page-code">C-01 · OVERVIEW</span>
+        </div>
+        <div class="page-sub">2026년 3월 기준 · 실시간 업데이트</div>
+      </div>
+      <div class="topbar-right">
+        <div class="live-pill">
+          <div class="live-dot"></div>
+          <span class="live-text">LIVE</span>
+        </div>
+        <div id="clock"></div>
+        <div class="icon-btn">🔔<div class="notif-dot"></div></div>
+        <div class="icon-btn">⚙️</div>
+      </div>
+    </header>
+
+    <div class="content">
+      <div class="alerts"  id="alerts"></div>
+      <div class="kpi-grid" id="kpiGrid"></div>
+
+      <div class="chart-row chart-row-2">
+        <div class="card">
+          <div class="card-header">
+            <div><div class="card-title">월간 활성 사용자 (MAU)</div><div class="card-sub">최근 7개월 추이</div></div>
+            <div class="legend">
+              <span><span class="legend-dot" style="background:#3B6FFF"></span>소상공인</span>
+              <span><span class="legend-dot" style="background:#8B5CF6"></span>전문가</span>
+            </div>
+          </div>
+          <canvas id="mauChart" height="190"></canvas>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div><div class="card-title">월별 매출 현황</div><div class="card-sub">구독 + 수수료 (만원)</div></div>
+            <div class="legend">
+              <span><span class="legend-dot" style="background:#F59E0B"></span>구독</span>
+              <span><span class="legend-dot" style="background:#06B6D4"></span>수수료</span>
+            </div>
+          </div>
+          <canvas id="revenueChart" height="190"></canvas>
+        </div>
+      </div>
+
+      <div class="chart-row chart-row-3">
+        <div class="card">
+          <div class="card-header">
+            <div><div class="card-title">일별 매칭 건수</div><div class="card-sub">최근 7일</div></div>
+            <div class="today-badge"><span class="today-num">80</span><span class="today-unit">건 / 오늘</span></div>
+          </div>
+          <canvas id="matchChart" height="150"></canvas>
+        </div>
+        <div class="card" style="display:flex;flex-direction:column;">
+          <div class="card-title" style="margin-bottom:18px">플랫폼 현황 요약</div>
+          <div class="mini-stats-wrap" id="miniStats"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="log-header">
+          <div class="card-title">최근 활동 로그</div>
+          <button class="view-all">전체 로그 보기 →</button>
+        </div>
+        <div id="activityLog"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const FILENAMES = {
+  "C-01": "c01-dashboard.html",
+  "C-02": "c02-users.html",
+  "C-03": "c03-experts.html",
+  "C-04": "c04-matching.html",
+  "C-05": "c05-settlement.html",
+  "C-06": "c06-stats.html"
+};
+const NAV = [
+  { id:"C-01", label:"관리자 홈",    icon:"🏠", active:true },
+  { id:"C-02", label:"소상공인 관리", icon:"🏪" },
+  { id:"C-03", label:"전문가 심사",   icon:"🔍", badge:14 },
+  { id:"C-04", label:"매칭 현황",    icon:"🔗" },
+  { id:"C-05", label:"정산 관리",    icon:"💳" },
+  { id:"C-06", label:"플랫폼 통계",  icon:"📊" },
+];
+const ALERTS = [
+  { emoji:"🔴", text:"<strong>미승인 전문가 신청 14건</strong>이 대기 중입니다.",
+    badge:"긴급", bc:"#EF4444", bb:"#FEE2E2", action:"심사하기" },
+  { emoji:"🟡", text:"<strong>미처리 분쟁 3건</strong> — 72시간 초과 상태입니다.",
+    badge:"주의", bc:"#D97706", bb:"#FEF3C7", action:"처리하기" },
+  { emoji:"🔵", text:"3월 정산 마감 <strong>D-5 (3/15)</strong> — 미정산 전문가 8명 남음.",
+    badge:"안내", bc:"#3B6FFF", bb:"#EEF2FF", action:"정산 현황" },
+];
+const KPIS = [
+  { label:"이번 달 MAU",  value:"10,190", delta:"+14.9%", up:true, sub:"소상공인 8,320 · 전문가 1,870", icon:"👥", ib:"#EEF2FF", ac:"#3B6FFF" },
+  { label:"이번 달 매칭", value:"2,847",  delta:"+8.2%",  up:true, sub:"오늘 80건 완료",                icon:"🔗", ib:"#D1FAE5", ac:"#10B981" },
+  { label:"구독 회원",    value:"3,412",  delta:"+5.6%",  up:true, sub:"Premium 1,204 · Basic 2,208", icon:"⭐", ib:"#FEF3C7", ac:"#F59E0B" },
+  { label:"이번 달 매출", value:"₩1.8억", delta:"+21.3%", up:true, sub:"구독 ₩1.24억 · 수수료 ₩5,600만",icon:"💰", ib:"#EDE9FE", ac:"#8B5CF6" },
+];
+const MAU = {
+  labels:["9월","10월","11월","12월","1월","2월","3월"],
+  owner: [3200,4100,4800,5300,6100,7240,8320],
+  expert:[820,960,1120,1280,1450,1690,1870],
+};
+const REV = {
+  labels:["9월","10월","11월","12월","1월","2월","3월"],
+  sub:[4200,5100,6300,7800,9200,10800,12400],
+  fee:[1800,2200,2800,3400,4100,4900,5600],
+};
+const MATCH = {
+  labels:["3/4","3/5","3/6","3/7","3/8","3/9","3/10"],
+  values:[48,62,55,71,43,38,80],
+};
+const MINI = [
+  { label:"전체 등록 전문가",   value:"1,247명", pct:.72, color:"#8B5CF6" },
+  { label:"활성 매칭 진행 중",  value:"318건",   pct:.45, color:"#3B6FFF" },
+  { label:"이번 달 정산 완료율",value:"84%",      pct:.84, color:"#10B981" },
+  { label:"평균 매칭 만족도",   value:"4.7/5.0", pct:.94, color:"#F59E0B" },
+  { label:"미처리 신고 건수",   value:"7건",      pct:.14, color:"#EF4444" },
+];
+const ACTIVITY = [
+  { id:"A-2847", type:"매칭", text:"김철수 사장 ↔ 이세무 전문가 매칭 완료",   time:"2분 전",   s:"success" },
+  { id:"E-0192", type:"심사", text:"박노무사 신규 가입 승인 대기",            time:"8분 전",   s:"pending" },
+  { id:"R-3301", type:"정산", text:"최변호사 3월 정산 ₩480,000 처리 완료",   time:"15분 전",  s:"success" },
+  { id:"W-0041", type:"신고", text:"상담 #8821 부적절 내용 신고 접수",        time:"31분 전",  s:"warning" },
+  { id:"A-2845", type:"매칭", text:"홍길동 사장 ↔ 정회계 전문가 매칭 완료",   time:"44분 전",  s:"success" },
+  { id:"C-0887", type:"취소", text:"구독 해지 요청 처리 — 이사장 (Premium)", time:"1시간 전", s:"cancel"  },
+];
+const S = {
+  success:{ dot:"#10B981", tb:"#D1FAE5", tc:"#059669" },
+  pending:{ dot:"#F59E0B", tb:"#FEF3C7", tc:"#D97706" },
+  warning:{ dot:"#EF4444", tb:"#FEE2E2", tc:"#DC2626" },
+  cancel: { dot:"#9CA3AF", tb:"#F3F4F6", tc:"#6B7280" },
+};
+
+function renderNav() {
+  document.getElementById("nav").innerHTML =
+    `<div class="nav-section-title">메뉴</div>` +
+    NAV.map(n=>`
+      <a href="${FILENAMES[n.id] || '#'}" class="nav-item${n.active?" active":""}">
+        <div class="nav-icon">${n.icon}</div>
+        <span class="nav-label">${n.label}</span>
+        ${n.badge?`<span class="nav-badge">${n.badge}</span>`:`<span class="nav-id">${n.id}</span>`}
+      </a>`).join("");
+}
+function renderAlerts() {
+  document.getElementById("alerts").innerHTML = ALERTS.map(a=>`
+    <div class="alert-item" style="border-left:3px solid ${a.bc}">
+      <span class="alert-icon">${a.emoji}</span>
+      <span class="alert-text">${a.text}</span>
+      <span class="alert-badge" style="color:${a.bc};background:${a.bb}">${a.badge}</span>
+      <button class="alert-btn" style="color:${a.bc};background:${a.bb}">${a.action} →</button>
+    </div>`).join("");
+}
+function renderKPIs() {
+  document.getElementById("kpiGrid").innerHTML = KPIS.map(k=>`
+    <div class="kpi-card">
+      <div class="kpi-accent" style="background:${k.ac}"></div>
+      <div class="kpi-icon-wrap" style="background:${k.ib}">${k.icon}</div>
+      <div class="kpi-label">${k.label}</div>
+      <div class="kpi-value">${k.value}</div>
+      <div class="kpi-footer">
+        <span class="delta" style="color:${k.up?"#059669":"#DC2626"};background:${k.up?"#D1FAE5":"#FEE2E2"}">
+          ${k.up?"▲":"▼"} ${k.delta}
+        </span>
+        <span class="kpi-sub">${k.sub}</span>
+      </div>
+    </div>`).join("");
+}
+function renderMiniStats() {
+  document.getElementById("miniStats").innerHTML = MINI.map(s=>`
+    <div>
+      <div class="stat-top">
+        <span class="stat-name">${s.label}</span>
+        <span class="stat-val">${s.value}</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:${s.pct*100}%;background:${s.color}"></div>
+      </div>
+    </div>`).join("");
+}
+function renderActivity() {
+  document.getElementById("activityLog").innerHTML = ACTIVITY.map(a=>{
+    const st=S[a.s]||S.cancel;
+    return `
+      <div class="log-row">
+        <div class="log-dot" style="background:${st.dot}"></div>
+        <div class="log-id">${a.id}</div>
+        <div class="log-type" style="color:${st.tc};background:${st.tb}">${a.type}</div>
+        <div class="log-text">${a.text}</div>
+        <div class="log-time">${a.time}</div>
+      </div>`;
+  }).join("");
+}
+
+/* CHARTS */
+Chart.defaults.font.family = "'DM Sans', sans-serif";
+const GC = "#E8EAF0", TC = "#9CA3AF";
+const BASE = {
+  responsive:true, maintainAspectRatio:false,
+  plugins:{
+    legend:{display:false},
+    tooltip:{
+      backgroundColor:"#fff", borderColor:"#E8EAF0", borderWidth:1,
+      titleColor:"#6B7280", bodyColor:"#111827", padding:10,
+      titleFont:{family:"'DM Mono'",size:10}, bodyFont:{size:12,weight:"600"},
+    }
+  },
+  scales:{
+    x:{grid:{color:GC,drawTicks:false}, ticks:{color:TC,font:{size:10},padding:6}, border:{display:false}},
+    y:{grid:{color:GC,drawTicks:false}, ticks:{color:TC,font:{size:10},padding:6}, border:{display:false}},
+  }
+};
+function g(ctx, hex, a1=.13, a2=0) {
+  const gr = ctx.createLinearGradient(0,0,0,220);
+  const to = v => Math.round(v*255).toString(16).padStart(2,"0");
+  gr.addColorStop(0, hex+to(a1));
+  gr.addColorStop(1, hex+to(a2));
+  return gr;
+}
+function buildMAU() {
+  const ctx = document.getElementById("mauChart").getContext("2d");
+  new Chart(ctx,{ type:"line", data:{ labels:MAU.labels, datasets:[
+    { label:"소상공인", data:MAU.owner,  borderColor:"#3B6FFF", borderWidth:2.5, backgroundColor:g(ctx,"#3B6FFF"), fill:true, tension:.4, pointRadius:3.5, pointBackgroundColor:"#3B6FFF", pointBorderColor:"#fff", pointBorderWidth:2 },
+    { label:"전문가",   data:MAU.expert, borderColor:"#8B5CF6", borderWidth:2.5, backgroundColor:g(ctx,"#8B5CF6",.1), fill:true, tension:.4, pointRadius:3.5, pointBackgroundColor:"#8B5CF6", pointBorderColor:"#fff", pointBorderWidth:2 },
+  ]}, options:{...BASE,plugins:{...BASE.plugins,tooltip:{...BASE.plugins.tooltip,mode:"index",intersect:false}}} });
+}
+function buildRevenue() {
+  const ctx = document.getElementById("revenueChart").getContext("2d");
+  new Chart(ctx,{ type:"bar", data:{ labels:REV.labels, datasets:[
+    { label:"구독",   data:REV.sub, backgroundColor:"#F59E0BCC", borderRadius:5, borderSkipped:false },
+    { label:"수수료", data:REV.fee, backgroundColor:"#06B6D4CC", borderRadius:5, borderSkipped:false },
+  ]}, options:{...BASE, barPercentage:.6, categoryPercentage:.75} });
+}
+function buildMatch() {
+  const ctx = document.getElementById("matchChart").getContext("2d");
+  new Chart(ctx,{ type:"line", data:{ labels:MATCH.labels, datasets:[
+    { label:"매칭", data:MATCH.values, borderColor:"#10B981", borderWidth:2.5, backgroundColor:g(ctx,"#10B981"), fill:true, tension:.4, pointRadius:4, pointBackgroundColor:"#10B981", pointBorderColor:"#fff", pointBorderWidth:2, pointHoverRadius:6 },
+  ]}, options:BASE });
+}
+function startClock() {
+  const el=document.getElementById("clock"), pad=n=>String(n).padStart(2,"0");
+  function tick(){const d=new Date();el.textContent=`${d.getFullYear()}.${pad(d.getMonth()+1)}.${pad(d.getDate())}  ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;}
+  tick(); setInterval(tick,1000);
+}
+
+renderNav(); renderAlerts(); renderKPIs(); renderMiniStats(); renderActivity();
+buildMAU(); buildRevenue(); buildMatch(); startClock();
+</script>
+</body>
+</html>
