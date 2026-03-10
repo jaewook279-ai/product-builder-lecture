@@ -22,7 +22,7 @@
       <a href="#fields">전문가 분야</a>
       <a href="#pricing">구독 플랜</a>
       <a href="#faq">FAQ</a>
-      <a href="b-01-signup.html">전문가 등록</a>
+      <a href="signup.html">전문가 등록</a>
     </div>
     <div class="gnb-actions">
       <a href="login.html" class="gnb-login">로그인</a>
@@ -40,7 +40,7 @@
   <a href="#fields">전문가 분야</a>
   <a href="#pricing">구독 플랜</a>
   <a href="#faq">FAQ</a>
-  <a href="b-01-signup.html">전문가 등록</a>
+  <a href="signup.html">전문가 등록</a>
   <div class="mobile-btns">
     <a href="login.html" class="m-login">로그인</a>
     <a href="signup.html" class="m-start">무료 시작하기 →</a>
@@ -209,13 +209,31 @@
   <div class="container" style="position:relative;z-index:1;">
     <div class="reveal">
       <p class="badge" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:#7EC8E3;display:block;text-align:center;">🎓 전문 분야</p>
-      <h2 class="section-title">어떤 문제도 OK — 6가지 전문 분야</h2>
-      <p class="section-sub">외식업에 특화된 검증 전문가가 분야별로 대기 중입니다</p>
+      <h2 class="section-title">어떤 문제도 OK — 12가지 전문 분야</h2>
+      <p class="section-sub">외식업에 특화된 검증 전문가 500+명이 분야별로 대기 중입니다</p>
     </div>
-    <div class="fields-grid reveal">
-      <div class="field-card">
-        <div class="field-icon-wrap" style="background:rgba(212,160,23,.15);">💰</div>
-        <div class="field-name">세무·회계</div>
+
+    <!-- 필터 탭 -->
+    <div class="fields-filter reveal">
+      <button class="filter-btn active" data-filter="all">전체 보기</button>
+      <button class="filter-btn" data-filter="legal">법률·세무</button>
+      <button class="filter-btn" data-filter="ops">운영·관리</button>
+      <button class="filter-btn" data-filter="digital">디지털·마케팅</button>
+      <button class="filter-btn" data-filter="startup">창업·컨설팅</button>
+    </div>
+
+    <div class="fields-grid reveal" id="fieldsGrid">
+
+      <!-- 1. 세무·회계 -->
+      <div class="field-card" data-cat="legal">
+        <div class="field-card-top">
+          <div class="field-icon-wrap" style="background:rgba(212,160,23,.18);">💰</div>
+          <div>
+            <div class="field-name">세무·회계</div>
+            <div class="field-count">전문가 87명</div>
+          </div>
+        </div>
+        <p class="field-desc">부가세·종합소득세 신고부터 절세 전략까지 외식업 특화 세무 상담</p>
         <div class="field-tags">
           <span class="field-tag">부가세 신고</span>
           <span class="field-tag">절세 전략</span>
@@ -223,29 +241,71 @@
           <span class="field-tag">비용 처리</span>
         </div>
       </div>
-      <div class="field-card">
-        <div class="field-icon-wrap" style="background:rgba(52,152,219,.15);">⚖️</div>
-        <div class="field-name">법무</div>
+
+      <!-- 2. 법무 -->
+      <div class="field-card" data-cat="legal">
+        <div class="field-card-top">
+          <div class="field-icon-wrap" style="background:rgba(52,152,219,.18);">⚖️</div>
+          <div>
+            <div class="field-name">법무</div>
+            <div class="field-count">전문가 54명</div>
+          </div>
+        </div>
+        <p class="field-desc">계약서 독소 조항 검토부터 분쟁 대응까지 법적 리스크를 사전 차단</p>
         <div class="field-tags">
-          <span class="field-tag">임대차 계약</span>
+          <span class="field-tag">계약서 검토</span>
           <span class="field-tag">분쟁 대응</span>
           <span class="field-tag">인허가</span>
-          <span class="field-tag">계약서 검토</span>
+          <span class="field-tag">소송 지원</span>
         </div>
       </div>
-      <div class="field-card">
-        <div class="field-icon-wrap" style="background:rgba(72,201,176,.15);">👥</div>
-        <div class="field-name">노무</div>
+
+      <!-- 3. 노무 -->
+      <div class="field-card" data-cat="legal">
+        <div class="field-card-top">
+          <div class="field-icon-wrap" style="background:rgba(72,201,176,.18);">👥</div>
+          <div>
+            <div class="field-name">노무</div>
+            <div class="field-count">전문가 63명</div>
+          </div>
+        </div>
+        <p class="field-desc">근로계약서 작성부터 노동청 대응, 퇴직금 분쟁까지 완벽 처리</p>
         <div class="field-tags">
           <span class="field-tag">근로계약서</span>
           <span class="field-tag">4대보험</span>
           <span class="field-tag">퇴직금</span>
-          <span class="field-tag">노동법</span>
+          <span class="field-tag">해고·징계</span>
         </div>
       </div>
-      <div class="field-card">
-        <div class="field-icon-wrap" style="background:rgba(231,76,60,.15);">📣</div>
-        <div class="field-name">마케팅</div>
+
+      <!-- 4. 임대차·부동산 -->
+      <div class="field-card" data-cat="legal">
+        <div class="field-card-top">
+          <div class="field-icon-wrap" style="background:rgba(230,126,34,.18);">🏢</div>
+          <div>
+            <div class="field-name">임대차·부동산</div>
+            <div class="field-count">전문가 41명</div>
+          </div>
+        </div>
+        <p class="field-desc">상가 임대차 보호법 활용, 권리금 회수, 계약 갱신 청구권 전략 수립</p>
+        <div class="field-tags">
+          <span class="field-tag">임대차 보호법</span>
+          <span class="field-tag">권리금 회수</span>
+          <span class="field-tag">계약 갱신</span>
+          <span class="field-tag">점포 이전</span>
+        </div>
+      </div>
+
+      <!-- 5. 마케팅 -->
+      <div class="field-card" data-cat="digital">
+        <div class="field-card-top">
+          <div class="field-icon-wrap" style="background:rgba(231,76,60,.18);">📣</div>
+          <div>
+            <div class="field-name">마케팅</div>
+            <div class="field-count">전문가 78명</div>
+          </div>
+        </div>
+        <p class="field-desc">SNS 운영, 배달앱 키워드 최적화로 매출을 직접 끌어올리는 실전 전략</p>
         <div class="field-tags">
           <span class="field-tag">SNS 운영</span>
           <span class="field-tag">배달앱 최적화</span>
@@ -253,26 +313,138 @@
           <span class="field-tag">리뷰 관리</span>
         </div>
       </div>
-      <div class="field-card">
-        <div class="field-icon-wrap" style="background:rgba(142,68,173,.15);">💻</div>
-        <div class="field-name">DX 전환</div>
+
+      <!-- 6. IT·키오스크·배달앱 -->
+      <div class="field-card" data-cat="digital">
+        <div class="field-card-top">
+          <div class="field-icon-wrap" style="background:rgba(142,68,173,.18);">💻</div>
+          <div>
+            <div class="field-name">IT·키오스크·배달앱</div>
+            <div class="field-count">전문가 46명</div>
+          </div>
+        </div>
+        <p class="field-desc">POS·키오스크 도입, 배달앱 입점 설정부터 데이터 기반 운영 전략까지</p>
         <div class="field-tags">
-          <span class="field-tag">POS 시스템</span>
-          <span class="field-tag">키오스크</span>
+          <span class="field-tag">POS 도입</span>
+          <span class="field-tag">키오스크 설치</span>
+          <span class="field-tag">배달앱 입점</span>
           <span class="field-tag">데이터 분석</span>
-          <span class="field-tag">재고 관리</span>
         </div>
       </div>
-      <div class="field-card">
-        <div class="field-icon-wrap" style="background:rgba(39,174,96,.15);">🛡️</div>
-        <div class="field-name">위생·안전</div>
+
+      <!-- 7. 파이낸싱·금융 -->
+      <div class="field-card" data-cat="ops">
+        <div class="field-card-top">
+          <div class="field-icon-wrap" style="background:rgba(26,82,118,.25);">💳</div>
+          <div>
+            <div class="field-name">파이낸싱·금융</div>
+            <div class="field-count">전문가 39명</div>
+          </div>
+        </div>
+        <p class="field-desc">매장 운영 자금 조달, 대출 구조 설계, 카드 수수료 절감까지 자금 흐름 최적화</p>
         <div class="field-tags">
-          <span class="field-tag">HACCP</span>
-          <span class="field-tag">식품위생법</span>
-          <span class="field-tag">소방 안전</span>
-          <span class="field-tag">위생 교육</span>
+          <span class="field-tag">운전자금 대출</span>
+          <span class="field-tag">카드 수수료 절감</span>
+          <span class="field-tag">신용등급 관리</span>
+          <span class="field-tag">매출채권 담보</span>
         </div>
       </div>
+
+      <!-- 8. 인테리어·시설관리 -->
+      <div class="field-card" data-cat="ops">
+        <div class="field-card-top">
+          <div class="field-icon-wrap" style="background:rgba(52,73,94,.3);">🏗️</div>
+          <div>
+            <div class="field-name">인테리어·시설관리</div>
+            <div class="field-count">전문가 29명</div>
+          </div>
+        </div>
+        <p class="field-desc">매장 리뉴얼 비용 산정, 인테리어 업체 계약 검토, 시설 노후화 대응 전략</p>
+        <div class="field-tags">
+          <span class="field-tag">리뉴얼 기획</span>
+          <span class="field-tag">비용 산정</span>
+          <span class="field-tag">업체 계약 검토</span>
+          <span class="field-tag">시설 관리</span>
+        </div>
+      </div>
+
+      <!-- 9. 사회보험·4대보험 -->
+      <div class="field-card" data-cat="ops">
+        <div class="field-card-top">
+          <div class="field-icon-wrap" style="background:rgba(22,160,133,.18);">🔐</div>
+          <div>
+            <div class="field-name">사회보험·4대보험</div>
+            <div class="field-count">전문가 38명</div>
+          </div>
+        </div>
+        <p class="field-desc">사업주·직원 4대보험 신고 및 정산, 건강보험료 절감, 두루누리 지원금 신청</p>
+        <div class="field-tags">
+          <span class="field-tag">두루누리 지원</span>
+          <span class="field-tag">보험료 절감</span>
+          <span class="field-tag">고용보험</span>
+          <span class="field-tag">산재처리</span>
+        </div>
+      </div>
+
+      <!-- 10. 프랜차이즈·창업 -->
+      <div class="field-card" data-cat="startup">
+        <div class="field-card-top">
+          <div class="field-icon-wrap" style="background:rgba(211,84,0,.18);">🚀</div>
+          <div>
+            <div class="field-name">프랜차이즈·창업</div>
+            <div class="field-count">전문가 32명</div>
+          </div>
+        </div>
+        <p class="field-desc">창업 입지 분석, 프랜차이즈 계약서 검토, 초기 자금 조달 전략 설계</p>
+        <div class="field-tags">
+          <span class="field-tag">입지 분석</span>
+          <span class="field-tag">가맹 계약 검토</span>
+          <span class="field-tag">창업 자금</span>
+          <span class="field-tag">손익분기 분석</span>
+        </div>
+      </div>
+
+      <!-- 11. 경영 컨설팅 -->
+      <div class="field-card" data-cat="startup">
+        <div class="field-card-top">
+          <div class="field-icon-wrap" style="background:rgba(41,128,185,.18);">📊</div>
+          <div>
+            <div class="field-name">경영 컨설팅</div>
+            <div class="field-count">전문가 44명</div>
+          </div>
+        </div>
+        <p class="field-desc">매출 분석, 원가 구조 개선, 메뉴 엔지니어링까지 종합적인 경영 전략 수립</p>
+        <div class="field-tags">
+          <span class="field-tag">매출 분석</span>
+          <span class="field-tag">원가 절감</span>
+          <span class="field-tag">메뉴 엔지니어링</span>
+          <span class="field-tag">경영 진단</span>
+        </div>
+      </div>
+
+      <!-- 12. 정부지원·보조금 -->
+      <div class="field-card" data-cat="startup">
+        <div class="field-card-top">
+          <div class="field-icon-wrap" style="background:rgba(39,174,96,.18);">🏛️</div>
+          <div>
+            <div class="field-name">정부지원·보조금</div>
+            <div class="field-count">전문가 27명</div>
+          </div>
+        </div>
+        <p class="field-desc">소상공인 정책자금, 창업 보조금, 소진공 지원 사업 신청 대행 및 컨설팅</p>
+        <div class="field-tags">
+          <span class="field-tag">정책자금 신청</span>
+          <span class="field-tag">창업 보조금</span>
+          <span class="field-tag">소진공 지원</span>
+          <span class="field-tag">저금리 융자</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 전문가 수 요약 -->
+    <div class="fields-count-bar reveal">
+      <strong>총 574명</strong>의 검증된 전문가가 여러분의 질문을 기다리고 있습니다 🙌
     </div>
   </div>
 </section>
@@ -451,7 +623,7 @@
       <p class="section-sub">14일 무료 체험 · 신용카드 불필요 · 언제든 해지 가능</p>
       <div class="final-cta-btns">
         <a href="signup.html" class="btn btn-white">무료 체험 시작하기 →</a>
-        <a href="b-01-signup.html" class="btn btn-outline" style="font-size:15px;">전문가로 등록하기</a>
+        <a href="signup.html" class="btn btn-outline" style="font-size:15px;">전문가로 등록하기</a>
       </div>
       <div class="final-trust">
         <div class="final-trust-item">✅ <span>가입 소상공인 2,000+</span></div>
@@ -483,30 +655,17 @@
       <div class="footer-col">
         <h4>서비스</h4>
         <ul>
-          <li><a href="#pain">서비스 소개</a></li>
-          <li><a href="#fields">전문가 분야</a></li>
-          <li><a href="#pricing">구독 플랜</a></li>
-          <li><a href="b-01-signup.html">전문가 등록</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>전문가 포털</h4>
-        <ul>
-          <li><a href="b-01-signup.html">전문가 가입·인증</a></li>
-          <li><a href="b-02-home.html">전문가 홈</a></li>
-          <li><a href="b-03-questions.html">질문 목록</a></li>
-          <li><a href="b-04-question-detail.html">질문 상세·수락</a></li>
-          <li><a href="b-05-chat.html">채팅 상담방</a></li>
-          <li><a href="b-06-schedule.html">일정 관리</a></li>
-          <li><a href="b-07-profile-edit.html">내 프로필</a></li>
-          <li><a href="b-08-settlement.html">정산 대시보드</a></li>
+          <li><a href="#">서비스 소개</a></li>
+          <li><a href="#">전문가 분야</a></li>
+          <li><a href="#">구독 플랜</a></li>
+          <li><a href="#">전문가 등록</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h4>고객지원</h4>
         <ul>
           <li><a href="#">공지사항</a></li>
-          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#">FAQ</a></li>
           <li><a href="#">1:1 문의</a></li>
           <li><a href="#">사용 가이드</a></li>
         </ul>

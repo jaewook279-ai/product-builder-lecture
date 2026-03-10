@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>외식전문가 관리자 — 소상공인 관리 (C-02)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Gmarket+Sans:wght@300;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div id="sidebarOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99;"></div>
+
+<aside class="sidebar">
+  <a href="index.html" class="sidebar-logo">
+    <div class="sidebar-logo-icon">⚙️</div>
+    <div><div class="sidebar-logo-text">외식전문가</div><div class="sidebar-logo-sub">관리자 포털</div><span class="admin-badge-pill">ADMIN</span></div>
+  </a>
+  <nav class="sidebar-nav">
+    <div class="nav-label">개요</div>
+    <a href="c-01-home.html" class="nav-item"><span class="nav-icon">🏠</span> 관리자 홈</a>
+    <div class="nav-label">회원</div>
+    <a href="c-02-members.html" class="nav-item active"><span class="nav-icon">👥</span> 소상공인 관리</a>
+    <a href="c-03-expert-review.html" class="nav-item"><span class="nav-icon">📋</span> 전문가 심사<span class="nav-badge warn">7</span></a>
+    <div class="nav-label">매칭</div>
+    <a href="c-04-matching.html" class="nav-item"><span class="nav-icon">🔗</span> 매칭 현황<span class="nav-badge">3</span></a>
+    <div class="nav-label">수익</div>
+    <a href="c-05-settlement.html" class="nav-item"><span class="nav-icon">💰</span> 정산 관리</a>
+    <div class="nav-label">통계</div>
+    <a href="c-06-stats.html" class="nav-item"><span class="nav-icon">📊</span> 플랫폼 통계</a>
+  </nav>
+  <div class="sidebar-footer"><a href="index.html">🌐 서비스 홈</a><a href="index.html">🚪 로그아웃</a></div>
+</aside>
+
+<main class="main">
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="hamburger-btn" id="hamburgerBtn">☰</button>
+      <div><div class="topbar-title">소상공인 관리</div><div class="topbar-sub">총 2,847명 · 유료 1,539명</div></div>
+    </div>
+    <div class="topbar-right">
+      <button class="btn btn-blue btn-sm" onclick="showToast('CSV 다운로드 중...')">📥 내보내기</button>
+      <div class="topbar-notif">🔔<div class="notif-dot"></div></div>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- 요약 -->
+    <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:20px;">
+      <div class="kpi-card blue"><div class="kpi-icon">👥</div><div class="kpi-label">전체 회원</div><div class="kpi-value">2,847</div><div class="kpi-change up">▲ 47 오늘</div></div>
+      <div class="kpi-card green"><div class="kpi-icon">💳</div><div class="kpi-label">유료 구독</div><div class="kpi-value">1,539</div><div class="kpi-change" style="color:var(--gray500);">54% 전환율</div></div>
+      <div class="kpi-card amber"><div class="kpi-icon">🆓</div><div class="kpi-label">무료(체험)</div><div class="kpi-value">1,308</div><div class="kpi-change up">▲ 12 오늘</div></div>
+      <div class="kpi-card purple"><div class="kpi-icon">🚫</div><div class="kpi-label">이용 정지</div><div class="kpi-value">14</div><div class="kpi-change down">▲ 2 이번 주</div></div>
+    </div>
+
+    <div class="card">
+      <div class="search-bar">
+        <input class="search-input" type="text" placeholder="🔍 이름, 이메일, 매장명 검색...">
+        <span class="filter-chip active">전체</span>
+        <span class="filter-chip">💳 유료</span>
+        <span class="filter-chip">🆓 무료</span>
+        <span class="filter-chip">🚫 정지</span>
+        <select class="form-select" style="width:auto;padding:8px 12px;font-size:13px;"><option>최근 가입순</option><option>이름순</option><option>매출순</option></select>
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th><input type="checkbox" id="selectAll"></th>
+              <th>회원</th>
+              <th>매장 정보</th>
+              <th>플랜</th>
+              <th>가입일</th>
+              <th>마지막 활동</th>
+              <th>상담 횟수</th>
+              <th>상태</th>
+              <th>액션</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="checkbox" class="row-check"></td>
+              <td>
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <div style="width:36px;height:36px;border-radius:10px;background:var(--light);display:flex;align-items:center;justify-content:center;font-size:18px;">👨‍🍳</div>
+                  <div><div style="font-weight:700;font-size:14px;">김철수</div><div style="font-size:12px;color:var(--gray500);">chul@example.com</div></div>
+                </div>
+              </td>
+              <td style="font-size:13px;">마포구 삼겹살집<br><span style="color:var(--gray500);">서울 마포구</span></td>
+              <td><span class="badge badge-purple">⭐ 스탠다드</span></td>
+              <td style="font-size:13px;">2025.08.12</td>
+              <td style="font-size:13px;color:var(--green);font-weight:700;">오늘</td>
+              <td style="font-weight:700;">23회</td>
+              <td><span class="badge badge-green">✓ 정상</span></td>
+              <td>
+                <div style="display:flex;gap:6px;">
+                  <button class="btn btn-secondary btn-sm" onclick="showToast('상세 정보 보기')">상세</button>
+                  <button class="btn btn-warn btn-sm" onclick="openSuspendModal('김철수')">정지</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" class="row-check"></td>
+              <td>
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <div style="width:36px;height:36px;border-radius:10px;background:var(--light);display:flex;align-items:center;justify-content:center;font-size:18px;">👩‍🍳</div>
+                  <div><div style="font-weight:700;font-size:14px;">박미영</div><div style="font-size:12px;color:var(--gray500);">miyoung@example.com</div></div>
+                </div>
+              </td>
+              <td style="font-size:13px;">강남구 카페<br><span style="color:var(--gray500);">서울 강남구</span></td>
+              <td><span class="badge badge-amber">🏅 프리미엄</span></td>
+              <td style="font-size:13px;">2025.06.03</td>
+              <td style="font-size:13px;">어제</td>
+              <td style="font-weight:700;">47회</td>
+              <td><span class="badge badge-green">✓ 정상</span></td>
+              <td><div style="display:flex;gap:6px;"><button class="btn btn-secondary btn-sm" onclick="showToast('상세 정보 보기')">상세</button><button class="btn btn-warn btn-sm" onclick="openSuspendModal('박미영')">정지</button></div></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" class="row-check"></td>
+              <td>
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <div style="width:36px;height:36px;border-radius:10px;background:var(--light);display:flex;align-items:center;justify-content:center;font-size:18px;">🧑‍🍳</div>
+                  <div><div style="font-weight:700;font-size:14px;">이동혁</div><div style="font-size:12px;color:var(--gray500);">donghyuk@example.com</div></div>
+                </div>
+              </td>
+              <td style="font-size:13px;">송파구 치킨집<br><span style="color:var(--gray500);">서울 송파구</span></td>
+              <td><span class="badge badge-blue">베이직</span></td>
+              <td style="font-size:13px;">2026.01.15</td>
+              <td style="font-size:13px;">3일 전</td>
+              <td style="font-weight:700;">8회</td>
+              <td><span class="badge badge-green">✓ 정상</span></td>
+              <td><div style="display:flex;gap:6px;"><button class="btn btn-secondary btn-sm" onclick="showToast('상세 정보 보기')">상세</button><button class="btn btn-warn btn-sm" onclick="openSuspendModal('이동혁')">정지</button></div></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" class="row-check"></td>
+              <td>
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <div style="width:36px;height:36px;border-radius:10px;background:var(--red-l);display:flex;align-items:center;justify-content:center;font-size:18px;">👨‍🍳</div>
+                  <div><div style="font-weight:700;font-size:14px;">최정민</div><div style="font-size:12px;color:var(--gray500);">jungmin@example.com</div></div>
+                </div>
+              </td>
+              <td style="font-size:13px;">종로구 한식당<br><span style="color:var(--gray500);">서울 종로구</span></td>
+              <td><span class="badge badge-gray">해지됨</span></td>
+              <td style="font-size:13px;">2025.03.22</td>
+              <td style="font-size:13px;color:var(--gray300);">14일 전</td>
+              <td style="font-weight:700;">3회</td>
+              <td><span class="badge badge-red">🚫 정지</span></td>
+              <td><div style="display:flex;gap:6px;"><button class="btn btn-secondary btn-sm" onclick="showToast('상세 정보 보기')">상세</button><button class="btn btn-success btn-sm" onclick="showToast('✅ 최정민 정지가 해제되었습니다.')">해제</button></div></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" class="row-check"></td>
+              <td>
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <div style="width:36px;height:36px;border-radius:10px;background:var(--light);display:flex;align-items:center;justify-content:center;font-size:18px;">👩‍🍳</div>
+                  <div><div style="font-weight:700;font-size:14px;">정수연</div><div style="font-size:12px;color:var(--gray500);">sooyeon@example.com</div></div>
+                </div>
+              </td>
+              <td style="font-size:13px;">용산구 일식집<br><span style="color:var(--gray500);">서울 용산구</span></td>
+              <td><span class="badge badge-purple">⭐ 스탠다드</span></td>
+              <td style="font-size:13px;">2026.02.28</td>
+              <td style="font-size:13px;">오늘</td>
+              <td style="font-weight:700;">5회</td>
+              <td><span class="badge badge-green">✓ 정상</span></td>
+              <td><div style="display:flex;gap:6px;"><button class="btn btn-secondary btn-sm" onclick="showToast('상세 정보 보기')">상세</button><button class="btn btn-warn btn-sm" onclick="openSuspendModal('정수연')">정지</button></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 페이지네이션 -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:16px;padding-top:16px;border-top:1px solid var(--gray100);">
+        <div style="font-size:13px;color:var(--gray500);">총 2,847명 중 1~20명 표시</div>
+        <div style="display:flex;gap:6px;">
+          <button class="btn btn-secondary btn-sm">‹ 이전</button>
+          <button class="btn btn-primary btn-sm">1</button>
+          <button class="btn btn-secondary btn-sm">2</button>
+          <button class="btn btn-secondary btn-sm">3</button>
+          <span style="padding:6px 8px;font-size:13px;">...</span>
+          <button class="btn btn-secondary btn-sm">143</button>
+          <button class="btn btn-secondary btn-sm">다음 ›</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- 정지 모달 -->
+<div class="modal-overlay" id="suspendModal">
+  <div class="modal-box">
+    <div class="modal-title">🚫 이용 정지 처리</div>
+    <div class="modal-sub" id="suspendTarget">해당 회원을 이용 정지합니다.</div>
+    <div class="form-group">
+      <label class="form-label">정지 사유</label>
+      <select class="form-select">
+        <option>허위 정보 기재</option><option>욕설·비방</option><option>환불 분쟁</option><option>사기 의심</option><option>기타</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">정지 기간</label>
+      <select class="form-select"><option>7일</option><option>30일</option><option>영구 정지</option></select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">관리자 메모</label>
+      <textarea class="form-textarea" placeholder="정지 사유 상세 입력..."></textarea>
+    </div>
+    <div style="display:flex;gap:10px;">
+      <button class="btn btn-secondary" style="flex:1;justify-content:center;" onclick="document.getElementById('suspendModal').classList.remove('open')">취소</button>
+      <button class="btn btn-danger" style="flex:1;justify-content:center;" onclick="document.getElementById('suspendModal').classList.remove('open');showToast('🚫 이용 정지 처리 완료')">정지 처리</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="admin.js"></script>
+<script>
+function openSuspendModal(name) {
+  document.getElementById('suspendTarget').textContent = name + ' 회원을 이용 정지합니다.';
+  document.getElementById('suspendModal').classList.add('open');
+}
+function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2800); }
+</script>
+</body>
+</html>

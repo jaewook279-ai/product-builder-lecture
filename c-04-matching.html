@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>외식전문가 관리자 — 매칭 현황 (C-04)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Gmarket+Sans:wght@300;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div id="sidebarOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99;"></div>
+
+<aside class="sidebar">
+  <a href="index.html" class="sidebar-logo">
+    <div class="sidebar-logo-icon">⚙️</div>
+    <div><div class="sidebar-logo-text">외식전문가</div><div class="sidebar-logo-sub">관리자 포털</div><span class="admin-badge-pill">ADMIN</span></div>
+  </a>
+  <nav class="sidebar-nav">
+    <div class="nav-label">개요</div>
+    <a href="c-01-home.html" class="nav-item"><span class="nav-icon">🏠</span> 관리자 홈</a>
+    <div class="nav-label">회원</div>
+    <a href="c-02-members.html" class="nav-item"><span class="nav-icon">👥</span> 소상공인 관리</a>
+    <a href="c-03-expert-review.html" class="nav-item"><span class="nav-icon">📋</span> 전문가 심사<span class="nav-badge warn">7</span></a>
+    <div class="nav-label">매칭</div>
+    <a href="c-04-matching.html" class="nav-item active"><span class="nav-icon">🔗</span> 매칭 현황<span class="nav-badge">3</span></a>
+    <div class="nav-label">수익</div>
+    <a href="c-05-settlement.html" class="nav-item"><span class="nav-icon">💰</span> 정산 관리</a>
+    <div class="nav-label">통계</div>
+    <a href="c-06-stats.html" class="nav-item"><span class="nav-icon">📊</span> 플랫폼 통계</a>
+  </nav>
+  <div class="sidebar-footer"><a href="index.html">🌐 서비스 홈</a><a href="index.html">🚪 로그아웃</a></div>
+</aside>
+
+<main class="main">
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="hamburger-btn" id="hamburgerBtn">☰</button>
+      <div><div class="topbar-title">매칭 현황</div><div class="topbar-sub">전체 매칭 · 수동 재배정 · 분쟁 처리</div></div>
+    </div>
+    <div class="topbar-right">
+      <button class="btn btn-blue btn-sm" onclick="showToast('보고서 생성 중...')">📊 보고서</button>
+      <div class="topbar-notif">🔔<div class="notif-dot"></div></div>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- KPI -->
+    <div class="kpi-grid" style="margin-bottom:20px;">
+      <div class="kpi-card blue"><div class="kpi-icon">🔗</div><div class="kpi-label">전체 매칭</div><div class="kpi-value">1,204</div><div class="kpi-change up">▲ 23 오늘</div></div>
+      <div class="kpi-card green"><div class="kpi-icon">✅</div><div class="kpi-label">완료 상담</div><div class="kpi-value">938</div><div class="kpi-change" style="color:var(--gray500);">78% 완료율</div></div>
+      <div class="kpi-card amber"><div class="kpi-icon">⏳</div><div class="kpi-label">진행 중</div><div class="kpi-value">233</div><div class="kpi-change up">▲ 5 신규</div></div>
+      <div class="kpi-card purple"><div class="kpi-icon">⚠️</div><div class="kpi-label">분쟁 처리</div><div class="kpi-value">3</div><div class="kpi-change down">즉시 처리 필요</div></div>
+    </div>
+
+    <!-- 탭 -->
+    <div class="tab-nav" style="margin-bottom:20px;">
+      <button class="tab-btn active" data-tab="all">전체 매칭</button>
+      <button class="tab-btn" data-tab="reassign">수동 재배정</button>
+      <button class="tab-btn" data-tab="dispute">분쟁 처리 <span style="background:#EF4444;color:#fff;font-size:10px;padding:1px 6px;border-radius:100px;margin-left:4px;">3</span></button>
+    </div>
+
+    <!-- 전체 매칭 탭 -->
+    <div data-tab-content="all">
+      <div class="card">
+        <div class="search-bar">
+          <input class="search-input" type="text" placeholder="🔍 소상공인명, 전문가명, 매칭 ID 검색...">
+          <span class="filter-chip active">전체</span>
+          <span class="filter-chip">⏳ 진행 중</span>
+          <span class="filter-chip">✅ 완료</span>
+          <span class="filter-chip">❌ 취소됨</span>
+          <select class="form-select" style="width:auto;padding:8px 12px;font-size:13px;"><option>최신순</option><option>분야별</option><option>전문가별</option></select>
+        </div>
+
+        <div style="overflow-x:auto;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>매칭 ID</th>
+                <th>소상공인</th>
+                <th>전문가</th>
+                <th>분야</th>
+                <th>매칭 일시</th>
+                <th>상태</th>
+                <th>평점</th>
+                <th>액션</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-size:12px;color:var(--gray500);font-family:monospace;">#M-2847</td>
+                <td>
+                  <div style="font-weight:700;font-size:14px;">김철수</div>
+                  <div style="font-size:12px;color:var(--gray500);">마포구 삼겹살집</div>
+                </td>
+                <td>
+                  <div style="font-weight:700;font-size:14px;">박상훈 전문가</div>
+                  <div style="font-size:12px;color:var(--gray500);">위생·안전 전문</div>
+                </td>
+                <td><span class="badge badge-blue">위생</span></td>
+                <td style="font-size:13px;">2026.03.10 14:23</td>
+                <td><span class="badge badge-green">✓ 완료</span></td>
+                <td style="font-weight:700;color:var(--amber);">★ 4.8</td>
+                <td><button class="btn btn-secondary btn-sm" onclick="showToast('매칭 상세 보기')">상세</button></td>
+              </tr>
+              <tr>
+                <td style="font-size:12px;color:var(--gray500);font-family:monospace;">#M-2846</td>
+                <td>
+                  <div style="font-weight:700;font-size:14px;">박미영</div>
+                  <div style="font-size:12px;color:var(--gray500);">강남구 카페</div>
+                </td>
+                <td>
+                  <div style="font-weight:700;font-size:14px;">이수진 전문가</div>
+                  <div style="font-size:12px;color:var(--gray500);">마케팅·SNS 전문</div>
+                </td>
+                <td><span class="badge badge-purple">마케팅</span></td>
+                <td style="font-size:13px;">2026.03.10 11:05</td>
+                <td><span class="badge badge-amber">⏳ 진행 중</span></td>
+                <td style="color:var(--gray300);">—</td>
+                <td>
+                  <div style="display:flex;gap:6px;">
+                    <button class="btn btn-secondary btn-sm" onclick="showToast('매칭 상세 보기')">상세</button>
+                    <button class="btn btn-warn btn-sm" onclick="openReassignModal('#M-2846','박미영')">재배정</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td style="font-size:12px;color:var(--gray500);font-family:monospace;">#M-2845</td>
+                <td>
+                  <div style="font-weight:700;font-size:14px;">이동혁</div>
+                  <div style="font-size:12px;color:var(--gray500);">송파구 치킨집</div>
+                </td>
+                <td>
+                  <div style="font-weight:700;font-size:14px;">최민준 전문가</div>
+                  <div style="font-size:12px;color:var(--gray500);">원가·수익 전문</div>
+                </td>
+                <td><span class="badge badge-green">원가</span></td>
+                <td style="font-size:13px;">2026.03.09 16:44</td>
+                <td><span class="badge badge-green">✓ 완료</span></td>
+                <td style="font-weight:700;color:var(--amber);">★ 5.0</td>
+                <td><button class="btn btn-secondary btn-sm" onclick="showToast('매칭 상세 보기')">상세</button></td>
+              </tr>
+              <tr>
+                <td style="font-size:12px;color:var(--gray500);font-family:monospace;">#M-2844</td>
+                <td>
+                  <div style="font-weight:700;font-size:14px;">정수연</div>
+                  <div style="font-size:12px;color:var(--gray500);">용산구 일식집</div>
+                </td>
+                <td>
+                  <div style="font-weight:700;font-size:14px;">김태영 전문가</div>
+                  <div style="font-size:12px;color:var(--gray500);">메뉴개발 전문</div>
+                </td>
+                <td><span class="badge badge-orange">메뉴</span></td>
+                <td style="font-size:13px;">2026.03.09 09:12</td>
+                <td><span class="badge badge-red">⚠️ 분쟁</span></td>
+                <td style="color:var(--gray300);">—</td>
+                <td>
+                  <div style="display:flex;gap:6px;">
+                    <button class="btn btn-secondary btn-sm" onclick="showToast('상세 보기')">상세</button>
+                    <button class="btn btn-danger btn-sm" onclick="openDisputeModal('#M-2844')">분쟁처리</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td style="font-size:12px;color:var(--gray500);font-family:monospace;">#M-2843</td>
+                <td>
+                  <div style="font-weight:700;font-size:14px;">최정민</div>
+                  <div style="font-size:12px;color:var(--gray500);">종로구 한식당</div>
+                </td>
+                <td>
+                  <div style="font-weight:700;font-size:14px;">장혜원 전문가</div>
+                  <div style="font-size:12px;color:var(--gray500);">홀·서비스 전문</div>
+                </td>
+                <td><span class="badge badge-blue">서비스</span></td>
+                <td style="font-size:13px;">2026.03.08 14:30</td>
+                <td><span class="badge badge-gray">❌ 취소</span></td>
+                <td style="color:var(--gray300);">—</td>
+                <td><button class="btn btn-secondary btn-sm" onclick="showToast('취소 사유 보기')">사유</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:16px;padding-top:16px;border-top:1px solid var(--gray100);">
+          <div style="font-size:13px;color:var(--gray500);">총 1,204건 중 1~20건 표시</div>
+          <div style="display:flex;gap:6px;">
+            <button class="btn btn-secondary btn-sm">‹ 이전</button>
+            <button class="btn btn-primary btn-sm">1</button>
+            <button class="btn btn-secondary btn-sm">2</button>
+            <button class="btn btn-secondary btn-sm">3</button>
+            <span style="padding:6px 8px;font-size:13px;">...</span>
+            <button class="btn btn-secondary btn-sm">61</button>
+            <button class="btn btn-secondary btn-sm">다음 ›</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 수동 재배정 탭 -->
+    <div data-tab-content="reassign" style="display:none;">
+      <div class="card" style="margin-bottom:20px;">
+        <div class="card-title">🔄 수동 재배정 대기</div>
+        <p style="font-size:14px;color:var(--gray500);margin-bottom:16px;">자동 매칭에 실패하거나 전문가가 수락을 거부한 케이스입니다.</p>
+
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div style="border:1.5px solid var(--amber-l);border-radius:var(--radius-sm);padding:16px;background:var(--amber-l);">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+              <div>
+                <span style="font-family:monospace;font-size:12px;color:var(--gray500);">#M-2841</span>
+                <span class="badge badge-amber" style="margin-left:8px;">재배정 대기 2일</span>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="openReassignModal('#M-2841','한지수')">전문가 배정</button>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <div>
+                <div style="font-size:12px;color:var(--gray500);margin-bottom:4px;">소상공인</div>
+                <div style="font-weight:700;">한지수 · 마포구 파스타집</div>
+                <div style="font-size:12px;color:var(--gray500);">메뉴개발 상담 요청</div>
+              </div>
+              <div>
+                <div style="font-size:12px;color:var(--gray500);margin-bottom:4px;">거부 이력</div>
+                <div style="font-size:13px;">김○○ 전문가 — 일정 불가<br>이○○ 전문가 — 전문 분야 미일치</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="border:1.5px solid var(--red-l);border-radius:var(--radius-sm);padding:16px;background:var(--red-l);">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+              <div>
+                <span style="font-family:monospace;font-size:12px;color:var(--gray500);">#M-2839</span>
+                <span class="badge badge-red" style="margin-left:8px;">재배정 대기 5일 ⚠️</span>
+              </div>
+              <button class="btn btn-danger btn-sm" onclick="openReassignModal('#M-2839','오세민')">긴급 배정</button>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <div>
+                <div style="font-size:12px;color:var(--gray500);margin-bottom:4px;">소상공인</div>
+                <div style="font-weight:700;">오세민 · 강동구 중식당</div>
+                <div style="font-size:12px;color:var(--gray500);">위생 점검 긴급 상담</div>
+              </div>
+              <div>
+                <div style="font-size:12px;color:var(--gray500);margin-bottom:4px;">거부 이력</div>
+                <div style="font-size:13px;">박○○ 전문가 — 거부<br>최○○ 전문가 — 거부<br>강○○ 전문가 — 무응답</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 가용 전문가 -->
+      <div class="card">
+        <div class="card-title">👨‍💼 지금 매칭 가능한 전문가</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+          <div style="border:1px solid var(--gray200);border-radius:var(--radius-sm);padding:14px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+              <div style="width:40px;height:40px;border-radius:50%;background:var(--light);display:flex;align-items:center;justify-content:center;font-size:20px;">👨‍🍳</div>
+              <div><div style="font-weight:700;font-size:14px;">박상훈</div><div style="font-size:12px;color:var(--green);font-weight:700;">● 온라인</div></div>
+            </div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;">
+              <span class="badge badge-blue">위생</span>
+              <span class="badge badge-green">안전</span>
+            </div>
+            <div style="font-size:12px;color:var(--gray500);margin-bottom:10px;">오늘 가능 슬롯 3개 · ★ 4.9</div>
+            <button class="btn btn-primary btn-sm" style="width:100%;justify-content:center;" onclick="showToast('박상훈 전문가에게 배정 요청 전송')">배정 요청</button>
+          </div>
+          <div style="border:1px solid var(--gray200);border-radius:var(--radius-sm);padding:14px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+              <div style="width:40px;height:40px;border-radius:50%;background:var(--purple-l);display:flex;align-items:center;justify-content:center;font-size:20px;">👩‍🍳</div>
+              <div><div style="font-weight:700;font-size:14px;">이수진</div><div style="font-size:12px;color:var(--green);font-weight:700;">● 온라인</div></div>
+            </div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;">
+              <span class="badge badge-purple">마케팅</span>
+              <span class="badge badge-orange">SNS</span>
+            </div>
+            <div style="font-size:12px;color:var(--gray500);margin-bottom:10px;">오늘 가능 슬롯 2개 · ★ 4.7</div>
+            <button class="btn btn-primary btn-sm" style="width:100%;justify-content:center;" onclick="showToast('이수진 전문가에게 배정 요청 전송')">배정 요청</button>
+          </div>
+          <div style="border:1px solid var(--gray200);border-radius:var(--radius-sm);padding:14px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+              <div style="width:40px;height:40px;border-radius:50%;background:var(--green-l);display:flex;align-items:center;justify-content:center;font-size:20px;">🧑‍🍳</div>
+              <div><div style="font-weight:700;font-size:14px;">최민준</div><div style="font-size:12px;color:var(--gray300);">● 오프라인</div></div>
+            </div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;">
+              <span class="badge badge-green">원가</span>
+              <span class="badge badge-blue">수익</span>
+            </div>
+            <div style="font-size:12px;color:var(--gray500);margin-bottom:10px;">내일 가능 슬롯 4개 · ★ 5.0</div>
+            <button class="btn btn-secondary btn-sm" style="width:100%;justify-content:center;" onclick="showToast('내일 일정으로 배정 요청 전송')">내일 배정</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 분쟁 처리 탭 -->
+    <div data-tab-content="dispute" style="display:none;">
+      <div style="display:flex;flex-direction:column;gap:16px;">
+
+        <div class="card" style="border-left:4px solid var(--red);">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;">
+            <div>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+                <span style="font-family:monospace;font-size:13px;color:var(--gray500);">#D-041</span>
+                <span class="badge badge-red">🔥 긴급</span>
+                <span style="font-size:12px;color:var(--gray500);">접수 3일 전</span>
+              </div>
+              <div style="font-size:16px;font-weight:700;margin-bottom:4px;">환불 요청 — 상담 품질 불만</div>
+              <div style="font-size:13px;color:var(--gray500);">소상공인 정수연 (용산구 일식집) vs 전문가 김태영</div>
+            </div>
+            <div style="display:flex;gap:8px;">
+              <button class="btn btn-secondary btn-sm" onclick="showToast('채팅 내역 열람')">채팅 열람</button>
+              <button class="btn btn-danger btn-sm" onclick="openDisputeModal('#D-041')">분쟁 처리</button>
+            </div>
+          </div>
+          <div style="background:var(--red-l);border-radius:var(--radius-sm);padding:12px;font-size:13px;color:var(--gray700);">
+            <strong>소상공인 주장:</strong> 전문가가 메뉴 개발 상담 중 전문 지식 없이 일반적인 조언만 했으며, 약속한 레시피 제공을 하지 않았습니다. 전액 환불을 요청합니다.
+          </div>
+          <div style="display:flex;gap:20px;margin-top:12px;font-size:13px;">
+            <div><span style="color:var(--gray500);">상담 금액</span> <strong style="margin-left:6px;">₩120,000</strong></div>
+            <div><span style="color:var(--gray500);">매칭 ID</span> <strong style="margin-left:6px;">#M-2844</strong></div>
+            <div><span style="color:var(--gray500);">상담 날짜</span> <strong style="margin-left:6px;">2026.03.09</strong></div>
+          </div>
+        </div>
+
+        <div class="card" style="border-left:4px solid var(--amber);">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;">
+            <div>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+                <span style="font-family:monospace;font-size:13px;color:var(--gray500);">#D-040</span>
+                <span class="badge badge-amber">⚠️ 검토 중</span>
+                <span style="font-size:12px;color:var(--gray500);">접수 5일 전</span>
+              </div>
+              <div style="font-size:16px;font-weight:700;margin-bottom:4px;">무단 개인 연락처 교환 신고</div>
+              <div style="font-size:13px;color:var(--gray500);">소상공인 한지수 (마포구 파스타집) → 전문가 이○○</div>
+            </div>
+            <div style="display:flex;gap:8px;">
+              <button class="btn btn-secondary btn-sm" onclick="showToast('신고 내역 보기')">신고 내역</button>
+              <button class="btn btn-warn btn-sm" onclick="openDisputeModal('#D-040')">조치</button>
+            </div>
+          </div>
+          <div style="background:var(--amber-l);border-radius:var(--radius-sm);padding:12px;font-size:13px;color:var(--gray700);">
+            <strong>신고 내용:</strong> 전문가가 플랫폼 외부 채널로 상담을 유도하며 개인 카카오톡 ID를 공유했습니다. 이용약관 제15조 위반 사항입니다.
+          </div>
+          <div style="display:flex;gap:20px;margin-top:12px;font-size:13px;">
+            <div><span style="color:var(--gray500);">신고 유형</span> <strong style="margin-left:6px;">이용약관 위반</strong></div>
+            <div><span style="color:var(--gray500);">매칭 ID</span> <strong style="margin-left:6px;">#M-2838</strong></div>
+          </div>
+        </div>
+
+        <div class="card" style="border-left:4px solid var(--gray300);">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;">
+            <div>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+                <span style="font-family:monospace;font-size:13px;color:var(--gray500);">#D-039</span>
+                <span class="badge badge-blue">📄 증거 수집 중</span>
+                <span style="font-size:12px;color:var(--gray500);">접수 7일 전</span>
+              </div>
+              <div style="font-size:16px;font-weight:700;margin-bottom:4px;">상담 시간 미준수 분쟁</div>
+              <div style="font-size:13px;color:var(--gray500);">소상공인 오세민 (강동구 중식당) vs 전문가 장○○</div>
+            </div>
+            <div style="display:flex;gap:8px;">
+              <button class="btn btn-secondary btn-sm" onclick="showToast('증거 자료 보기')">자료 보기</button>
+              <button class="btn btn-secondary btn-sm" onclick="openDisputeModal('#D-039')">조치</button>
+            </div>
+          </div>
+          <div style="background:var(--gray100);border-radius:var(--radius-sm);padding:12px;font-size:13px;color:var(--gray700);">
+            <strong>분쟁 내용:</strong> 약속된 60분 상담 중 전문가가 40분 후 연결을 일방적으로 종료했습니다. 부분 환불(30%) 요청 중입니다.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- 재배정 모달 -->
+<div class="modal-overlay" id="reassignModal">
+  <div class="modal-box">
+    <div class="modal-title">🔄 전문가 수동 재배정</div>
+    <div class="modal-sub" id="reassignTarget">매칭에 새 전문가를 배정합니다.</div>
+    <div class="form-group">
+      <label class="form-label">재배정 전문가 선택</label>
+      <select class="form-select">
+        <option>박상훈 — 위생·안전 (★4.9, 오늘 가능)</option>
+        <option>이수진 — 마케팅·SNS (★4.7, 오늘 가능)</option>
+        <option>최민준 — 원가·수익 (★5.0, 내일 가능)</option>
+        <option>장혜원 — 홀·서비스 (★4.6, 내일 가능)</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">재배정 사유</label>
+      <select class="form-select">
+        <option>전문가 수락 거부</option>
+        <option>전문가 무응답</option>
+        <option>고객 요청</option>
+        <option>전문 분야 미일치</option>
+        <option>일정 충돌</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">관리자 메모</label>
+      <textarea class="form-textarea" placeholder="재배정 사유 상세 입력..."></textarea>
+    </div>
+    <div style="display:flex;gap:10px;">
+      <button class="btn btn-secondary" style="flex:1;justify-content:center;" onclick="document.getElementById('reassignModal').classList.remove('open')">취소</button>
+      <button class="btn btn-primary" style="flex:1;justify-content:center;" onclick="document.getElementById('reassignModal').classList.remove('open');showToast('✅ 재배정 요청이 전송되었습니다.')">재배정 요청</button>
+    </div>
+  </div>
+</div>
+
+<!-- 분쟁 처리 모달 -->
+<div class="modal-overlay" id="disputeModal">
+  <div class="modal-box" style="width:540px;">
+    <div class="modal-title">⚖️ 분쟁 처리</div>
+    <div class="modal-sub" id="disputeTarget">분쟁 사례를 검토하고 조치를 취합니다.</div>
+    <div class="form-group">
+      <label class="form-label">처리 유형</label>
+      <select class="form-select">
+        <option>전액 환불 — 소상공인 귀책 없음</option>
+        <option>부분 환불 (50%) — 쌍방 과실</option>
+        <option>환불 거부 — 전문가 정상 이행</option>
+        <option>전문가 경고 조치</option>
+        <option>전문가 이용 정지</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">처리 결과 메모</label>
+      <textarea class="form-textarea" placeholder="처리 결과 및 사유를 입력하세요..."></textarea>
+    </div>
+    <div style="background:var(--amber-l);border-radius:var(--radius-sm);padding:12px;margin-bottom:16px;font-size:13px;color:var(--amber);font-weight:600;">
+      ⚠️ 처리 결과는 양측 모두에게 이메일로 발송됩니다.
+    </div>
+    <div style="display:flex;gap:10px;">
+      <button class="btn btn-secondary" style="flex:1;justify-content:center;" onclick="document.getElementById('disputeModal').classList.remove('open')">취소</button>
+      <button class="btn btn-danger" style="flex:1;justify-content:center;" onclick="document.getElementById('disputeModal').classList.remove('open');showToast('⚖️ 분쟁 처리가 완료되었습니다.')">처리 완료</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="admin.js"></script>
+<script>
+function openReassignModal(id, name) {
+  document.getElementById('reassignTarget').textContent = id + ' — ' + name + ' 소상공인의 매칭에 새 전문가를 배정합니다.';
+  document.getElementById('reassignModal').classList.add('open');
+}
+function openDisputeModal(id) {
+  document.getElementById('disputeTarget').textContent = id + ' 분쟁 사례를 검토하고 조치를 취합니다.';
+  document.getElementById('disputeModal').classList.add('open');
+}
+function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2800); }
+</script>
+</body>
+</html>

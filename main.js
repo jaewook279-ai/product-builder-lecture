@@ -123,6 +123,31 @@ if (toggleSwitch) {
     });
 }
 
+// Expert Fields Filtering
+function filterFields(cat, btn) {
+    // Update active button
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    // Filter cards
+    document.querySelectorAll('.field-card').forEach(card => {
+        if (cat === 'all' || card.dataset.cat === cat) {
+            card.classList.remove('hidden');
+            card.style.animation = 'fadeUp 0.35s ease both';
+        } else {
+            card.classList.add('hidden');
+        }
+    });
+}
+
+// Attach filter listeners
+document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const category = btn.getAttribute('data-filter');
+        filterFields(category, btn);
+    });
+});
+
 // Smooth Scroll for Anchor Links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {

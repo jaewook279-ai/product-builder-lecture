@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>외식전문가 관리자 — 전문가 심사 (C-03)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Gmarket+Sans:wght@300;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div id="sidebarOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99;"></div>
+
+<aside class="sidebar">
+  <a href="index.html" class="sidebar-logo">
+    <div class="sidebar-logo-icon">⚙️</div>
+    <div><div class="sidebar-logo-text">외식전문가</div><div class="sidebar-logo-sub">관리자 포털</div><span class="admin-badge-pill">ADMIN</span></div>
+  </a>
+  <nav class="sidebar-nav">
+    <div class="nav-label">개요</div>
+    <a href="c-01-home.html" class="nav-item"><span class="nav-icon">🏠</span> 관리자 홈</a>
+    <div class="nav-label">회원</div>
+    <a href="c-02-members.html" class="nav-item"><span class="nav-icon">👥</span> 소상공인 관리</a>
+    <a href="c-03-expert-review.html" class="nav-item active"><span class="nav-icon">📋</span> 전문가 심사<span class="nav-badge warn">7</span></a>
+    <div class="nav-label">매칭</div>
+    <a href="c-04-matching.html" class="nav-item"><span class="nav-icon">🔗</span> 매칭 현황<span class="nav-badge">3</span></a>
+    <div class="nav-label">수익</div>
+    <a href="c-05-settlement.html" class="nav-item"><span class="nav-icon">💰</span> 정산 관리</a>
+    <div class="nav-label">통계</div>
+    <a href="c-06-stats.html" class="nav-item"><span class="nav-icon">📊</span> 플랫폼 통계</a>
+  </nav>
+  <div class="sidebar-footer"><a href="index.html">🌐 서비스 홈</a><a href="index.html">🚪 로그아웃</a></div>
+</aside>
+
+<main class="main">
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="hamburger-btn" id="hamburgerBtn">☰</button>
+      <div><div class="topbar-title">전문가 심사</div><div class="topbar-sub">가입 신청 검토 및 자격증 확인</div></div>
+    </div>
+    <div class="topbar-right">
+      <span class="badge badge-amber" style="font-size:13px;padding:6px 14px;">⏳ 심사 대기 7명</span>
+      <div class="topbar-notif">🔔<div class="notif-dot"></div></div>
+    </div>
+  </header>
+
+  <div class="content">
+    <div style="display:grid;grid-template-columns:360px 1fr;gap:20px;align-items:start;">
+
+      <!-- 신청 목록 -->
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div style="padding:16px;border-bottom:1px solid var(--gray200);background:var(--gray50);">
+          <div style="font-size:15px;font-weight:700;margin-bottom:10px;">📋 신청 목록</div>
+          <div class="tab-nav" style="margin-bottom:0;">
+            <button class="tab-btn active" style="font-size:12px;padding:6px 12px;">대기 (7)</button>
+            <button class="tab-btn" style="font-size:12px;padding:6px 12px;">승인 (142)</button>
+            <button class="tab-btn" style="font-size:12px;padding:6px 12px;">반려 (18)</button>
+          </div>
+        </div>
+
+        <div id="applicantList" style="overflow-y:auto;max-height:calc(100vh - 240px);">
+          <!-- 신청 카드들 -->
+          <div class="applicant-item active" onclick="selectApplicant(this,0)" style="padding:14px 16px;border-bottom:1px solid var(--gray100);cursor:pointer;background:var(--admin-l);border-left:3px solid var(--admin);">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="width:42px;height:42px;border-radius:12px;background:var(--amber-l);display:flex;align-items:center;justify-content:center;font-size:22px;">👨‍💼</div>
+              <div style="flex:1;">
+                <div style="font-size:14px;font-weight:700;">이노무 노무사</div>
+                <div style="font-size:12px;color:var(--gray500);">👥 노무 · 경력 5년</div>
+                <div style="display:flex;gap:5px;margin-top:4px;"><span class="badge badge-amber" style="font-size:10px;">⏳ 심사중</span><span style="font-size:11px;color:var(--gray500);">23분 전</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="applicant-item" onclick="selectApplicant(this,1)" style="padding:14px 16px;border-bottom:1px solid var(--gray100);cursor:pointer;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="width:42px;height:42px;border-radius:12px;background:var(--light);display:flex;align-items:center;justify-content:center;font-size:22px;">👩‍💼</div>
+              <div style="flex:1;">
+                <div style="font-size:14px;font-weight:700;">박법무 변호사</div>
+                <div style="font-size:12px;color:var(--gray500);">⚖️ 법무 · 경력 8년</div>
+                <div style="display:flex;gap:5px;margin-top:4px;"><span class="badge badge-amber" style="font-size:10px;">⏳ 심사중</span><span style="font-size:11px;color:var(--gray500);">1시간 전</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="applicant-item" onclick="selectApplicant(this,2)" style="padding:14px 16px;border-bottom:1px solid var(--gray100);cursor:pointer;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="width:42px;height:42px;border-radius:12px;background:var(--green-l);display:flex;align-items:center;justify-content:center;font-size:22px;">👨‍💼</div>
+              <div style="flex:1;">
+                <div style="font-size:14px;font-weight:700;">최마케팅 컨설턴트</div>
+                <div style="font-size:12px;color:var(--gray500);">📣 마케팅 · 경력 6년</div>
+                <div style="display:flex;gap:5px;margin-top:4px;"><span class="badge badge-red" style="font-size:10px;">⚠ 서류 미비</span><span style="font-size:11px;color:var(--gray500);">3시간 전</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="applicant-item" onclick="selectApplicant(this,3)" style="padding:14px 16px;border-bottom:1px solid var(--gray100);cursor:pointer;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="width:42px;height:42px;border-radius:12px;background:var(--purple-l);display:flex;align-items:center;justify-content:center;font-size:22px;">👩‍💼</div>
+              <div style="flex:1;">
+                <div style="font-size:14px;font-weight:700;">정세무 세무사</div>
+                <div style="font-size:12px;color:var(--gray500);">💰 세무회계 · 경력 3년</div>
+                <div style="display:flex;gap:5px;margin-top:4px;"><span class="badge badge-amber" style="font-size:10px;">⏳ 심사중</span><span style="font-size:11px;color:var(--gray500);">어제</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 상세 심사 패널 -->
+      <div style="display:flex;flex-direction:column;gap:16px;" id="reviewPanel">
+
+        <!-- 신청자 정보 -->
+        <div class="card">
+          <div style="display:flex;align-items:flex-start;gap:16px;margin-bottom:16px;">
+            <div style="width:64px;height:64px;border-radius:16px;background:var(--amber-l);display:flex;align-items:center;justify-content:center;font-size:32px;">👨‍💼</div>
+            <div style="flex:1;">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
+                <div style="font-family:var(--font-display);font-size:20px;font-weight:700;">이노무 노무사</div>
+                <span class="badge badge-amber">⏳ 심사 대기</span>
+              </div>
+              <div style="font-size:14px;color:var(--gray500);">👥 노무 전문가 · 경력 5년 · 신청일: 2026.03.10 10:42</div>
+              <div style="display:flex;gap:10px;margin-top:10px;font-size:13px;">
+                <span>📧 lee.nomo@example.com</span>
+                <span>📱 010-2345-6789</span>
+              </div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding-top:16px;border-top:1px solid var(--gray100);">
+            <div style="background:var(--gray50);border-radius:var(--radius-sm);padding:12px;">
+              <div style="font-size:12px;color:var(--gray500);margin-bottom:4px;">전문 분야</div>
+              <div style="font-size:14px;font-weight:700;">👥 노무 · 근로계약, 4대보험, 퇴직금</div>
+            </div>
+            <div style="background:var(--gray50);border-radius:var(--radius-sm);padding:12px;">
+              <div style="font-size:12px;color:var(--gray500);margin-bottom:4px;">상담 방식</div>
+              <div style="font-size:14px;font-weight:700;">💬 채팅 + 📹 화상</div>
+            </div>
+            <div style="background:var(--gray50);border-radius:var(--radius-sm);padding:12px;">
+              <div style="font-size:12px;color:var(--gray500);margin-bottom:4px;">자격증 번호</div>
+              <div style="font-size:14px;font-weight:700;">공인노무사 제 34567호</div>
+            </div>
+            <div style="background:var(--gray50);border-radius:var(--radius-sm);padding:12px;">
+              <div style="font-size:12px;color:var(--gray500);margin-bottom:4px;">활동 지역</div>
+              <div style="font-size:14px;font-weight:700;">서울 전역 · 전국 비대면</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 자격증 검토 -->
+        <div class="card">
+          <div class="card-title">📜 자격증 서류 검토</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;align-items:center;gap:12px;padding:14px;border-radius:var(--radius-sm);border:1px solid var(--gray200);">
+              <div style="width:48px;height:48px;border-radius:12px;background:var(--amber-l);display:flex;align-items:center;justify-content:center;font-size:24px;">📄</div>
+              <div style="flex:1;">
+                <div style="font-size:14px;font-weight:700;">공인노무사_자격증.pdf</div>
+                <div style="font-size:12px;color:var(--gray500);">2.1MB · 2026.03.10 업로드</div>
+              </div>
+              <div style="display:flex;gap:6px;">
+                <button class="btn btn-secondary btn-sm" onclick="showToast('파일 보기')">👁 보기</button>
+                <button class="btn btn-success btn-sm" id="cert1Btn" onclick="verifyCert('cert1Btn','공인노무사 자격증')">✓ 확인</button>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;padding:14px;border-radius:var(--radius-sm);border:1px solid var(--gray200);">
+              <div style="width:48px;height:48px;border-radius:12px;background:var(--light);display:flex;align-items:center;justify-content:center;font-size:24px;">🗂️</div>
+              <div style="flex:1;">
+                <div style="font-size:14px;font-weight:700;">경력증명서_이노무법인.pdf</div>
+                <div style="font-size:12px;color:var(--gray500);">1.4MB · 2026.03.10 업로드</div>
+              </div>
+              <div style="display:flex;gap:6px;">
+                <button class="btn btn-secondary btn-sm" onclick="showToast('파일 보기')">👁 보기</button>
+                <button class="btn btn-success btn-sm" id="cert2Btn" onclick="verifyCert('cert2Btn','경력증명서')">✓ 확인</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 자격증 번호 조회 -->
+          <div style="background:var(--light);border-radius:var(--radius-sm);padding:14px;margin-top:12px;display:flex;align-items:center;justify-content:space-between;">
+            <div>
+              <div style="font-size:13px;font-weight:700;color:var(--blue);">🔍 자격증 번호 실시간 조회</div>
+              <div style="font-size:12px;color:var(--gray500);">공인노무사 제 34567호 · 한국공인노무사회</div>
+            </div>
+            <button class="btn btn-blue btn-sm" onclick="showToast('✅ 조회 완료: 정상 등록된 자격증입니다.')">조회하기</button>
+          </div>
+        </div>
+
+        <!-- 소개글 -->
+        <div class="card">
+          <div class="card-title">📝 신청자 자기소개</div>
+          <p style="font-size:14px;color:var(--gray700);line-height:1.8;">안녕하세요. 저는 5년간 외식업 소상공인의 노무 문제를 전문적으로 다루어온 공인노무사 이노무입니다. 근로계약서 작성부터 퇴직금 계산, 4대보험 신고까지 외식업에 특화된 실무 중심 상담을 제공합니다.</p>
+        </div>
+
+        <!-- 관리자 메모 및 승인/반려 -->
+        <div class="card" style="background:var(--gray50);border:1.5px solid var(--gray200);">
+          <div class="card-title">✍️ 심사 결과 처리</div>
+          <div class="form-group">
+            <label class="form-label">관리자 메모</label>
+            <textarea class="form-textarea" placeholder="심사 의견을 입력하세요 (신청자에게 전달되지 않는 내부 메모)"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">반려 사유 <span style="color:var(--gray500);font-weight:400;">(반려 시 필수)</span></label>
+            <select class="form-select">
+              <option>-</option>
+              <option>자격증 불일치</option>
+              <option>서류 미비</option>
+              <option>자격증 만료</option>
+              <option>경력 부족</option>
+              <option>기타</option>
+            </select>
+          </div>
+          <div style="display:flex;gap:10px;">
+            <button class="btn btn-danger" style="flex:1;justify-content:center;" onclick="showToast('❌ 반려 처리되었습니다. 신청자에게 이메일이 발송됩니다.')">✗ 반려</button>
+            <button class="btn btn-warn" style="flex:1;justify-content:center;" onclick="showToast('📧 추가 서류 제출 요청을 발송했습니다.')">📎 서류 추가 요청</button>
+            <button class="btn btn-success" style="flex:1;justify-content:center;background:var(--green);color:white;" onclick="showToast('✅ 승인 완료! 전문가로 등록되었습니다.')">✓ 승인</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</main>
+
+<div id="toast"></div>
+<script src="admin.js"></script>
+<script>
+function selectApplicant(el, idx) {
+  document.querySelectorAll('.applicant-item').forEach(i => {
+    i.style.background = '';
+    i.style.borderLeft = '';
+  });
+  el.style.background = 'var(--admin-l)';
+  el.style.borderLeft = '3px solid var(--admin)';
+}
+function verifyCert(btnId, name) {
+  const btn = document.getElementById(btnId);
+  btn.textContent = '✓ 확인됨';
+  btn.style.background = 'var(--green)';
+  btn.style.color = 'white';
+  btn.disabled = true;
+  showToast('✅ ' + name + ' 확인 완료');
+}
+function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000); }
+</script>
+</body>
+</html>

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>외식전문가 관리자 — 정산 관리 (C-05)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Gmarket+Sans:wght@300;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div id="sidebarOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99;"></div>
+
+<aside class="sidebar">
+  <a href="index.html" class="sidebar-logo">
+    <div class="sidebar-logo-icon">⚙️</div>
+    <div><div class="sidebar-logo-text">외식전문가</div><div class="sidebar-logo-sub">관리자 포털</div><span class="admin-badge-pill">ADMIN</span></div>
+  </a>
+  <nav class="sidebar-nav">
+    <div class="nav-label">개요</div>
+    <a href="c-01-home.html" class="nav-item"><span class="nav-icon">🏠</span> 관리자 홈</a>
+    <div class="nav-label">회원</div>
+    <a href="c-02-members.html" class="nav-item"><span class="nav-icon">👥</span> 소상공인 관리</a>
+    <a href="c-03-expert-review.html" class="nav-item"><span class="nav-icon">📋</span> 전문가 심사<span class="nav-badge warn">7</span></a>
+    <div class="nav-label">매칭</div>
+    <a href="c-04-matching.html" class="nav-item"><span class="nav-icon">🔗</span> 매칭 현황<span class="nav-badge">3</span></a>
+    <div class="nav-label">수익</div>
+    <a href="c-05-settlement.html" class="nav-item active"><span class="nav-icon">💰</span> 정산 관리</a>
+    <div class="nav-label">통계</div>
+    <a href="c-06-stats.html" class="nav-item"><span class="nav-icon">📊</span> 플랫폼 통계</a>
+  </nav>
+  <div class="sidebar-footer"><a href="index.html">🌐 서비스 홈</a><a href="index.html">🚪 로그아웃</a></div>
+</aside>
+
+<main class="main">
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="hamburger-btn" id="hamburgerBtn">☰</button>
+      <div><div class="topbar-title">정산 관리</div><div class="topbar-sub">전문가 정산 · 구독 환불 관리</div></div>
+    </div>
+    <div class="topbar-right">
+      <button class="btn btn-blue btn-sm" onclick="showToast('정산 보고서 다운로드 중...')">📥 정산 보고서</button>
+      <div class="topbar-notif">🔔<div class="notif-dot"></div></div>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- KPI -->
+    <div class="kpi-grid" style="margin-bottom:20px;">
+      <div class="kpi-card blue"><div class="kpi-icon">💵</div><div class="kpi-label">이번 달 총 수익</div><div class="kpi-value">92.4M</div><div class="kpi-change up">▲ 8.2% 전월비</div></div>
+      <div class="kpi-card green"><div class="kpi-icon">💸</div><div class="kpi-label">전문가 정산 예정</div><div class="kpi-value">38.1M</div><div class="kpi-change" style="color:var(--gray500);">3월 25일 지급</div></div>
+      <div class="kpi-card amber"><div class="kpi-icon">🔄</div><div class="kpi-label">환불 처리 중</div><div class="kpi-value">4</div><div class="kpi-change down">₩680,000 규모</div></div>
+      <div class="kpi-card purple"><div class="kpi-icon">🏦</div><div class="kpi-label">플랫폼 순수익</div><div class="kpi-value">54.3M</div><div class="kpi-change up">▲ 수수료 41%</div></div>
+    </div>
+
+    <!-- 탭 -->
+    <div class="tab-nav" style="margin-bottom:20px;">
+      <button class="tab-btn active" data-tab="expert-settle">전문가 정산</button>
+      <button class="tab-btn" data-tab="refund">구독 환불 <span style="background:#EF4444;color:#fff;font-size:10px;padding:1px 6px;border-radius:100px;margin-left:4px;">4</span></button>
+      <button class="tab-btn" data-tab="history">정산 이력</button>
+    </div>
+
+    <!-- 전문가 정산 탭 -->
+    <div data-tab-content="expert-settle">
+      <div class="card" style="margin-bottom:20px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+          <div class="card-title" style="margin:0;">💰 이번 달 정산 대기 전문가</div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn btn-secondary btn-sm" onclick="showToast('전체 선택됨')">전체 선택</button>
+            <button class="btn btn-primary btn-sm" onclick="showToast('일괄 정산 처리 완료')">일괄 정산</button>
+          </div>
+        </div>
+
+        <div style="background:var(--blue);color:#fff;border-radius:var(--radius-sm);padding:14px;margin-bottom:16px;display:flex;align-items:center;gap:12px;">
+          <span style="font-size:24px;">📅</span>
+          <div>
+            <div style="font-weight:700;">3월 정산 예정일: 2026년 3월 25일</div>
+            <div style="font-size:13px;opacity:.8;">확정 전까지 금액은 변동될 수 있습니다 · 세금계산서 발행 마감: 3월 20일</div>
+          </div>
+        </div>
+
+        <div style="overflow-x:auto;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th><input type="checkbox" id="selectAll"></th>
+                <th>전문가</th>
+                <th>이번 달 상담</th>
+                <th>총 상담료</th>
+                <th>플랫폼 수수료(30%)</th>
+                <th>정산 금액(70%)</th>
+                <th>세금계산서</th>
+                <th>상태</th>
+                <th>액션</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="checkbox" class="row-check"></td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="width:36px;height:36px;border-radius:10px;background:var(--light);display:flex;align-items:center;justify-content:center;font-size:18px;">👨‍🍳</div>
+                    <div><div style="font-weight:700;font-size:14px;">박상훈</div><div style="font-size:12px;color:var(--gray500);">위생·안전</div></div>
+                  </div>
+                </td>
+                <td style="font-weight:700;">23회</td>
+                <td style="font-weight:700;">₩2,760,000</td>
+                <td style="color:var(--red);">-₩828,000</td>
+                <td style="font-weight:700;color:var(--green);">₩1,932,000</td>
+                <td><span class="badge badge-green">✓ 발행완료</span></td>
+                <td><span class="badge badge-amber">⏳ 정산 대기</span></td>
+                <td>
+                  <div style="display:flex;gap:6px;">
+                    <button class="btn btn-secondary btn-sm" onclick="showToast('정산 상세 보기')">상세</button>
+                    <button class="btn btn-primary btn-sm" onclick="showToast('✅ 박상훈 정산 완료')">정산</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" class="row-check"></td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="width:36px;height:36px;border-radius:10px;background:var(--purple-l);display:flex;align-items:center;justify-content:center;font-size:18px;">👩‍🍳</div>
+                    <div><div style="font-weight:700;font-size:14px;">이수진</div><div style="font-size:12px;color:var(--gray500);">마케팅·SNS</div></div>
+                  </div>
+                </td>
+                <td style="font-weight:700;">31회</td>
+                <td style="font-weight:700;">₩3,720,000</td>
+                <td style="color:var(--red);">-₩1,116,000</td>
+                <td style="font-weight:700;color:var(--green);">₩2,604,000</td>
+                <td><span class="badge badge-amber">⏳ 미발행</span></td>
+                <td><span class="badge badge-red">❌ 보류</span></td>
+                <td>
+                  <div style="display:flex;gap:6px;">
+                    <button class="btn btn-secondary btn-sm" onclick="showToast('세금계산서 발행 안내 이메일 발송')">재촉</button>
+                    <button class="btn btn-secondary btn-sm disabled" style="opacity:.4;cursor:default;">정산불가</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" class="row-check"></td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="width:36px;height:36px;border-radius:10px;background:var(--green-l);display:flex;align-items:center;justify-content:center;font-size:18px;">🧑‍🍳</div>
+                    <div><div style="font-weight:700;font-size:14px;">최민준</div><div style="font-size:12px;color:var(--gray500);">원가·수익</div></div>
+                  </div>
+                </td>
+                <td style="font-weight:700;">18회</td>
+                <td style="font-weight:700;">₩2,160,000</td>
+                <td style="color:var(--red);">-₩648,000</td>
+                <td style="font-weight:700;color:var(--green);">₩1,512,000</td>
+                <td><span class="badge badge-green">✓ 발행완료</span></td>
+                <td><span class="badge badge-green">✓ 정산완료</span></td>
+                <td><button class="btn btn-secondary btn-sm" onclick="showToast('정산 영수증 보기')">영수증</button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" class="row-check"></td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="width:36px;height:36px;border-radius:10px;background:var(--amber-l);display:flex;align-items:center;justify-content:center;font-size:18px;">👨‍🍳</div>
+                    <div><div style="font-weight:700;font-size:14px;">장혜원</div><div style="font-size:12px;color:var(--gray500);">홀·서비스</div></div>
+                  </div>
+                </td>
+                <td style="font-weight:700;">12회</td>
+                <td style="font-weight:700;">₩1,440,000</td>
+                <td style="color:var(--red);">-₩432,000</td>
+                <td style="font-weight:700;color:var(--green);">₩1,008,000</td>
+                <td><span class="badge badge-green">✓ 발행완료</span></td>
+                <td><span class="badge badge-amber">⏳ 정산 대기</span></td>
+                <td>
+                  <div style="display:flex;gap:6px;">
+                    <button class="btn btn-secondary btn-sm" onclick="showToast('정산 상세 보기')">상세</button>
+                    <button class="btn btn-primary btn-sm" onclick="showToast('✅ 장혜원 정산 완료')">정산</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 합계 -->
+        <div style="margin-top:16px;padding:16px;background:var(--gray50);border-radius:var(--radius-sm);border:1px solid var(--gray200);display:flex;justify-content:flex-end;gap:32px;">
+          <div style="text-align:right;"><div style="font-size:12px;color:var(--gray500);">총 상담료</div><div style="font-size:18px;font-weight:700;">₩10,080,000</div></div>
+          <div style="text-align:right;"><div style="font-size:12px;color:var(--gray500);">수수료(30%)</div><div style="font-size:18px;font-weight:700;color:var(--red);">-₩3,024,000</div></div>
+          <div style="text-align:right;"><div style="font-size:12px;color:var(--gray500);">정산 합계(70%)</div><div style="font-size:18px;font-weight:700;color:var(--green);">₩7,056,000</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 구독 환불 탭 -->
+    <div data-tab-content="refund" style="display:none;">
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+          <div class="card-title" style="margin:0;">🔄 구독 환불 요청</div>
+          <div style="font-size:13px;color:var(--gray500);">처리 대기 4건 · 총 ₩680,000</div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:12px;">
+
+          <div style="border:1.5px solid var(--red-l);border-radius:var(--radius-sm);padding:16px;">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;">
+              <div style="flex:1;">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                  <span style="font-weight:700;font-size:15px;">정수연</span>
+                  <span class="badge badge-red">환불 요청</span>
+                  <span style="font-size:12px;color:var(--gray500);">2026.03.08 요청</span>
+                </div>
+                <div style="font-size:13px;color:var(--gray500);margin-bottom:8px;">강남구 카페 · 스탠다드 플랜 (₩89,000/월)</div>
+                <div style="font-size:13px;background:var(--gray50);padding:10px;border-radius:8px;">
+                  <strong>환불 사유:</strong> 가입 후 7일 이내 미사용 상태로 냉각 기간 환불 요청합니다.
+                </div>
+              </div>
+              <div style="margin-left:16px;text-align:right;">
+                <div style="font-size:20px;font-weight:700;color:var(--navy);">₩89,000</div>
+                <div style="font-size:12px;color:var(--gray500);margin-bottom:10px;">전액 환불 예정</div>
+                <div style="display:flex;gap:6px;justify-content:flex-end;">
+                  <button class="btn btn-secondary btn-sm" onclick="showToast('환불 거부 처리됨')">거부</button>
+                  <button class="btn btn-success btn-sm" onclick="showToast('✅ 환불 승인 완료')">승인</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="border:1.5px solid var(--amber-l);border-radius:var(--radius-sm);padding:16px;">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;">
+              <div style="flex:1;">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                  <span style="font-weight:700;font-size:15px;">한지수</span>
+                  <span class="badge badge-amber">검토 필요</span>
+                  <span style="font-size:12px;color:var(--gray500);">2026.03.05 요청</span>
+                </div>
+                <div style="font-size:13px;color:var(--gray500);margin-bottom:8px;">마포구 파스타집 · 프리미엄 플랜 (₩189,000/월)</div>
+                <div style="font-size:13px;background:var(--gray50);padding:10px;border-radius:8px;">
+                  <strong>환불 사유:</strong> 사용한 상담 2건을 제외한 나머지 금액 부분 환불 요청. 계약 중도 해지.
+                </div>
+              </div>
+              <div style="margin-left:16px;text-align:right;">
+                <div style="font-size:20px;font-weight:700;color:var(--navy);">₩126,000</div>
+                <div style="font-size:12px;color:var(--gray500);margin-bottom:10px;">부분 환불 계산 필요</div>
+                <div style="display:flex;gap:6px;justify-content:flex-end;">
+                  <button class="btn btn-secondary btn-sm" onclick="openRefundModal('한지수','189000')">계산</button>
+                  <button class="btn btn-success btn-sm" onclick="showToast('✅ 부분 환불 승인')">승인</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="border:1.5px solid var(--gray200);border-radius:var(--radius-sm);padding:16px;">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;">
+              <div style="flex:1;">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                  <span style="font-weight:700;font-size:15px;">오세민</span>
+                  <span class="badge badge-blue">분쟁 연계</span>
+                  <span style="font-size:12px;color:var(--gray500);">2026.03.03 요청</span>
+                </div>
+                <div style="font-size:13px;color:var(--gray500);margin-bottom:8px;">강동구 중식당 · 베이직 플랜 (₩49,000/월)</div>
+                <div style="font-size:13px;background:var(--gray50);padding:10px;border-radius:8px;">
+                  <strong>환불 사유:</strong> 분쟁 #D-039 처리 결과에 따라 환불 여부 결정 예정. 분쟁 처리 완료 대기 중.
+                </div>
+              </div>
+              <div style="margin-left:16px;text-align:right;">
+                <div style="font-size:20px;font-weight:700;color:var(--navy);">₩49,000</div>
+                <div style="font-size:12px;color:var(--gray500);margin-bottom:10px;">분쟁 처리 후 결정</div>
+                <div style="display:flex;gap:6px;justify-content:flex-end;">
+                  <button class="btn btn-secondary btn-sm" onclick="showToast('분쟁 처리 페이지로 이동')">분쟁 보기</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="border:1.5px solid var(--gray200);border-radius:var(--radius-sm);padding:16px;opacity:.6;">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;">
+              <div style="flex:1;">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                  <span style="font-weight:700;font-size:15px;">이동혁</span>
+                  <span class="badge badge-gray">거부됨</span>
+                  <span style="font-size:12px;color:var(--gray500);">2026.03.01 요청 → 2026.03.02 처리</span>
+                </div>
+                <div style="font-size:13px;color:var(--gray500);margin-bottom:8px;">송파구 치킨집 · 스탠다드 플랜 (₩89,000/월)</div>
+                <div style="font-size:13px;background:var(--gray50);padding:10px;border-radius:8px;">
+                  <strong>처리 결과:</strong> 가입 후 30일 초과 사용, 환불 정책 해당 없음. 환불 거부 처리됨.
+                </div>
+              </div>
+              <div style="margin-left:16px;text-align:right;">
+                <div style="font-size:20px;font-weight:700;color:var(--gray500);">₩0</div>
+                <div style="font-size:12px;color:var(--gray500);">환불 거부</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 정산 이력 탭 -->
+    <div data-tab-content="history" style="display:none;">
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+          <div class="card-title" style="margin:0;">📋 정산 이력</div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <select class="form-select" style="width:auto;padding:8px 12px;font-size:13px;">
+              <option>2026년 3월</option>
+              <option>2026년 2월</option>
+              <option>2026년 1월</option>
+              <option>2025년 12월</option>
+            </select>
+            <button class="btn btn-secondary btn-sm" onclick="showToast('CSV 다운로드')">📥 내보내기</button>
+          </div>
+        </div>
+
+        <div style="overflow-x:auto;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>정산 ID</th>
+                <th>전문가</th>
+                <th>정산 월</th>
+                <th>상담 건수</th>
+                <th>정산 금액</th>
+                <th>처리일</th>
+                <th>은행</th>
+                <th>상태</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-family:monospace;font-size:12px;color:var(--gray500);">#S-0318</td>
+                <td style="font-weight:700;">최민준</td>
+                <td style="font-size:13px;">2026년 2월</td>
+                <td>15회</td>
+                <td style="font-weight:700;color:var(--green);">₩1,260,000</td>
+                <td style="font-size:13px;">2026.02.25</td>
+                <td style="font-size:13px;">신한은행 ****8821</td>
+                <td><span class="badge badge-green">✓ 완료</span></td>
+              </tr>
+              <tr>
+                <td style="font-family:monospace;font-size:12px;color:var(--gray500);">#S-0317</td>
+                <td style="font-weight:700;">박상훈</td>
+                <td style="font-size:13px;">2026년 2월</td>
+                <td>19회</td>
+                <td style="font-weight:700;color:var(--green);">₩1,596,000</td>
+                <td style="font-size:13px;">2026.02.25</td>
+                <td style="font-size:13px;">국민은행 ****4432</td>
+                <td><span class="badge badge-green">✓ 완료</span></td>
+              </tr>
+              <tr>
+                <td style="font-family:monospace;font-size:12px;color:var(--gray500);">#S-0316</td>
+                <td style="font-weight:700;">장혜원</td>
+                <td style="font-size:13px;">2026년 2월</td>
+                <td>9회</td>
+                <td style="font-weight:700;color:var(--green);">₩756,000</td>
+                <td style="font-size:13px;">2026.02.25</td>
+                <td style="font-size:13px;">우리은행 ****2290</td>
+                <td><span class="badge badge-green">✓ 완료</span></td>
+              </tr>
+              <tr>
+                <td style="font-family:monospace;font-size:12px;color:var(--gray500);">#S-0315</td>
+                <td style="font-weight:700;">이수진</td>
+                <td style="font-size:13px;">2026년 2월</td>
+                <td>27회</td>
+                <td style="font-weight:700;color:var(--green);">₩2,268,000</td>
+                <td style="font-size:13px;">2026.02.25</td>
+                <td style="font-size:13px;">하나은행 ****6601</td>
+                <td><span class="badge badge-green">✓ 완료</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- 환불 계산 모달 -->
+<div class="modal-overlay" id="refundModal">
+  <div class="modal-box" style="width:520px;">
+    <div class="modal-title">🧮 부분 환불 계산</div>
+    <div class="modal-sub" id="refundTarget">사용량 기반 부분 환불 금액을 계산합니다.</div>
+    <div style="background:var(--gray50);border-radius:var(--radius-sm);padding:16px;margin-bottom:16px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:14px;">
+        <div><span style="color:var(--gray500);">월 구독료</span><div style="font-weight:700;font-size:16px;">₩189,000</div></div>
+        <div><span style="color:var(--gray500);">가입일</span><div style="font-weight:700;">2026.03.01</div></div>
+        <div><span style="color:var(--gray500);">해지 요청일</span><div style="font-weight:700;">2026.03.05</div></div>
+        <div><span style="color:var(--gray500);">사용 일수</span><div style="font-weight:700;">4일 / 31일</div></div>
+        <div><span style="color:var(--gray500);">사용한 상담</span><div style="font-weight:700;">2건 (₩30,000 상당)</div></div>
+        <div><span style="color:var(--gray500);">환불 예정액</span><div style="font-weight:700;font-size:18px;color:var(--green);">₩135,677</div></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">환불 금액 조정</label>
+      <input class="form-input" type="number" value="135677" placeholder="환불 금액 입력">
+    </div>
+    <div class="form-group">
+      <label class="form-label">처리 메모</label>
+      <textarea class="form-textarea" placeholder="환불 처리 사유 메모..."></textarea>
+    </div>
+    <div style="display:flex;gap:10px;">
+      <button class="btn btn-secondary" style="flex:1;justify-content:center;" onclick="document.getElementById('refundModal').classList.remove('open')">취소</button>
+      <button class="btn btn-success" style="flex:1;justify-content:center;" onclick="document.getElementById('refundModal').classList.remove('open');showToast('✅ 부분 환불 처리 완료')">환불 승인</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="admin.js"></script>
+<script>
+function openRefundModal(name, amount) {
+  document.getElementById('refundTarget').textContent = name + ' 회원의 부분 환불 금액을 계산합니다.';
+  document.getElementById('refundModal').classList.add('open');
+}
+function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2800); }
+</script>
+</body>
+</html>
