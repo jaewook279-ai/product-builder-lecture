@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>외식전문가 — 채팅 상담방 (B-05)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Gmarket+Sans:wght@300;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="expert-b.css">
+  <style>
+    body { overflow: hidden; }
+    .main { height: 100vh; overflow: hidden; }
+    .content { padding: 0; flex: 1; overflow: hidden; display: flex; }
+    .chat-layout { flex: 1; }
+    .file-chip { display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:var(--radius-sm);border:1px solid var(--gray200);background:var(--white);font-size:13px;margin-top:6px;cursor:pointer; }
+    .file-chip:hover { background:var(--gray50); }
+    .status-bar { display:flex;align-items:center;gap:8px;padding:8px 16px;background:var(--green-l);border-bottom:1px solid rgba(22,163,74,.2);font-size:13px;color:var(--green);font-weight:700; }
+  </style>
+</head>
+<body>
+
+<div id="sidebarOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99;"></div>
+
+<aside class="sidebar">
+  <a href="index.html" class="sidebar-logo">
+    <div class="sidebar-logo-icon">🍽️</div>
+    <div><div class="sidebar-logo-text">외식전문가</div><div class="sidebar-logo-sub">전문가 포털</div></div>
+  </a>
+  <div class="sidebar-expert-info">
+    <div class="sei-avatar">👨‍💼</div>
+    <div class="sei-name">김세무 세무사</div>
+    <div class="sei-role">세무·회계 전문가</div>
+    <span class="sei-badge">✓ 인증됨</span>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-label">메인</div>
+    <a href="b-02-home.html" class="nav-item"><span class="nav-icon">🏠</span> 전문가 홈</a>
+    <a href="b-03-questions.html" class="nav-item"><span class="nav-icon">📋</span> 질문 목록<span class="nav-badge">3</span></a>
+    <div class="nav-label">상담</div>
+    <a href="b-05-chat.html" class="nav-item active"><span class="nav-icon">💬</span> 채팅 상담방<span class="nav-badge">2</span></a>
+    <a href="b-06-schedule.html" class="nav-item"><span class="nav-icon">📅</span> 일정 관리</a>
+    <div class="nav-label">내 정보</div>
+    <a href="b-07-profile-edit.html" class="nav-item"><span class="nav-icon">👤</span> 내 프로필</a>
+    <a href="b-08-settlement.html" class="nav-item"><span class="nav-icon">💰</span> 정산 대시보드</a>
+  </nav>
+  <div class="sidebar-footer">
+    <a href="index.html">⚙️ 설정</a>
+    <a href="index.html">🚪 로그아웃</a>
+  </div>
+</aside>
+
+<main class="main">
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="hamburger-btn" id="hamburgerBtn">☰</button>
+      <div class="topbar-title">채팅 상담방</div>
+    </div>
+    <div class="topbar-right">
+      <div class="topbar-notif">🔔<div class="notif-dot"></div></div>
+    </div>
+  </header>
+
+  <div class="content">
+    <div class="chat-layout">
+
+      <!-- 채팅 목록 -->
+      <div class="chat-list">
+        <div class="chat-list-header">
+          <input type="text" placeholder="🔍 상담 검색..." style="width:100%;padding:8px 12px;border:1px solid var(--gray200);border-radius:var(--radius-sm);font-size:13px;outline:none;">
+        </div>
+
+        <div class="chat-item active" onclick="selectChat(this)">
+          <div class="chat-item-avatar">👨‍🍳</div>
+          <div style="flex:1;min-width:0;">
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <div class="chat-item-name">김○○ 사장님</div>
+              <div class="chat-item-time">10:18</div>
+            </div>
+            <div class="chat-item-preview">감사합니다! 서류 첨부해드렸어요</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue" style="font-size:10px;">💰 세무</span></div>
+          </div>
+          <div class="chat-unread">2</div>
+        </div>
+
+        <div class="chat-item" onclick="selectChat(this)">
+          <div class="chat-item-avatar">👩‍🍳</div>
+          <div style="flex:1;min-width:0;">
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <div class="chat-item-name">박○○ 사장님</div>
+              <div class="chat-item-time">09:35</div>
+            </div>
+            <div class="chat-item-preview">네, 확인해보겠습니다. 감사합니다!</div>
+            <div style="margin-top:4px;"><span class="badge badge-green" style="font-size:10px;">✓ 완료예정</span></div>
+          </div>
+        </div>
+
+        <div class="chat-item" onclick="selectChat(this)">
+          <div class="chat-item-avatar">🧑‍🍳</div>
+          <div style="flex:1;min-width:0;">
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <div class="chat-item-name">이○○ 사장님</div>
+              <div class="chat-item-time">어제</div>
+            </div>
+            <div class="chat-item-preview">화상 상담 오늘 3시로 예약했습니다</div>
+            <div style="margin-top:4px;"><span class="badge badge-purple" style="font-size:10px;">📹 화상예약</span></div>
+          </div>
+        </div>
+
+        <div class="chat-item" onclick="selectChat(this)">
+          <div class="chat-item-avatar">👨‍🍳</div>
+          <div style="flex:1;min-width:0;">
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <div class="chat-item-name">최○○ 사장님</div>
+              <div class="chat-item-time">이틀 전</div>
+            </div>
+            <div class="chat-item-preview">종합소득세 절세 자료 감사합니다</div>
+          </div>
+        </div>
+
+        <div class="chat-item" onclick="selectChat(this)">
+          <div class="chat-item-avatar">👩‍🍳</div>
+          <div style="flex:1;min-width:0;">
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <div class="chat-item-name">정○○ 사장님</div>
+              <div class="chat-item-time">3일 전</div>
+            </div>
+            <div class="chat-item-preview">상담 덕분에 세금 절약했어요! ★★★★★</div>
+            <div style="margin-top:4px;"><span class="badge badge-gray" style="font-size:10px;">✓ 완료</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 채팅방 -->
+      <div class="chat-room">
+
+        <!-- 상태바 -->
+        <div class="status-bar">
+          <span>●</span> 상담 진행 중 · 배달앱 부가세 신고 방법
+          <span style="margin-left:auto;font-weight:400;color:var(--teal);">남은 시간: 22:14:38</span>
+        </div>
+
+        <!-- 채팅방 헤더 -->
+        <div class="chat-room-header">
+          <div style="width:42px;height:42px;border-radius:12px;background:var(--light);display:flex;align-items:center;justify-content:center;font-size:22px;">👨‍🍳</div>
+          <div>
+            <div class="chat-room-name">마포구 삼겹살집 김○○ 사장님</div>
+            <div class="chat-room-status">스탠다드 플랜 · 세무·회계 상담</div>
+          </div>
+          <div style="margin-left:auto;display:flex;gap:8px;">
+            <button class="btn btn-secondary btn-sm" onclick="alert('서류함 열기')">📁 서류함</button>
+            <button class="btn btn-primary btn-sm" onclick="alert('화상 상담 시작')">📹 화상 시작</button>
+            <button class="btn btn-secondary btn-sm" onclick="showToast('상담이 완료 처리되었습니다.')">✅ 완료</button>
+          </div>
+        </div>
+
+        <!-- 메시지 영역 -->
+        <div class="chat-messages" id="chatMessages">
+          <!-- 날짜 구분 -->
+          <div style="text-align:center;"><span style="font-size:12px;color:var(--gray300);background:var(--gray100);padding:4px 12px;border-radius:100px;">2026년 3월 9일 (오늘)</span></div>
+
+          <!-- 시스템 메시지 -->
+          <div style="text-align:center;padding:10px;background:var(--light);border-radius:var(--radius-sm);font-size:13px;color:var(--blue);border:1px solid rgba(52,152,219,.2);">
+            🤝 김세무 세무사님이 상담을 수락했습니다. 24시간 이내 답변 보장
+          </div>
+
+          <!-- 소상공인 메시지 -->
+          <div class="msg theirs">
+            <div class="msg-avatar">👨‍🍳</div>
+            <div>
+              <div class="msg-bubble">안녕하세요 세무사님! 배달앱 부가세 신고 관련해서 도움 요청드렸습니다. 첨부파일로 배민 정산서 보내드렸어요.</div>
+              <div class="msg-time">09:45</div>
+              <!-- 첨부파일 -->
+              <div class="file-chip" onclick="alert('파일 다운로드')">📄 배민정산서_2026년1월.pdf <span style="color:var(--gray500);">1.2MB</span></div>
+              <div class="file-chip" onclick="alert('파일 다운로드')">📊 매출내역_엑셀.xlsx <span style="color:var(--gray500);">0.8MB</span></div>
+            </div>
+          </div>
+
+          <!-- 전문가 메시지 -->
+          <div class="msg mine">
+            <div>
+              <div class="msg-bubble">안녕하세요 김○○ 사장님! 서류 잘 받았습니다 😊 정산서 확인해보니 배민 매출이 꽤 되시네요. 몇 가지 중요한 사항 안내드릴게요.</div>
+              <div class="msg-time" style="text-align:right;">09:52 ✓✓</div>
+            </div>
+            <div class="msg-avatar">👨‍💼</div>
+          </div>
+
+          <div class="msg mine">
+            <div>
+              <div class="msg-bubble">
+                <strong>📌 배달앱 부가세 핵심 정리:</strong><br><br>
+                1️⃣ <strong>합산 신고</strong>: 배달앱 + 현장 매출 모두 합산해서 신고하면 됩니다<br><br>
+                2️⃣ <strong>정산서 활용</strong>: 배민 정산서의 "공급가액" 기준으로 신고 (수수료 차감 전 총액)<br><br>
+                3️⃣ <strong>1기 신고 기한</strong>: 7월 25일까지 (1월~6월 매출)<br><br>
+                4️⃣ <strong>경비 처리</strong>: 배달 수수료, 포장재, 식재료비 모두 매입세액 공제 가능!
+              </div>
+              <div class="msg-time" style="text-align:right;">09:58 ✓✓</div>
+            </div>
+            <div class="msg-avatar" style="visibility:hidden;">👨‍💼</div>
+          </div>
+
+          <!-- 소상공인 반응 -->
+          <div class="msg theirs">
+            <div class="msg-avatar">👨‍🍳</div>
+            <div>
+              <div class="msg-bubble">와 정말 감사합니다!! 배달앱 수수료가 경비 처리가 된다는 건 몰랐어요. 혹시 경비 처리할 수 있는 항목들을 목록으로 받을 수 있을까요?</div>
+              <div class="msg-time">10:05</div>
+            </div>
+          </div>
+
+          <!-- 소상공인 최신 메시지 -->
+          <div class="msg theirs">
+            <div class="msg-avatar">👨‍🍳</div>
+            <div>
+              <div class="msg-bubble">추가로 직원 급여도 경비 처리 가능한지 여쭤봐도 될까요? 파트타임 2명이 있거든요</div>
+              <div class="msg-time">10:18</div>
+              <div class="msg-bubble" style="margin-top:6px;background:#FFF9E6;border:1px solid rgba(212,160,23,.3);">📎 첨부: 직원 급여대장.xlsx</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 빠른 답변 템플릿 -->
+        <div style="padding:8px 20px;display:flex;gap:8px;overflow-x:auto;border-top:1px solid var(--gray100);">
+          <button onclick="insertTemplate('네, 확인해드리겠습니다! ')" style="white-space:nowrap;padding:6px 12px;border:1px solid var(--gray200);border-radius:100px;font-size:12px;cursor:pointer;background:var(--white);transition:background .2s;" onmouseover="this.style.background='var(--gray50)'" onmouseout="this.style.background='var(--white)'">✅ 확인해드리겠습니다</button>
+          <button onclick="insertTemplate('서류 잘 받았습니다. 검토 후 답변드리겠습니다. ')" style="white-space:nowrap;padding:6px 12px;border:1px solid var(--gray200);border-radius:100px;font-size:12px;cursor:pointer;background:var(--white);transition:background .2s;" onmouseover="this.style.background='var(--gray50)'" onmouseout="this.style.background='var(--white)'">📄 서류 검토중</button>
+          <button onclick="insertTemplate('네, 직원 급여는 전액 경비 처리 가능합니다! 근로소득세 원천징수 후 신고하시면 됩니다. ')" style="white-space:nowrap;padding:6px 12px;border:1px solid var(--gray200);border-radius:100px;font-size:12px;cursor:pointer;background:var(--white);transition:background .2s;" onmouseover="this.style.background='var(--gray50)'" onmouseout="this.style.background='var(--white)'">💡 급여 경비처리 템플릿</button>
+          <button onclick="insertTemplate('화상 상담을 통해 더 자세히 안내드릴 수 있습니다. 일정 조율 원하시면 말씀해주세요! ')" style="white-space:nowrap;padding:6px 12px;border:1px solid var(--gray200);border-radius:100px;font-size:12px;cursor:pointer;background:var(--white);transition:background .2s;" onmouseover="this.style.background='var(--gray50)'" onmouseout="this.style.background='var(--white)'">📹 화상 상담 제안</button>
+        </div>
+
+        <!-- 입력창 -->
+        <div class="chat-input-area">
+          <button class="chat-attach-btn" onclick="alert('파일 첨부')">📎</button>
+          <textarea class="chat-input" id="chatInput" placeholder="답변을 입력하세요... (Shift+Enter: 줄바꿈, Enter: 전송)" rows="1" onkeydown="handleKey(event)"></textarea>
+          <button class="chat-send-btn" onclick="sendMessage()">▶</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<div id="toast"></div>
+<script src="expert-b.js"></script>
+<script>
+function selectChat(el) {
+  document.querySelectorAll('.chat-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+  const unread = el.querySelector('.chat-unread');
+  if (unread) unread.remove();
+}
+
+function insertTemplate(text) {
+  const input = document.getElementById('chatInput');
+  input.value = text;
+  input.focus();
+}
+
+function handleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+}
+
+function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+
+  const msgs = document.getElementById('chatMessages');
+  const now = new Date();
+  const time = `${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;
+
+  const div = document.createElement('div');
+  div.className = 'msg mine';
+  div.innerHTML = `
+    <div>
+      <div class="msg-bubble">${text.replace(/\n/g,'<br>')}</div>
+      <div class="msg-time" style="text-align:right;">${time} ✓</div>
+    </div>
+    <div class="msg-avatar">👨‍💼</div>
+  `;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  input.value = '';
+  showToast('메시지를 전송했습니다.');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// 자동 스크롤
+document.getElementById('chatMessages').scrollTop = 9999;
+</script>
+</body>
+</html>

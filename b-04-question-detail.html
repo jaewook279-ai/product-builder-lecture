@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>외식전문가 — 질문 상세·수락 (B-04)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Gmarket+Sans:wght@300;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="expert-b.css">
+</head>
+<body>
+
+<div id="sidebarOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99;"></div>
+
+<aside class="sidebar">
+  <a href="index.html" class="sidebar-logo">
+    <div class="sidebar-logo-icon">🍽️</div>
+    <div><div class="sidebar-logo-text">외식전문가</div><div class="sidebar-logo-sub">전문가 포털</div></div>
+  </a>
+  <div class="sidebar-expert-info">
+    <div class="sei-avatar">👨‍💼</div>
+    <div class="sei-name">김세무 세무사</div>
+    <div class="sei-role">세무·회계 전문가</div>
+    <span class="sei-badge">✓ 인증됨</span>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-label">메인</div>
+    <a href="b-02-home.html" class="nav-item"><span class="nav-icon">🏠</span> 전문가 홈</a>
+    <a href="b-03-questions.html" class="nav-item active"><span class="nav-icon">📋</span> 질문 목록<span class="nav-badge">3</span></a>
+    <div class="nav-label">상담</div>
+    <a href="b-05-chat.html" class="nav-item"><span class="nav-icon">💬</span> 채팅 상담방<span class="nav-badge">2</span></a>
+    <a href="b-06-schedule.html" class="nav-item"><span class="nav-icon">📅</span> 일정 관리</a>
+    <div class="nav-label">내 정보</div>
+    <a href="b-07-profile-edit.html" class="nav-item"><span class="nav-icon">👤</span> 내 프로필</a>
+    <a href="b-08-settlement.html" class="nav-item"><span class="nav-icon">💰</span> 정산 대시보드</a>
+  </nav>
+  <div class="sidebar-footer">
+    <a href="index.html">⚙️ 설정</a>
+    <a href="index.html">🚪 로그아웃</a>
+  </div>
+</aside>
+
+<main class="main">
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="hamburger-btn" id="hamburgerBtn">☰</button>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <a href="b-03-questions.html" style="color:var(--gray500);text-decoration:none;font-size:14px;">← 질문 목록</a>
+        <div style="width:1px;height:20px;background:var(--gray200);"></div>
+        <div>
+          <div class="topbar-title">질문 상세 · 수락</div>
+          <div class="topbar-sub">질문 내용을 확인하고 수락 여부를 결정하세요</div>
+        </div>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <span class="badge badge-red">⚡ 긴급</span>
+      <div class="topbar-notif">🔔<div class="notif-dot"></div></div>
+    </div>
+  </header>
+
+  <div class="content">
+    <div style="display:grid;grid-template-columns:1fr 360px;gap:24px;align-items:start;">
+
+      <!-- 왼쪽: 질문 내용 -->
+      <div style="display:flex;flex-direction:column;gap:20px;">
+
+        <!-- 질문 헤더 -->
+        <div class="card">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:16px;">
+            <div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+                <span class="badge badge-blue">💰 세무·회계</span>
+                <span class="badge badge-red">⚡ 긴급</span>
+                <span class="badge badge-green">✓ 스탠다드 플랜</span>
+              </div>
+              <h2 style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--navy);line-height:1.4;">
+                배달앱 매출 부가세 신고 방법 — 요기요·배민 포함해서 어떻게 계산하나요?
+              </h2>
+            </div>
+          </div>
+
+          <!-- 의뢰인 정보 -->
+          <div style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--gray50);border-radius:var(--radius-sm);margin-bottom:16px;">
+            <div style="width:48px;height:48px;border-radius:14px;background:var(--light);display:flex;align-items:center;justify-content:center;font-size:24px;">👨‍🍳</div>
+            <div>
+              <div style="font-size:15px;font-weight:700;color:var(--navy);">마포구 삼겹살집 김○○ 사장님</div>
+              <div style="font-size:13px;color:var(--gray500);margin-top:2px;">서울 마포구 합정동 · 삼겹살 전문점 · 운영 3년차</div>
+              <div style="display:flex;gap:8px;margin-top:6px;">
+                <span class="badge badge-green">이용 횟수 8회</span>
+                <span class="badge badge-amber">⭐ 4.9 평점 의뢰인</span>
+              </div>
+            </div>
+            <div style="margin-left:auto;text-align:right;">
+              <div style="font-size:11px;color:var(--gray500);">등록 시각</div>
+              <div style="font-size:13px;font-weight:700;color:var(--navy);">2026.03.09 10:20</div>
+              <div style="font-size:12px;color:var(--red);font-weight:700;margin-top:4px;">3분 전</div>
+            </div>
+          </div>
+
+          <!-- 질문 본문 -->
+          <div style="font-size:15px;color:var(--gray700);line-height:1.9;">
+            <p style="margin-bottom:14px;">안녕하세요! 올해 처음으로 부가세 신고를 직접 해보려고 합니다.</p>
+            <p style="margin-bottom:14px;">저는 서울 마포구에서 삼겹살집을 3년째 운영하고 있는데, 지금까지는 세무사님께 맡겼는데 비용 절감 차원에서 직접 해보고 싶습니다.</p>
+            <p style="margin-bottom:14px;"><strong>궁금한 점은 아래와 같습니다:</strong></p>
+            <ol style="padding-left:20px;margin-bottom:14px;display:flex;flex-direction:column;gap:8px;">
+              <li>배달앱(요기요, 배민)을 통한 매출과 현장 매출을 따로 계산해야 하는지, 합산해도 되는지</li>
+              <li>배달앱에서 오는 정산서를 그대로 쓰면 되는지, 별도 세금계산서가 필요한지</li>
+              <li>부가세 신고 기한 — 올해 1기 신고는 언제까지인지</li>
+              <li>혹시 놓치기 쉬운 경비 처리 항목이 있다면 알려주세요</li>
+            </ol>
+            <p>매출은 월 평균 약 2,500만원 (현장 1,800만원 + 배달 700만원) 정도 됩니다.</p>
+          </div>
+
+          <!-- 첨부파일 -->
+          <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--gray100);">
+            <div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:8px;">📎 첨부 파일</div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <div style="display:flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid var(--gray200);border-radius:var(--radius-sm);cursor:pointer;transition:background .2s;" onmouseover="this.style.background='var(--gray50)'" onmouseout="this.style.background=''">
+                <span style="font-size:20px;">📄</span>
+                <div>
+                  <div style="font-size:13px;font-weight:700;color:var(--navy);">배민정산서_2026년1월.pdf</div>
+                  <div style="font-size:12px;color:var(--gray500);">1.2 MB</div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid var(--gray200);border-radius:var(--radius-sm);cursor:pointer;transition:background .2s;" onmouseover="this.style.background='var(--gray50)'" onmouseout="this.style.background=''">
+                <span style="font-size:20px;">📊</span>
+                <div>
+                  <div style="font-size:13px;font-weight:700;color:var(--navy);">매출내역_엑셀.xlsx</div>
+                  <div style="font-size:12px;color:var(--gray500);">0.8 MB</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 유사 상담 이력 -->
+        <div class="card">
+          <div class="card-title">📚 유사 상담 이력 (내 답변)</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="padding:12px;border-radius:var(--radius-sm);border:1px solid var(--gray100);background:var(--gray50);">
+              <div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:4px;">배달앱 부가세 처리 방법 (2025.11)</div>
+              <div style="font-size:13px;color:var(--gray500);line-height:1.6;">배달앱 매출은 플랫폼 수수료 차감 전 총 매출액 기준으로 신고합니다. 배민·요기요는 세금계산서 발행 주체이므로...</div>
+              <div style="margin-top:6px;display:flex;gap:6px;"><span class="badge badge-green">★★★★★ 5.0</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 오른쪽: 수락/거절 패널 -->
+      <div style="display:flex;flex-direction:column;gap:16px;position:sticky;top:80px;">
+
+        <!-- 수당 정보 -->
+        <div class="card" style="background:linear-gradient(135deg,#EFF6FF,var(--white));border-color:var(--light);">
+          <div class="card-title">💰 예상 수당</div>
+          <div style="font-family:var(--font-display);font-size:36px;font-weight:700;color:var(--blue);margin-bottom:4px;">45,000원</div>
+          <div style="font-size:13px;color:var(--gray500);margin-bottom:16px;">플랫폼 수수료 15% 제외 후 정산</div>
+          <div style="background:var(--white);border-radius:var(--radius-sm);padding:12px;display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;justify-content:space-between;font-size:13px;">
+              <span style="color:var(--gray500);">기본 수당</span>
+              <span style="font-weight:700;">53,000원</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:13px;">
+              <span style="color:var(--gray500);">플랫폼 수수료 (15%)</span>
+              <span style="color:var(--red);">-7,950원</span>
+            </div>
+            <div style="border-top:1px solid var(--gray100);padding-top:8px;display:flex;justify-content:space-between;font-size:14px;font-weight:700;">
+              <span>최종 수령액</span>
+              <span style="color:var(--blue);">45,050원</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 수락 액션 -->
+        <div class="card" id="acceptPanel">
+          <div class="card-title">⚡ 수락 설정</div>
+
+          <div class="form-group">
+            <label class="form-label">예상 답변 시간</label>
+            <select class="form-select" id="answerTime">
+              <option>1시간 이내</option>
+              <option selected>3시간 이내</option>
+              <option>6시간 이내</option>
+              <option>24시간 이내</option>
+            </select>
+            <div class="form-hint">소상공인에게 표시되는 예상 답변 시간</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">상담 방식</label>
+            <div style="display:flex;gap:8px;">
+              <label style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;padding:10px;border:2px solid var(--blue);border-radius:var(--radius-sm);background:var(--light);font-size:13px;font-weight:700;color:var(--blue);">
+                <input type="radio" name="method" checked style="accent-color:var(--blue);"> 💬 채팅
+              </label>
+              <label style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;padding:10px;border:2px solid var(--gray200);border-radius:var(--radius-sm);font-size:13px;font-weight:500;color:var(--gray700);">
+                <input type="radio" name="method" style="accent-color:var(--blue);"> 📹 화상
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">첫 답변 메모 <span style="color:var(--gray500);font-weight:400;">(선택)</span></label>
+            <textarea class="form-textarea" style="min-height:80px;" placeholder="수락 시 소상공인에게 전달할 메시지를 미리 작성하세요">안녕하세요 김세무 세무사입니다! 배달앱 부가세 관련 상담 접수했습니다. 3시간 이내로 자세한 답변 드리겠습니다.</textarea>
+          </div>
+
+          <button class="btn btn-primary" style="width:100%;justify-content:center;font-size:16px;padding:14px;margin-bottom:10px;" id="acceptBtn" onclick="acceptQuestion()">
+            ✅ 수락하기
+          </button>
+          <button class="btn btn-danger" style="width:100%;justify-content:center;" onclick="rejectQuestion()">
+            ✗ 거절하기
+          </button>
+        </div>
+
+        <!-- 수락 완료 패널 (숨김) -->
+        <div class="card" id="acceptedPanel" style="display:none;text-align:center;">
+          <div style="font-size:48px;margin-bottom:12px;">🎉</div>
+          <div style="font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--navy);margin-bottom:6px;">상담 수락 완료!</div>
+          <div style="font-size:14px;color:var(--gray500);margin-bottom:20px;">소상공인에게 알림이 발송되었습니다</div>
+          <a href="b-05-chat.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-bottom:8px;">💬 채팅방 열기 →</a>
+          <a href="b-03-questions.html" class="btn btn-secondary" style="width:100%;justify-content:center;">← 질문 목록으로</a>
+        </div>
+
+        <!-- 타이머 -->
+        <div class="card" style="text-align:center;padding:16px;">
+          <div style="font-size:12px;color:var(--gray500);margin-bottom:4px;">⏱ 수락 가능 시간</div>
+          <div style="font-family:var(--font-display);font-size:28px;font-weight:700;color:var(--red);" id="timer">23:47</div>
+          <div style="font-size:12px;color:var(--gray500);">시간이 지나면 다른 전문가에게 배정됩니다</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</main>
+
+<div id="toast"></div>
+<script src="expert-b.js"></script>
+<script>
+function acceptQuestion() {
+  document.getElementById('acceptPanel').style.display = 'none';
+  document.getElementById('acceptedPanel').style.display = 'block';
+  showToast('✅ 상담을 수락했습니다. 채팅방이 열렸습니다!');
+}
+function rejectQuestion() {
+  if (confirm('정말 거절하시겠습니까? 다른 전문가에게 배정됩니다.')) {
+    window.location.href = 'b-03-questions.html';
+  }
+}
+
+// 타이머
+let secs = 23 * 60 + 47;
+function updateTimer() {
+  const m = Math.floor(secs / 60), s = secs % 60;
+  document.getElementById('timer').textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  if (secs > 0) { secs--; setTimeout(updateTimer, 1000); }
+}
+updateTimer();
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+</script>
+</body>
+</html>

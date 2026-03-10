@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>외식전문가 — 전문가 가입·인증 (B-01)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Gmarket+Sans:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy:#0D1B2A; --blue:#1A5276; --mid:#2471A3; --sky:#3498DB;
+      --light:#D6EAF8; --teal:#0E6655; --teal-l:#E8F8F5;
+      --green:#16A34A; --green-l:#DCFCE7; --amber:#D4A017; --amber-l:#FEF9E7;
+      --red:#C0392B; --red-l:#FEE2E2;
+      --white:#FFFFFF; --gray50:#F8FAFB; --gray100:#EEF1F4;
+      --gray200:#E2E8F0; --gray300:#BDC3C7; --gray500:#7F8C8D; --gray700:#34495E;
+      --font-display:'Gmarket Sans','Noto Sans KR',sans-serif;
+      --font-body:'Noto Sans KR',sans-serif;
+      --radius:14px; --radius-sm:10px;
+      --shadow-md:0 8px 32px rgba(13,27,42,.12);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:var(--font-body);color:var(--navy);background:var(--gray50);min-height:100vh;-webkit-font-smoothing:antialiased;}
+
+    /* GNB */
+    .gnb{background:var(--white);border-bottom:1px solid var(--gray200);height:64px;display:flex;align-items:center;padding:0 32px;justify-content:space-between;position:sticky;top:0;z-index:10;}
+    .logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+    .logo-icon{width:36px;height:36px;background:var(--blue);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;}
+    .logo-text{font-family:var(--font-display);font-weight:700;font-size:18px;color:var(--navy);}
+    .gnb-right{font-size:14px;color:var(--gray500);}
+    .gnb-right a{color:var(--blue);font-weight:700;text-decoration:none;}
+
+    /* 레이아웃 */
+    .page{max-width:700px;margin:40px auto;padding:0 20px 60px;}
+
+    /* 스텝 */
+    .steps{display:flex;align-items:flex-start;gap:0;margin-bottom:36px;position:relative;}
+    .steps::before{content:'';position:absolute;top:18px;left:18px;right:18px;height:2px;background:var(--gray200);z-index:0;}
+    .step-line-fill{position:absolute;top:18px;left:18px;height:2px;background:var(--blue);z-index:0;transition:width .4s;}
+    .step{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;position:relative;z-index:1;}
+    .step-circle{width:36px;height:36px;border-radius:50%;border:2px solid var(--gray200);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--gray500);background:var(--white);transition:all .3s;}
+    .step.done .step-circle{border-color:var(--blue);background:var(--blue);color:var(--white);}
+    .step.active .step-circle{border-color:var(--blue);background:var(--light);color:var(--blue);}
+    .step-label{font-size:12px;font-weight:700;color:var(--gray500);text-align:center;}
+    .step.active .step-label{color:var(--blue);}
+    .step.done .step-label{color:var(--navy);}
+
+    /* 카드 */
+    .card{background:var(--white);border-radius:var(--radius);border:1px solid var(--gray200);padding:32px;box-shadow:var(--shadow-md);}
+    .card-title{font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+    .card-sub{font-size:15px;color:var(--gray500);margin-bottom:28px;line-height:1.6;}
+
+    /* 폼 */
+    .form-group{margin-bottom:20px;}
+    .form-label{display:block;font-size:14px;font-weight:700;color:var(--navy);margin-bottom:8px;}
+    .form-label span{color:var(--red);margin-left:2px;}
+    .form-input,.form-select,.form-textarea{width:100%;padding:12px 14px;border:1.5px solid var(--gray200);border-radius:var(--radius-sm);font-family:var(--font-body);font-size:15px;color:var(--navy);background:var(--white);transition:border-color .2s,box-shadow .2s;outline:none;}
+    .form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--sky);box-shadow:0 0 0 3px rgba(52,152,219,.12);}
+    .form-textarea{resize:vertical;min-height:100px;}
+    .form-hint{font-size:12px;color:var(--gray500);margin-top:6px;}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+
+    /* 분야 선택 */
+    .field-options{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+    .field-option{border:2px solid var(--gray200);border-radius:var(--radius-sm);padding:16px 12px;text-align:center;cursor:pointer;transition:all .2s;}
+    .field-option:hover{border-color:var(--sky);background:var(--gray50);}
+    .field-option.selected{border-color:var(--blue);background:var(--light);}
+    .field-opt-icon{font-size:26px;margin-bottom:6px;}
+    .field-opt-name{font-size:13px;font-weight:700;color:var(--navy);}
+    .field-opt-check{display:none;width:20px;height:20px;border-radius:50%;background:var(--blue);color:var(--white);font-size:12px;align-items:center;justify-content:center;margin:4px auto 0;}
+    .field-option.selected .field-opt-check{display:flex;}
+
+    /* 업로드 */
+    .upload-box{border:2px dashed var(--gray300);border-radius:var(--radius);padding:32px;text-align:center;cursor:pointer;transition:all .2s;}
+    .upload-box:hover{border-color:var(--sky);background:#EFF9FF;}
+    .upload-icon{font-size:40px;margin-bottom:10px;}
+    .upload-text{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:4px;}
+    .upload-hint{font-size:13px;color:var(--gray500);}
+    .uploaded-file{display:flex;align-items:center;gap:10px;padding:12px;border-radius:var(--radius-sm);background:var(--green-l);border:1px solid rgba(22,163,74,.2);margin-top:12px;}
+    .uploaded-file-name{font-size:14px;font-weight:600;color:var(--green);}
+
+    /* 버튼 */
+    .btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-body);font-weight:700;border:none;cursor:pointer;text-decoration:none;transition:all .2s;border-radius:var(--radius-sm);white-space:nowrap;font-size:15px;padding:12px 24px;}
+    .btn-primary{background:var(--blue);color:var(--white);}
+    .btn-primary:hover{background:var(--mid);transform:translateY(-1px);box-shadow:0 4px 16px rgba(26,82,118,.3);}
+    .btn-secondary{background:var(--gray100);color:var(--gray700);}
+    .btn-secondary:hover{background:var(--gray200);}
+    .btn-lg{padding:15px 32px;font-size:16px;width:100%;justify-content:center;}
+
+    /* 대기 화면 */
+    .pending-box{text-align:center;padding:40px 20px;}
+    .pending-icon{font-size:64px;margin-bottom:16px;animation:bounce 1.5s ease-in-out infinite;}
+    @keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+    .pending-title{font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--navy);margin-bottom:10px;}
+    .pending-sub{font-size:15px;color:var(--gray500);line-height:1.7;margin-bottom:28px;}
+    .pending-steps{text-align:left;background:var(--gray50);border-radius:var(--radius-sm);padding:20px;margin-bottom:24px;}
+    .pending-step{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--gray100);}
+    .pending-step:last-child{border:none;}
+    .pending-step-num{width:28px;height:28px;border-radius:50%;background:var(--light);color:var(--blue);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .pending-step-text{font-size:14px;color:var(--navy);}
+    .pending-step-time{font-size:12px;color:var(--gray500);margin-left:auto;white-space:nowrap;}
+
+    .footer-btns{display:flex;gap:12px;margin-top:24px;}
+    .page-section{display:none;}
+    .page-section.active{display:block;}
+
+    @media(max-width:600px){.form-row{grid-template-columns:1fr;}.field-options{grid-template-columns:repeat(2,1fr);}.footer-btns{flex-direction:column;}}
+  </style>
+</head>
+<body>
+
+<nav class="gnb">
+  <a href="index.html" class="logo">
+    <div class="logo-icon">🍽️</div>
+    <span class="logo-text">외식전문가</span>
+  </a>
+  <div class="gnb-right">이미 계정이 있으신가요? <a href="b-02-home.html">로그인 →</a></div>
+</nav>
+
+<div class="page">
+
+  <!-- 스텝 인디케이터 -->
+  <div class="steps" id="stepsEl">
+    <div class="step active" id="step1"><div class="step-circle">1</div><div class="step-label">기본 정보</div></div>
+    <div class="step" id="step2"><div class="step-circle">2</div><div class="step-label">전문 분야</div></div>
+    <div class="step" id="step3"><div class="step-circle">3</div><div class="step-label">자격증 업로드</div></div>
+    <div class="step" id="step4"><div class="step-circle">4</div><div class="step-label">심사 대기</div></div>
+    <div class="step-line-fill" id="stepFill" style="width:0%"></div>
+  </div>
+
+  <!-- STEP 1: 기본 정보 -->
+  <div class="page-section active" id="section1">
+    <div class="card">
+      <div class="card-title">👋 전문가 기본 정보</div>
+      <div class="card-sub">외식전문가 플랫폼에 오신 것을 환영합니다! 전문가로 활동하기 위한 기본 정보를 입력해주세요.</div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">이름 <span>*</span></label>
+          <input class="form-input" type="text" placeholder="실명을 입력해주세요" value="김세무">
+        </div>
+        <div class="form-group">
+          <label class="form-label">직함 <span>*</span></label>
+          <input class="form-input" type="text" placeholder="예: 세무사, 노무사, 변호사" value="세무사">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">이메일 <span>*</span></label>
+        <input class="form-input" type="email" placeholder="example@email.com" value="kim.tax@example.com">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">휴대폰 <span>*</span></label>
+          <input class="form-input" type="tel" placeholder="010-0000-0000" value="010-1234-5678">
+        </div>
+        <div class="form-group">
+          <label class="form-label">경력 연수 <span>*</span></label>
+          <select class="form-select">
+            <option>선택</option>
+            <option>1~3년</option>
+            <option>3~5년</option>
+            <option selected>5~10년</option>
+            <option>10년 이상</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">자기소개 <span>*</span></label>
+        <textarea class="form-textarea" placeholder="전문 분야와 경력을 간략하게 소개해주세요 (최소 100자)">안녕하세요! 저는 외식업 소상공인 전문 세무사 김세무입니다. 8년간 삼겹살집, 카페, 치킨집 등 다양한 외식업종 사장님들의 세금 문제를 해결해왔습니다.</textarea>
+        <div class="form-hint">최소 100자 이상 · 현재 75자</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">활동 지역</label>
+        <input class="form-input" type="text" placeholder="예: 서울 강남구, 전국 비대면" value="서울 전역 · 전국 비대면">
+      </div>
+      <button class="btn btn-primary btn-lg" onclick="goStep(2)">다음 단계 → 전문 분야 선택</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: 전문 분야 -->
+  <div class="page-section" id="section2">
+    <div class="card">
+      <div class="card-title">🎓 전문 분야 선택</div>
+      <div class="card-sub">활동할 전문 분야를 선택해주세요. 최대 2개까지 선택 가능합니다.</div>
+
+      <div class="field-options" id="fieldOptions">
+        <div class="field-option selected" onclick="toggleField(this)">
+          <div class="field-opt-icon">💰</div>
+          <div class="field-opt-name">세무·회계</div>
+          <div class="field-opt-check">✓</div>
+        </div>
+        <div class="field-option" onclick="toggleField(this)">
+          <div class="field-opt-icon">⚖️</div>
+          <div class="field-opt-name">법무</div>
+          <div class="field-opt-check">✓</div>
+        </div>
+        <div class="field-option" onclick="toggleField(this)">
+          <div class="field-opt-icon">👥</div>
+          <div class="field-opt-name">노무</div>
+          <div class="field-opt-check">✓</div>
+        </div>
+        <div class="field-option" onclick="toggleField(this)">
+          <div class="field-opt-icon">📣</div>
+          <div class="field-opt-name">마케팅</div>
+          <div class="field-opt-check">✓</div>
+        </div>
+        <div class="field-option" onclick="toggleField(this)">
+          <div class="field-opt-icon">💻</div>
+          <div class="field-opt-name">DX 전환</div>
+          <div class="field-opt-check">✓</div>
+        </div>
+        <div class="field-option" onclick="toggleField(this)">
+          <div class="field-opt-icon">🛡️</div>
+          <div class="field-opt-name">위생·안전</div>
+          <div class="field-opt-check">✓</div>
+        </div>
+      </div>
+
+      <div style="margin-top:28px;">
+        <div class="form-group">
+          <label class="form-label">세부 키워드 <span style="color:var(--gray500);font-weight:400;">(최대 6개)</span></label>
+          <input class="form-input" type="text" placeholder="예: 부가세, 종합소득세, 절세전략 — 쉼표로 구분" value="부가세 신고, 종합소득세, 절세 전략, 4대보험, 사업자 등록, 장부 기장">
+          <div class="form-hint">소상공인이 검색할 키워드를 입력하면 매칭률이 높아집니다</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">상담 방식</label>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;padding:10px 16px;border:1.5px solid var(--blue);border-radius:100px;background:var(--light);font-size:14px;font-weight:700;color:var(--blue);">
+              <input type="checkbox" checked style="accent-color:var(--blue);"> 💬 채팅 상담
+            </label>
+            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;padding:10px 16px;border:1.5px solid var(--blue);border-radius:100px;background:var(--light);font-size:14px;font-weight:700;color:var(--blue);">
+              <input type="checkbox" checked style="accent-color:var(--blue);"> 📹 화상 상담
+            </label>
+            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;padding:10px 16px;border:1.5px solid var(--gray200);border-radius:100px;font-size:14px;color:var(--gray700);">
+              <input type="checkbox" style="accent-color:var(--blue);"> 🏢 방문 상담
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-btns">
+        <button class="btn btn-secondary" onclick="goStep(1)" style="width:100%;justify-content:center;">← 이전</button>
+        <button class="btn btn-primary btn-lg" onclick="goStep(3)">다음 → 자격증 업로드</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3: 자격증 업로드 -->
+  <div class="page-section" id="section3">
+    <div class="card">
+      <div class="card-title">📜 자격증 · 서류 업로드</div>
+      <div class="card-sub">전문 자격증 및 경력 서류를 업로드해주세요. 심사 후 인증 배지가 부여됩니다.</div>
+
+      <div class="form-group">
+        <label class="form-label">국가 공인 자격증 <span style="color:var(--red);">*</span></label>
+        <div class="upload-box" onclick="simulateUpload('cert1')">
+          <div class="upload-icon">📄</div>
+          <div class="upload-text">자격증 사본 업로드</div>
+          <div class="upload-hint">JPG, PNG, PDF · 최대 10MB · 앞면 선명하게</div>
+        </div>
+        <div class="uploaded-file" id="cert1" style="display:none;">
+          <span style="font-size:20px;">✅</span>
+          <span class="uploaded-file-name">세무사_자격증_김세무.pdf</span>
+          <span style="margin-left:auto;font-size:12px;color:var(--gray500);">2.3 MB</span>
+        </div>
+        <div class="form-hint">세무사·노무사·변호사 등 국가공인 자격증 번호가 반드시 포함되어야 합니다</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">경력 증명서 <span style="color:var(--gray500);font-weight:400;">(선택)</span></label>
+        <div class="upload-box" onclick="simulateUpload('cert2')">
+          <div class="upload-icon">🗂️</div>
+          <div class="upload-text">경력 증명서 또는 사업자등록증 업로드</div>
+          <div class="upload-hint">JPG, PNG, PDF · 최대 10MB</div>
+        </div>
+        <div class="uploaded-file" id="cert2" style="display:none;">
+          <span style="font-size:20px;">✅</span>
+          <span class="uploaded-file-name">사업자등록증_김세무세무사무소.pdf</span>
+          <span style="margin-left:auto;font-size:12px;color:var(--gray500);">1.1 MB</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">자격증 번호 직접 입력</label>
+        <input class="form-input" type="text" placeholder="예: 제 23456호" value="제 23456호">
+        <div class="form-hint">운영팀이 자격증 번호를 직접 조회하여 검증합니다</div>
+      </div>
+
+      <div style="background:var(--amber-l);border:1px solid rgba(212,160,23,.3);border-radius:var(--radius-sm);padding:16px;margin-bottom:20px;font-size:14px;color:var(--amber);line-height:1.6;">
+        ⚠️ <strong>유의 사항:</strong> 허위 자격증 제출 시 즉시 계정 정지 및 법적 조치가 취해집니다. 모든 서류는 암호화 저장되며 검증 목적으로만 사용됩니다.
+      </div>
+
+      <div class="footer-btns">
+        <button class="btn btn-secondary" onclick="goStep(2)" style="width:100%;justify-content:center;">← 이전</button>
+        <button class="btn btn-primary btn-lg" onclick="goStep(4)">제출 → 심사 요청</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4: 심사 대기 -->
+  <div class="page-section" id="section4">
+    <div class="card">
+      <div class="pending-box">
+        <div class="pending-icon">⏳</div>
+        <div class="pending-title">신청 완료! 심사 중입니다</div>
+        <div class="pending-sub">
+          서류를 제출해주셔서 감사합니다.<br>
+          운영팀이 빠르게 검토 후 승인 결과를 이메일로 알려드립니다.
+        </div>
+
+        <div class="pending-steps">
+          <div class="pending-step">
+            <div class="pending-step-num" style="background:var(--green-l);color:var(--green);">✓</div>
+            <div class="pending-step-text">기본 정보 확인 완료</div>
+            <div class="pending-step-time">방금 전</div>
+          </div>
+          <div class="pending-step">
+            <div class="pending-step-num" style="background:var(--green-l);color:var(--green);">✓</div>
+            <div class="pending-step-text">전문 분야 선택 완료</div>
+            <div class="pending-step-time">방금 전</div>
+          </div>
+          <div class="pending-step">
+            <div class="pending-step-num" style="background:var(--green-l);color:var(--green);">✓</div>
+            <div class="pending-step-text">자격증 업로드 완료</div>
+            <div class="pending-step-time">방금 전</div>
+          </div>
+          <div class="pending-step">
+            <div class="pending-step-num" style="background:var(--amber-l);color:var(--amber);">⏳</div>
+            <div class="pending-step-text" style="font-weight:700;">운영팀 자격증 검증 심사</div>
+            <div class="pending-step-time" style="color:var(--amber);">1~2 영업일</div>
+          </div>
+          <div class="pending-step">
+            <div class="pending-step-num">5</div>
+            <div class="pending-step-text" style="color:var(--gray500);">승인 완료 → 전문가 활동 시작</div>
+            <div class="pending-step-time">승인 후 즉시</div>
+          </div>
+        </div>
+
+        <div style="background:var(--light);border-radius:var(--radius-sm);padding:16px;text-align:left;margin-bottom:24px;">
+          <div style="font-size:13px;font-weight:700;color:var(--blue);margin-bottom:6px;">📬 알림 수신 이메일</div>
+          <div style="font-size:15px;color:var(--navy);">kim.tax@example.com</div>
+        </div>
+
+        <a href="b-02-home.html" class="btn btn-primary" style="width:100%;justify-content:center;font-size:16px;padding:14px;">
+          전문가 홈으로 이동 →
+        </a>
+        <div style="margin-top:12px;font-size:13px;color:var(--gray500);">
+          심사 중에도 대시보드를 미리 확인하실 수 있습니다
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+let currentStep = 1;
+const totalSteps = 4;
+
+function goStep(n) {
+  document.getElementById('section' + currentStep).classList.remove('active');
+  document.getElementById('step' + currentStep).classList.remove('active');
+  if (currentStep < n) document.getElementById('step' + currentStep).classList.add('done');
+
+  currentStep = n;
+  document.getElementById('section' + n).classList.add('active');
+  document.getElementById('step' + n).classList.add('active');
+
+  // 라인 채우기
+  const pct = ((n - 1) / (totalSteps - 1)) * 100;
+  document.getElementById('stepFill').style.width = pct + '%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleField(el) {
+  const opts = document.querySelectorAll('.field-option');
+  const selected = document.querySelectorAll('.field-option.selected');
+  if (el.classList.contains('selected')) {
+    el.classList.remove('selected');
+  } else {
+    if (selected.length >= 2) {
+      alert('최대 2개까지 선택 가능합니다.');
+      return;
+    }
+    el.classList.add('selected');
+  }
+}
+
+function simulateUpload(id) {
+  const el = document.getElementById(id);
+  if (el) { el.style.display = 'flex'; el.style.alignItems = 'center'; }
+}
+</script>
+</body>
+</html>

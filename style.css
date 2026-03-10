@@ -509,7 +509,7 @@ footer {
   background: #0A1520; color: rgba(255,255,255,.7);
   padding: 64px 0 32px;
 }
-.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 48px; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 32px; margin-bottom: 48px; }
 .footer-brand .logo { color: var(--white); margin-bottom: 14px; display: inline-flex; }
 .footer-brand p { font-size: 14px; line-height: 1.8; color: rgba(255,255,255,.5); margin-bottom: 20px; }
 .social-links { display: flex; gap: 10px; }
@@ -565,7 +565,7 @@ footer {
   .plans-grid { grid-template-columns: 1fr; gap: 16px; }
   .plan-card.featured { transform: none; }
   .plan-card.featured:hover { transform: translateY(-4px); }
-  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr 1fr; }
   .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
 }
 @media (max-width: 600px) {

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>외식전문가 — 질문 목록 (B-03)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Gmarket+Sans:wght@300;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="expert-b.css">
+</head>
+<body>
+
+<div id="sidebarOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99;"></div>
+
+<aside class="sidebar">
+  <a href="index.html" class="sidebar-logo">
+    <div class="sidebar-logo-icon">🍽️</div>
+    <div><div class="sidebar-logo-text">외식전문가</div><div class="sidebar-logo-sub">전문가 포털</div></div>
+  </a>
+  <div class="sidebar-expert-info">
+    <div class="sei-avatar">👨‍💼</div>
+    <div class="sei-name">김세무 세무사</div>
+    <div class="sei-role">세무·회계 전문가</div>
+    <span class="sei-badge">✓ 인증됨</span>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-label">메인</div>
+    <a href="b-02-home.html" class="nav-item"><span class="nav-icon">🏠</span> 전문가 홈</a>
+    <a href="b-03-questions.html" class="nav-item active"><span class="nav-icon">📋</span> 질문 목록<span class="nav-badge">3</span></a>
+    <div class="nav-label">상담</div>
+    <a href="b-05-chat.html" class="nav-item"><span class="nav-icon">💬</span> 채팅 상담방<span class="nav-badge">2</span></a>
+    <a href="b-06-schedule.html" class="nav-item"><span class="nav-icon">📅</span> 일정 관리</a>
+    <div class="nav-label">내 정보</div>
+    <a href="b-07-profile-edit.html" class="nav-item"><span class="nav-icon">👤</span> 내 프로필</a>
+    <a href="b-08-settlement.html" class="nav-item"><span class="nav-icon">💰</span> 정산 대시보드</a>
+  </nav>
+  <div class="sidebar-footer">
+    <a href="index.html">⚙️ 설정</a>
+    <a href="index.html">🚪 로그아웃</a>
+  </div>
+</aside>
+
+<main class="main">
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="hamburger-btn" id="hamburgerBtn">☰</button>
+      <div>
+        <div class="topbar-title">질문 목록</div>
+        <div class="topbar-sub">내 분야의 신규 질문을 확인하고 수락하세요</div>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="topbar-notif">🔔<div class="notif-dot"></div></div>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- 탭 + 필터 -->
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+      <div class="tab-nav">
+        <button class="tab-btn active" data-tab="new">신규 질문 <span style="background:var(--red);color:white;font-size:11px;padding:1px 7px;border-radius:100px;margin-left:4px;">3</span></button>
+        <button class="tab-btn" data-tab="inprogress">진행 중 <span style="background:var(--gray300);color:white;font-size:11px;padding:1px 7px;border-radius:100px;margin-left:4px;">5</span></button>
+        <button class="tab-btn" data-tab="done">완료</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <select class="form-select" style="width:auto;padding:8px 14px;font-size:13px;">
+          <option>최신순</option>
+          <option>긴급순</option>
+          <option>금액순</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- 필터 칩 -->
+    <div class="filter-bar">
+      <span class="filter-chip active">전체</span>
+      <span class="filter-chip">💰 세무·회계</span>
+      <span class="filter-chip">⚖️ 법무</span>
+      <span class="filter-chip">👥 노무</span>
+      <span class="filter-chip">📣 마케팅</span>
+      <span class="filter-chip">⚡ 긴급</span>
+    </div>
+
+    <!-- 탭 컨텐츠: 신규 질문 -->
+    <div data-tab-content="new">
+      <div style="display:flex;flex-direction:column;gap:12px;">
+
+        <!-- 긴급 질문 -->
+        <a href="b-04-question-detail.html" class="question-card" style="border-color:rgba(239,68,68,.3);background:linear-gradient(to right,#FFF5F5,var(--white));">
+          <div class="qc-header">
+            <div>
+              <div class="qc-title">배달앱 매출 부가세 신고 방법 — 요기요·배민 포함해서 어떻게 계산하나요?</div>
+              <div class="qc-meta">
+                <span class="badge badge-blue">💰 세무·회계</span>
+                <span class="badge badge-red">⚡ 긴급</span>
+                <span class="qc-time">3분 전 등록</span>
+              </div>
+            </div>
+            <div style="text-align:right;flex-shrink:0;">
+              <div style="font-size:11px;color:var(--gray500);margin-bottom:4px;">예상 수당</div>
+              <div style="font-size:18px;font-weight:700;color:var(--blue);">45,000원</div>
+            </div>
+          </div>
+          <div class="qc-preview">올해 처음으로 부가세 신고를 직접 해보려고 합니다. 배달앱(요기요, 배민)을 통한 매출과 현장 매출을 따로 계산해야 하는지, 합산해도 되는지 궁금합니다. 배달앱에서 정산서가 오는데 이걸 그대로 쓰면 되는 건지요?</div>
+          <div class="qc-footer">
+            <div class="qc-user">
+              <div class="qc-avatar">👨‍🍳</div>
+              마포구 삼겹살집 김○○ · 스탠다드 플랜
+            </div>
+            <div style="display:flex;gap:8px;">
+              <button class="btn btn-danger btn-sm" onclick="event.preventDefault();showToast('거절되었습니다.')">거절</button>
+              <button class="btn btn-primary btn-sm" onclick="event.preventDefault();window.location.href='b-04-question-detail.html'">상세보기 →</button>
+            </div>
+          </div>
+        </a>
+
+        <!-- 일반 질문 2 -->
+        <a href="b-04-question-detail.html" class="question-card">
+          <div class="qc-header">
+            <div>
+              <div class="qc-title">직원 2명 고용 시 4대보험 및 원천징수 신고 절차</div>
+              <div class="qc-meta">
+                <span class="badge badge-blue">💰 세무·회계</span>
+                <span class="qc-time">15분 전 등록</span>
+              </div>
+            </div>
+            <div style="text-align:right;flex-shrink:0;">
+              <div style="font-size:11px;color:var(--gray500);margin-bottom:4px;">예상 수당</div>
+              <div style="font-size:18px;font-weight:700;color:var(--blue);">38,000원</div>
+            </div>
+          </div>
+          <div class="qc-preview">작은 카페를 운영하고 있는데 파트타임 직원을 2명 고용했어요. 4대보험 가입을 해야 한다고 들었는데, 어떤 절차로 신고해야 하는지 단계별로 알고 싶습니다. 세금 신고는 언제까지 해야 하나요?</div>
+          <div class="qc-footer">
+            <div class="qc-user">
+              <div class="qc-avatar">👩‍🍳</div>
+              강남구 카페 박○○ · 베이직 플랜
+            </div>
+            <div style="display:flex;gap:8px;">
+              <button class="btn btn-danger btn-sm" onclick="event.preventDefault();showToast('거절되었습니다.')">거절</button>
+              <button class="btn btn-primary btn-sm" onclick="event.preventDefault();window.location.href='b-04-question-detail.html'">상세보기 →</button>
+            </div>
+          </div>
+        </a>
+
+        <!-- 일반 질문 3 -->
+        <a href="b-04-question-detail.html" class="question-card">
+          <div class="qc-header">
+            <div>
+              <div class="qc-title">종합소득세 절세 방법 — 카드 vs 현금영수증 처리 차이점</div>
+              <div class="qc-meta">
+                <span class="badge badge-blue">💰 세무·회계</span>
+                <span class="qc-time">42분 전 등록</span>
+              </div>
+            </div>
+            <div style="text-align:right;flex-shrink:0;">
+              <div style="font-size:11px;color:var(--gray500);margin-bottom:4px;">예상 수당</div>
+              <div style="font-size:18px;font-weight:700;color:var(--blue);">32,000원</div>
+            </div>
+          </div>
+          <div class="qc-preview">매년 5월에 종합소득세를 내는데 작년보다 훨씬 많이 나와서 당황했습니다. 경비 처리를 최대한 하려면 카드로 결제하는 게 유리한지, 현금영수증은 어떻게 다른지 알고 싶습니다.</div>
+          <div class="qc-footer">
+            <div class="qc-user">
+              <div class="qc-avatar">🧑‍🍳</div>
+              송파구 치킨집 이○○ · 프리미엄 플랜
+            </div>
+            <div style="display:flex;gap:8px;">
+              <button class="btn btn-danger btn-sm" onclick="event.preventDefault();showToast('거절되었습니다.')">거절</button>
+              <button class="btn btn-primary btn-sm" onclick="event.preventDefault();window.location.href='b-04-question-detail.html'">상세보기 →</button>
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- 탭 컨텐츠: 진행 중 -->
+    <div data-tab-content="inprogress" style="display:none;">
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <a href="b-05-chat.html" class="question-card">
+          <div class="qc-header">
+            <div>
+              <div class="qc-title">사업자등록 후 첫 부가세 신고 전체 과정 안내 요청</div>
+              <div class="qc-meta">
+                <span class="badge badge-green">💬 채팅 진행 중</span>
+                <span class="badge badge-blue">💰 세무·회계</span>
+              </div>
+            </div>
+          </div>
+          <div class="qc-preview">어제 답변 보내드렸으며 서류 검토 중입니다. 소상공인이 추가 서류를 업로드했습니다.</div>
+          <div class="qc-footer">
+            <div class="qc-user"><div class="qc-avatar">👨‍🍳</div>마포구 삼겹살집 김○○</div>
+            <div style="font-size:13px;color:var(--blue);font-weight:700;">채팅방 열기 →</div>
+          </div>
+        </a>
+        <a href="b-06-schedule.html" class="question-card">
+          <div class="qc-header">
+            <div>
+              <div class="qc-title">화상 상담 — 절세 전략 전반 컨설팅</div>
+              <div class="qc-meta">
+                <span class="badge badge-purple">📹 오늘 15:00 화상</span>
+              </div>
+            </div>
+          </div>
+          <div class="qc-preview">오늘 오후 3시 화상 상담이 예약되어 있습니다. Zoom 링크가 이메일로 발송되었습니다.</div>
+          <div class="qc-footer">
+            <div class="qc-user"><div class="qc-avatar">🧑‍🍳</div>송파구 치킨집 이○○</div>
+            <div style="font-size:13px;color:var(--blue);font-weight:700;">일정 확인 →</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- 탭 컨텐츠: 완료 -->
+    <div data-tab-content="done" style="display:none;">
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div class="question-card" style="opacity:.8;cursor:default;" onmouseenter="" onmouseleave="">
+          <div class="qc-header">
+            <div>
+              <div class="qc-title">임대차 계약서 독소 조항 검토 요청</div>
+              <div class="qc-meta"><span class="badge badge-green">✓ 완료</span><span class="badge badge-blue">💰 세무·회계</span></div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:11px;color:var(--gray500);">정산 완료</div>
+              <div style="font-size:16px;font-weight:700;color:var(--green);">+45,000원</div>
+            </div>
+          </div>
+          <div class="qc-footer">
+            <div class="qc-user"><div class="qc-avatar">👩‍🍳</div>강남구 카페 박○○ · 3일 전</div>
+            <div style="display:flex;align-items:center;gap:4px;color:var(--amber);font-size:13px;font-weight:700;">★★★★★ 5.0</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<div id="toast"></div>
+<script src="expert-b.js"></script>
+<script>
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+</script>
+</body>
+</html>
