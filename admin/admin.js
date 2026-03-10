@@ -76,6 +76,24 @@ function initDashboardCharts() {
 
 // 3. 관리 기능 시뮬레이션 핸들러
 function initSimulationHandlers() {
+  // 전문가 항목 클릭 선택
+  const applicants = document.querySelectorAll('.applicant-item');
+  applicants.forEach(item => {
+    item.addEventListener('click', () => {
+      applicants.forEach(a => a.classList.remove('active'));
+      item.classList.add('active');
+      
+      // 상세 패널 정보 업데이트 시뮬레이션
+      const name = item.querySelector('div div').textContent;
+      const field = item.querySelector('.badge').textContent;
+      const panel = document.getElementById('reviewPanel');
+      if (panel) {
+        panel.querySelector('input[value]').value = name.replace(' 전문가', '');
+        panel.querySelectorAll('input')[1].value = field + ' (외식업 특화)';
+      }
+    });
+  });
+
   // 전문가 심사 승인/반려
   const reviewActions = document.querySelectorAll('#reviewPanel .btn');
   reviewActions.forEach(btn => {
