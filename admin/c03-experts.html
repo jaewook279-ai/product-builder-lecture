@@ -1,245 +1,955 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>외식전문가 관리자 — 전문가 심사 (C-03)</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Gmarket+Sans:wght@300;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="admin.css">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MATCHPRO — 전문가 심사 C-03</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:        #F5F6FA;
+  --surface:   #FFFFFF;
+  --surface2:  #F9FAFB;
+  --border:    #E8EAF0;
+  --border2:   #D1D5E0;
+  --text0:     #111827;
+  --text1:     #374151;
+  --text2:     #6B7280;
+  --text3:     #9CA3AF;
+  --text4:     #C4C9D4;
+  --blue:      #3B6FFF;
+  --blue-lt:   #EEF2FF;
+  --green:     #10B981;
+  --green-lt:  #D1FAE5;
+  --orange:    #F59E0B;
+  --orange-lt: #FEF3C7;
+  --red:       #EF4444;
+  --red-lt:    #FEE2E2;
+  --purple:    #8B5CF6;
+  --purple-lt: #EDE9FE;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  --shadow:    0 4px 12px rgba(0,0,0,.08), 0 1px 3px rgba(0,0,0,.05);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,.12), 0 4px 10px rgba(0,0,0,.06);
+  --radius:    12px;
+  --radius-sm: 8px;
+  --mono:      'DM Mono','Courier New',monospace;
+  --sans:      'DM Sans','Helvetica Neue',sans-serif;
+}
+html,body { height:100%; background:var(--bg); color:var(--text1); font-family:var(--sans); overflow:hidden; }
+
+/* ── LAYOUT ── */
+.app { display:flex; height:100vh; }
+
+/* ── SIDEBAR ── */
+.sidebar { width:232px; flex-shrink:0; background:var(--surface); border-right:1px solid var(--border); display:flex; flex-direction:column; z-index:20; }
+.logo { padding:22px 20px 18px; border-bottom: 1px solid var(--border); cursor: pointer; text-decoration: none; }
+.logo-inner { display:flex; align-items:center; gap:11px; }
+.logo-mark { width:34px; height:34px; border-radius:9px; flex-shrink:0; background:linear-gradient(135deg,var(--blue) 0%,var(--purple) 100%); display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:700; color:#fff; box-shadow:0 3px 10px rgba(59,111,255,.35); }
+.logo-name { font-size:14px; font-weight:700; color:var(--text0); letter-spacing: -.01em; }
+.logo-sub  { font-size:9px; color:var(--text3); letter-spacing:.1em; margin-top:2px; text-transform:uppercase; }
+nav { flex:1; padding:14px 10px; overflow-y: auto; }
+.nav-section { font-size:9px; font-weight:600; color:var(--text4); letter-spacing:.12em; text-transform:uppercase; padding:0 10px; margin:0 0 6px; }
+.nav-item { display:flex; align-items:center; gap:9px; padding:9px 12px; border-radius:var(--radius-sm); cursor:pointer; transition:background .15s; margin-bottom:2px; text-decoration: none; }
+.nav-item:hover { background:var(--bg); }
+.nav-item.active { background:var(--blue-lt); }
+.nav-icon { width:28px; height:28px; border-radius:7px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:13px; background:var(--bg); transition: background .15s; }
+.nav-item.active .nav-icon { background:var(--blue); }
+.nav-label { font-size:12.5px; color:var(--text2); flex:1; }
+.nav-item.active .nav-label { color:var(--blue); font-weight:600; }
+.nav-badge { background:var(--red); color:#fff; font-size:9px; font-weight:700; padding:2px 6px; border-radius:10px; }
+.nav-id { font-size:9px; color:var(--text4); }
+.sidebar-footer { padding:14px 16px; border-top:1px solid var(--border); display:flex; align-items:center; gap:10px; }
+.s-avatar { width:32px; height:32px; border-radius:50%; flex-shrink:0; background:linear-gradient(135deg,var(--blue),var(--purple)); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:#fff; }
+.user-name  { font-size:12px; font-weight:600; color:var(--text0); }
+.user-email { font-size:10px; color:var(--text3); margin-top:1px; }
+.logout-btn { margin-left:auto; background:none; border:1px solid var(--border); cursor:pointer; color:var(--text3); font-size:13px; width:26px; height:26px; border-radius:6px; display:flex; align-items:center; justify-content:center; }
+
+/* ── MAIN ── */
+.main { flex:1; display:flex; flex-direction:column; overflow:hidden; }
+
+/* ── TOPBAR ── */
+.topbar { display:flex; align-items:center; justify-content:space-between; padding:15px 28px; flex-shrink:0; background:rgba(255,255,255,.9); backdrop-filter:blur(14px); border-bottom:1px solid var(--border); }
+.breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--text3); margin-bottom:4px; }
+.breadcrumb .current { color:var(--text1); font-weight:500; }
+.page-title { font-size:17px; font-weight:700; color:var(--text0); letter-spacing:-.02em; }
+.page-code  { font-size:10px; color:var(--text3); letter-spacing:.1em; margin-left:8px; }
+.topbar-right { display:flex; align-items:center; gap:10px; }
+.live-pill { display:flex; align-items:center; gap:5px; background:var(--green-lt); border-radius:20px; padding:4px 10px; }
+.live-dot  { width:6px; height:6px; border-radius:50%; background:var(--green); animation:pulse 2s infinite; }
+ @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.live-text { font-size:10px; font-weight:600; color:var(--green); letter-spacing:.06em; }
+#clock { font-family:var(--mono); font-size:11px; color:var(--text2); background:var(--surface); border:1px solid var(--border); padding:5px 11px; border-radius:7px; }
+.icon-btn { width:34px; height:34px; border-radius:8px; background:var(--surface); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:14px; position:relative; }
+.notif-dot { position:absolute; top:5px; right:5px; width:7px; height:7px; border-radius:50%; background:var(--red); border:1.5px solid #fff; }
+
+/* ── CONTENT ── */
+.content { flex:1; overflow-y:auto; padding:24px 28px; display:flex; flex-direction:column; gap:20px; }
+
+/* ── KPI STRIP ── */
+.kpi-strip { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+.kpi-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:18px 20px; box-shadow:var(--shadow-sm); position:relative; overflow:hidden; transition:box-shadow .2s,transform .2s; }
+.kpi-card:hover { box-shadow:var(--shadow); transform:translateY(-1px); }
+.kpi-accent { position:absolute; top:0; left:0; right:0; height:3px; border-radius:var(--radius) var(--radius) 0 0; }
+.kpi-row  { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+.kpi-icon { width:36px; height:36px; border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:17px; }
+.kpi-delta { font-size:11px; font-weight:600; padding:2px 7px; border-radius:5px; }
+.kpi-val  { font-size:22px; font-weight:700; color:var(--text0); font-family:var(--mono); letter-spacing:-.02em; }
+.kpi-lbl  { font-size:11px; color:var(--text2); margin-top:3px; }
+
+/* ── TABS ── */
+.tabs-bar { display:flex; align-items:center; gap:4px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:6px; box-shadow:var(--shadow-sm); }
+.tab-btn { display:flex; align-items:center; gap:7px; padding:8px 16px; border-radius:var(--radius-sm); cursor:pointer; border:none; background:transparent; font-family:var(--sans); font-size:13px; font-weight:500; color:var(--text2); transition:background .15s,color .15s; }
+.tab-btn:hover { background:var(--bg); color:var(--text1); }
+.tab-btn.active { background:var(--blue); color:#fff; font-weight:600; box-shadow:0 2px 8px rgba(59,111,255,.3); }
+.tab-count { font-size:10px; font-weight:700; padding:1px 7px; border-radius:10px; }
+.tab-btn.active .tab-count { background:rgba(255,255,255,.25); color:#fff; }
+.tab-btn:not(.active) .tab-count { background:var(--border); color:var(--text2); }
+.tab-btn.active.orange { background:var(--orange); box-shadow:0 2px 8px rgba(245,158,11,.3); }
+.tab-btn.active.green  { background:var(--green);  box-shadow:0 2px 8px rgba(16,185,129,.3); }
+.tab-btn.active.red    { background:var(--red);    box-shadow:0 2px 8px rgba(239,68,68,.3); }
+.tabs-right { margin-left:auto; display:flex; align-items:center; gap:8px; }
+
+/* ── SEARCH & FILTER ── */
+.toolbar { display:flex; align-items:center; gap:12px; }
+.search-wrap { position:relative; }
+.search-icon { position:absolute; left:10px; top:50%; transform:translateY(-50%); font-size:13px; color:var(--text3); pointer-events:none; }
+.search-input { width:260px; padding:8px 12px 8px 32px; font-size:12.5px; font-family:var(--sans); background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); color:var(--text0); outline:none; transition:border-color .15s,box-shadow .15s; }
+.search-input::placeholder { color:var(--text3); }
+.search-input:focus { border-color:var(--blue); box-shadow:0 0 0 3px rgba(59,111,255,.1); }
+.filter-select { padding:8px 28px 8px 10px; font-size:12px; font-family:var(--sans); background:var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%239CA3AF'/%3E%3C/svg%3E") no-repeat right 10px center; border:1px solid var(--border); border-radius:var(--radius-sm); color:var(--text1); outline:none; cursor:pointer; appearance:none; }
+.filter-select:focus { border-color:var(--blue); }
+.result-count { font-size:12px; color:var(--text2); white-space:nowrap; margin-left:auto; }
+.result-count strong { color:var(--text0); font-weight:600; }
+
+/* ── CARD GRID ── */
+.card-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:16px; }
+
+/* ── APPLICANT CARD ── */
+.app-card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius); padding:20px;
+  box-shadow:var(--shadow-sm); cursor:pointer;
+  transition:box-shadow .2s,transform .2s,border-color .2s;
+  position:relative; overflow:hidden;
+}
+.app-card:hover { box-shadow:var(--shadow); transform:translateY(-2px); border-color:var(--border2); }
+.app-card.selected { border-color:var(--blue); box-shadow:0 0 0 2px rgba(59,111,255,.2),var(--shadow); }
+.card-urgent-bar { position:absolute; top:0; left:0; right:0; height:3px; }
+
+.card-header { display:flex; align-items:flex-start; gap:12px; margin-bottom:16px; }
+.card-avatar { width:46px; height:46px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:700; color:#fff; }
+.card-meta { flex:1; }
+.card-name { font-size:14px; font-weight:700; color:var(--text0); margin-bottom:2px; }
+.card-title-role { font-size:12px; color:var(--text2); }
+.card-id { font-size:10px; font-family:var(--mono); color:var(--text3); margin-top:3px; }
+.card-badges { display:flex; gap:6px; flex-wrap:wrap; }
+
+.badge { display:inline-flex; align-items:center; gap:4px; font-size:10.5px; font-weight:600; padding:3px 9px; border-radius:20px; white-space:nowrap; }
+.badge-dot { width:5px; height:5px; border-radius:50%; }
+
+.card-body { display:flex; flex-direction:column; gap:10px; margin-bottom:16px; }
+.card-row { display:flex; align-items:center; gap:8px; }
+.card-row-label { font-size:10.5px; color:var(--text3); min-width:52px; }
+.card-row-val   { font-size:12px; color:var(--text1); font-weight:500; }
+
+.cert-chips { display:flex; gap:6px; flex-wrap:wrap; }
+.cert-chip { display:flex; align-items:center; gap:4px; font-size:10.5px; padding:3px 9px; border-radius:6px; background:var(--surface2); border:1px solid var(--border); color:var(--text1); }
+.cert-verified   { background:var(--green-lt); border-color:#A7F3D0; color:#059669; }
+.cert-unverified { background:var(--orange-lt); border-color:#FDE68A; color:#D97706; }
+
+.card-footer { display:flex; align-items:center; justify-content:space-between; padding-top:14px; border-top:1px solid var(--border); }
+.card-time { font-size:10.5px; color:var(--text3); display:flex; align-items:center; gap:4px; }
+.card-time.urgent { color:var(--red); font-weight:600; }
+.card-actions { display:flex; gap:6px; }
+.c-btn { font-size:11.5px; font-weight:600; padding:6px 13px; border-radius:6px; cursor:pointer; border:none; font-family:var(--sans); transition:opacity .15s,box-shadow .15s; }
+.c-btn:hover { opacity:.82; }
+.c-btn-approve { background:var(--green); color:#fff; box-shadow:0 2px 6px rgba(16,185,129,.3); }
+.c-btn-reject  { background:var(--red-lt); color:var(--red); border:1px solid #FECACA; }
+.c-btn-detail  { background:var(--blue-lt); color:var(--blue); }
+
+/* ── EMPTY STATE ── */
+.empty-state { text-align:center; padding:60px 20px; color:var(--text3); }
+.empty-icon  { font-size:40px; margin-bottom:12px; }
+.empty-text  { font-size:14px; color:var(--text2); }
+.empty-sub   { font-size:12px; color:var(--text3); margin-top:4px; }
+
+/* ── DETAIL PANEL ── */
+.panel-overlay { position:fixed; inset:0; background:rgba(17,24,39,.3); backdrop-filter:blur(3px); z-index:40; opacity:0; pointer-events:none; transition:opacity .25s; }
+.panel-overlay.open { opacity:1; pointer-events:all; }
+.detail-panel { position:fixed; top:0; right:0; bottom:0; width:460px; background:var(--surface); box-shadow:var(--shadow-lg); z-index:50; display:flex; flex-direction:column; transform:translateX(100%); transition:transform .3s cubic-bezier(.4,0,.2,1); }
+.detail-panel.open { transform:translateX(0); }
+.panel-header { display:flex; align-items:center; justify-content:space-between; padding:20px 24px; border-bottom:1px solid var(--border); flex-shrink:0; }
+.panel-title { font-size:15px; font-weight:700; color:var(--text0); }
+.panel-close { width:30px; height:30px; border-radius:7px; background:var(--bg); border:1px solid var(--border); cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; color:var(--text2); }
+.panel-close:hover { background:var(--border); }
+.panel-body { flex:1; overflow-y:auto; padding:0; }
+
+/* panel sections */
+.p-section { padding:20px 24px; border-bottom:1px solid var(--border); }
+.p-section:last-child { border-bottom:none; }
+.p-sec-title { font-size:10px; font-weight:700; color:var(--text3); letter-spacing:.1em; text-transform:uppercase; margin-bottom:14px; }
+
+.p-profile-row { display:flex; align-items:center; gap:16px; margin-bottom:16px; }
+.p-avatar { width:60px; height:60px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:24px; font-weight:700; color:#fff; flex-shrink:0; }
+.p-name   { font-size:18px; font-weight:700; color:var(--text0); }
+.p-role   { font-size:12.5px; color:var(--text2); margin-top:3px; }
+.p-uid    { font-size:10px; font-family:var(--mono); color:var(--text3); margin-top:4px; }
+
+.info-grid2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.info-item { background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px; }
+.info-label { font-size:10px; color:var(--text3); margin-bottom:4px; }
+.info-val   { font-size:12.5px; font-weight:600; color:var(--text0); }
+
+/* cert viewer */
+.cert-list { display:flex; flex-direction:column; gap:10px; }
+.cert-row { display:flex; align-items:center; gap:12px; padding:12px 14px; background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius-sm); }
+.cert-thumb { width:44px; height:44px; border-radius:7px; background:var(--border); display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; overflow:hidden; }
+.cert-info { flex:1; }
+.cert-name { font-size:12.5px; font-weight:600; color:var(--text0); }
+.cert-issuer { font-size:10.5px; color:var(--text2); margin-top:2px; }
+.cert-date   { font-size:10px; font-family:var(--mono); color:var(--text3); margin-top:2px; }
+.cert-status-badge { font-size:10px; font-weight:700; padding:3px 8px; border-radius:5px; }
+
+/* career timeline */
+.career-list { display:flex; flex-direction:column; gap:0; position:relative; }
+.career-list::before { content:''; position:absolute; left:7px; top:8px; bottom:8px; width:1px; background:var(--border); }
+.career-item { display:flex; gap:16px; padding-bottom:16px; position:relative; }
+.career-item:last-child { padding-bottom:0; }
+.career-dot { width:15px; height:15px; border-radius:50%; background:var(--blue); border:2px solid #fff; box-shadow:0 0 0 2px var(--blue); flex-shrink:0; margin-top:2px; }
+.career-body { flex:1; }
+.career-title { font-size:12.5px; font-weight:600; color:var(--text0); }
+.career-org   { font-size:11px; color:var(--text2); margin-top:2px; }
+.career-period{ font-size:10px; font-family:var(--mono); color:var(--text3); margin-top:2px; }
+
+/* intro */
+.intro-box { background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius-sm); padding:14px; font-size:12.5px; color:var(--text1); line-height:1.7; }
+
+/* review history */
+.review-box { background:var(--orange-lt); border:1px solid #FDE68A; border-radius:var(--radius-sm); padding:12px 14px; }
+.review-box-title { font-size:11px; font-weight:700; color:#92400E; margin-bottom:4px; }
+.review-box-text  { font-size:12px; color:#78350F; }
+
+.panel-footer { padding:16px 24px; border-top:1px solid var(--border); display:flex; gap:10px; flex-shrink:0; }
+.p-btn { flex:1; padding:11px; border-radius:var(--radius-sm); font-size:13px; font-weight:600; font-family:var(--sans); cursor:pointer; border:none; transition:opacity .15s; }
+.p-btn:hover { opacity:.82; }
+.p-btn-approve { background:var(--green); color:#fff; box-shadow:0 2px 8px rgba(16,185,129,.3); }
+.p-btn-reject  { background:var(--red-lt); color:var(--red); border:1px solid #FECACA; }
+.p-btn-ghost   { background:var(--bg); color:var(--text1); border:1px solid var(--border); }
+
+/* ── REJECT MODAL ── */
+.modal-overlay { position:fixed; inset:0; background:rgba(17,24,39,.45); backdrop-filter:blur(4px); z-index:60; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity .2s; }
+.modal-overlay.open { opacity:1; pointer-events:all; }
+.modal { background:var(--surface); border-radius:14px; width:440px; box-shadow:var(--shadow-lg); padding:28px; transform:scale(.95) translateY(8px); transition:transform .2s; }
+.modal-overlay.open .modal { transform:scale(1) translateY(0); }
+.modal-icon  { width:48px; height:48px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px; margin-bottom:16px; }
+.modal-title { font-size:16px; font-weight:700; color:var(--text0); margin-bottom:8px; }
+.modal-desc  { font-size:13px; color:var(--text2); line-height:1.6; margin-bottom:20px; }
+.modal-label { font-size:12px; font-weight:600; color:var(--text1); margin-bottom:6px; }
+.modal-select { width:100%; padding:9px 12px; font-size:13px; font-family:var(--sans); background:var(--bg); border:1px solid var(--border); border-radius:var(--radius-sm); color:var(--text0); outline:none; margin-bottom:12px; }
+.modal-select:focus { border-color:var(--blue); }
+.modal-textarea { width:100%; padding:9px 12px; font-size:13px; font-family:var(--sans); background:var(--bg); border:1px solid var(--border); border-radius:var(--radius-sm); color:var(--text0); outline:none; resize:vertical; min-height:90px; margin-bottom:20px; }
+.modal-textarea:focus { border-color:var(--blue); }
+.modal-textarea::placeholder { color:var(--text3); }
+.modal-checklist { display:flex; flex-direction:column; gap:8px; margin-bottom:20px; }
+.modal-check-item { display:flex; align-items:center; gap:10px; font-size:13px; color:var(--text1); cursor:pointer; }
+.modal-check-item input { width:15px; height:15px; accent-color:var(--red); cursor:pointer; }
+.modal-actions { display:flex; gap:10px; }
+.m-btn { flex:1; padding:10px; border-radius:var(--radius-sm); font-size:13px; font-weight:600; font-family:var(--sans); cursor:pointer; border:none; transition:opacity .15s; }
+.m-btn:hover { opacity:.82; }
+.m-cancel  { background:var(--bg); color:var(--text1); border:1px solid var(--border); }
+.m-approve { background:var(--green); color:#fff; box-shadow:0 2px 8px rgba(16,185,129,.3); }
+.m-reject  { background:var(--red); color:#fff; box-shadow:0 2px 8px rgba(239,68,68,.3); }
+
+/* ── APPROVE MODAL ── */
+.approve-checklist { display:flex; flex-direction:column; gap:10px; margin-bottom:20px; }
+.check-row { display:flex; align-items:center; gap:10px; padding:10px 12px; background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius-sm); cursor:pointer; }
+.check-row input { width:15px; height:15px; accent-color:var(--green); cursor:pointer; }
+.check-row span { font-size:12.5px; color:var(--text1); }
+
+/* ── TOAST ── */
+.toast { position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--text0); color:#fff; padding:12px 20px; border-radius:10px; font-size:13px; font-weight:500; z-index:99; opacity:0; transition:opacity .25s,transform .25s; pointer-events:none; display:flex; align-items:center; gap:8px; box-shadow:var(--shadow-lg); }
+.toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width:5px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:var(--border2); border-radius:10px; }
+</style>
 </head>
 <body>
-<div id="sidebarOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99;"></div>
+<div class="app">
 
-<aside class="sidebar">
-  <a href="index.html" class="sidebar-logo">
-    <div class="sidebar-logo-icon">⚙️</div>
-    <div><div class="sidebar-logo-text">외식전문가</div><div class="sidebar-logo-sub">관리자 포털</div><span class="admin-badge-pill">ADMIN</span></div>
-  </a>
-  <nav class="sidebar-nav">
-    <div class="nav-label">개요</div>
-    <a href="c-01-home.html" class="nav-item"><span class="nav-icon">🏠</span> 관리자 홈</a>
-    <div class="nav-label">회원</div>
-    <a href="c-02-members.html" class="nav-item"><span class="nav-icon">👥</span> 소상공인 관리</a>
-    <a href="c-03-expert-review.html" class="nav-item active"><span class="nav-icon">📋</span> 전문가 심사<span class="nav-badge warn">7</span></a>
-    <div class="nav-label">매칭</div>
-    <a href="c-04-matching.html" class="nav-item"><span class="nav-icon">🔗</span> 매칭 현황<span class="nav-badge">3</span></a>
-    <div class="nav-label">수익</div>
-    <a href="c-05-settlement.html" class="nav-item"><span class="nav-icon">💰</span> 정산 관리</a>
-    <div class="nav-label">통계</div>
-    <a href="c-06-stats.html" class="nav-item"><span class="nav-icon">📊</span> 플랫폼 통계</a>
-  </nav>
-  <div class="sidebar-footer"><a href="index.html">🌐 서비스 홈</a><a href="index.html">🚪 로그아웃</a></div>
-</aside>
-
-<main class="main">
-  <header class="topbar">
-    <div class="topbar-left">
-      <button class="hamburger-btn" id="hamburgerBtn">☰</button>
-      <div><div class="topbar-title">전문가 심사</div><div class="topbar-sub">가입 신청 검토 및 자격증 확인</div></div>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <a href="../index.html" class="logo">
+      <div class="logo-inner">
+        <div class="logo-mark">M</div>
+        <div><div class="logo-name">MatchPro</div><div class="logo-sub">Admin Console</div></div>
+      </div>
+    </a>
+    <nav id="nav"></nav>
+    <div class="sidebar-footer">
+      <div class="s-avatar">관</div>
+      <div><div class="user-name">슈퍼 관리자</div><div class="user-email">admin@matchpro.kr</div></div>
+      <button class="logout-btn" title="로그아웃" onclick="location.href='../index.html'">↪</button>
     </div>
-    <div class="topbar-right">
-      <span class="badge badge-amber" style="font-size:13px;padding:6px 14px;">⏳ 심사 대기 7명</span>
-      <div class="topbar-notif">🔔<div class="notif-dot"></div></div>
-    </div>
-  </header>
+  </aside>
 
-  <div class="content">
-    <div style="display:grid;grid-template-columns:360px 1fr;gap:20px;align-items:start;">
+  <!-- MAIN -->
+  <div class="main">
+    <header class="topbar">
+      <div>
+        <div class="breadcrumb"><span>홈</span><span>›</span><span class="current">전문가 심사</span></div>
+        <div><span class="page-title">전문가 심사</span><span class="page-code">C-03 · REVIEW</span></div>
+      </div>
+      <div class="topbar-right">
+        <div class="live-pill"><div class="live-dot"></div><span class="live-text">LIVE</span></div>
+        <div id="clock"></div>
+        <div class="icon-btn">🔔<div class="notif-dot"></div></div>
+        <div class="icon-btn">⚙️</div>
+      </div>
+    </header>
 
-      <!-- 신청 목록 -->
-      <div class="card" style="padding:0;overflow:hidden;">
-        <div style="padding:16px;border-bottom:1px solid var(--gray200);background:var(--gray50);">
-          <div style="font-size:15px;font-weight:700;margin-bottom:10px;">📋 신청 목록</div>
-          <div class="tab-nav" style="margin-bottom:0;">
-            <button class="tab-btn active" style="font-size:12px;padding:6px 12px;">대기 (7)</button>
-            <button class="tab-btn" style="font-size:12px;padding:6px 12px;">승인 (142)</button>
-            <button class="tab-btn" style="font-size:12px;padding:6px 12px;">반려 (18)</button>
-          </div>
-        </div>
+    <div class="content">
 
-        <div id="applicantList" style="overflow-y:auto;max-height:calc(100vh - 240px);">
-          <!-- 신청 카드들 -->
-          <div class="applicant-item active" onclick="selectApplicant(this,0)" style="padding:14px 16px;border-bottom:1px solid var(--gray100);cursor:pointer;background:var(--admin-l);border-left:3px solid var(--admin); transition: all 0.3s ease;">
-            <div style="display:flex;align-items:center;gap:10px;">
-              <div style="width:42px;height:42px;border-radius:12px;background:var(--amber-l);display:flex;align-items:center;justify-content:center;font-size:22px;">👨‍💼</div>
-              <div style="flex:1;">
-                <div style="font-size:14px;font-weight:700;">이노무 노무사</div>
-                <div style="font-size:12px;color:var(--gray500);">👥 노무 · 경력 5년</div>
-                <div style="display:flex;gap:5px;margin-top:4px;"><span class="badge badge-amber" style="font-size:10px;">⏳ 심사중</span><span style="font-size:11px;color:var(--gray500);">23분 전</span></div>
-              </div>
-            </div>
-          </div>
-          <div class="applicant-item" onclick="selectApplicant(this,1)" style="padding:14px 16px;border-bottom:1px solid var(--gray100);cursor:pointer; transition: all 0.3s ease;">
-            <div style="display:flex;align-items:center;gap:10px;">
-              <div style="width:42px;height:42px;border-radius:12px;background:var(--light);display:flex;align-items:center;justify-content:center;font-size:22px;">👩‍💼</div>
-              <div style="flex:1;">
-                <div style="font-size:14px;font-weight:700;">박법무 변호사</div>
-                <div style="font-size:12px;color:var(--gray500);">⚖️ 법무 · 경력 8년</div>
-                <div style="display:flex;gap:5px;margin-top:4px;"><span class="badge badge-amber" style="font-size:10px;">⏳ 심사중</span><span style="font-size:11px;color:var(--gray500);">1시간 전</span></div>
-              </div>
-            </div>
-          </div>
-          <div class="applicant-item" onclick="selectApplicant(this,2)" style="padding:14px 16px;border-bottom:1px solid var(--gray100);cursor:pointer; transition: all 0.3s ease;">
-            <div style="display:flex;align-items:center;gap:10px;">
-              <div style="width:42px;height:42px;border-radius:12px;background:var(--green-l);display:flex;align-items:center;justify-content:center;font-size:22px;">👨‍💼</div>
-              <div style="flex:1;">
-                <div style="font-size:14px;font-weight:700;">최마케팅 컨설턴트</div>
-                <div style="font-size:12px;color:var(--gray500);">📣 마케팅 · 경력 6년</div>
-                <div style="display:flex;gap:5px;margin-top:4px;"><span class="badge badge-red" style="font-size:10px;">⚠ 서류 미비</span><span style="font-size:11px;color:var(--gray500);">3시간 전</span></div>
-              </div>
-            </div>
-          </div>
-          <div class="applicant-item" onclick="selectApplicant(this,3)" style="padding:14px 16px;border-bottom:1px solid var(--gray100);cursor:pointer; transition: all 0.3s ease;">
-            <div style="display:flex;align-items:center;gap:10px;">
-              <div style="width:42px;height:42px;border-radius:12px;background:var(--purple-l);display:flex;align-items:center;justify-content:center;font-size:22px;">👩‍💼</div>
-              <div style="flex:1;">
-                <div style="font-size:14px;font-weight:700;">정세무 세무사</div>
-                <div style="font-size:12px;color:var(--gray500);">💰 세무회계 · 경력 3년</div>
-                <div style="display:flex;gap:5px;margin-top:4px;"><span class="badge badge-amber" style="font-size:10px;">⏳ 심사중</span><span style="font-size:11px;color:var(--gray500);">어제</span></div>
-              </div>
-            </div>
-          </div>
+      <!-- KPI -->
+      <div class="kpi-strip" id="kpiStrip"></div>
+
+      <!-- TABS + TOOLBAR -->
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div class="tabs-bar" id="tabsBar">
+          <!-- injected by JS -->
         </div>
       </div>
 
-      <!-- 상세 심사 패널 -->
-      <div style="display:flex;flex-direction:column;gap:16px;" id="reviewPanel">
+      <!-- CARD GRID -->
+      <div class="card-grid" id="cardGrid"></div>
 
-        <!-- 신청자 정보 -->
-        <div class="card">
-          <div style="display:flex;align-items:flex-start;gap:16px;margin-bottom:16px;">
-            <div style="width:64px;height:64px;border-radius:16px;background:var(--amber-l);display:flex;align-items:center;justify-content:center;font-size:32px;">👨‍💼</div>
-            <div style="flex:1;">
-              <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
-                <div style="font-family:var(--font-display);font-size:20px;font-weight:700;" id="detailName">이노무 노무사</div>
-                <span class="badge badge-amber">⏳ 심사 대기</span>
-              </div>
-              <div style="font-size:14px;color:var(--gray500);">👥 노무 전문가 · 경력 5년 · 신청일: 2026.03.10 10:42</div>
-              <div style="display:flex;gap:10px;margin-top:10px;font-size:13px;">
-                <span>📧 lee.nomo@example.com</span>
-                <span>📱 010-2345-6789</span>
-              </div>
-            </div>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding-top:16px;border-top:1px solid var(--gray100);">
-            <div style="background:var(--gray50);border-radius:var(--radius-sm);padding:12px;">
-              <div style="font-size:12px;color:var(--gray500);margin-bottom:4px;">전문 분야</div>
-              <div style="font-size:14px;font-weight:700;">👥 노무 · 근로계약, 4대보험, 퇴직금</div>
-            </div>
-            <div style="background:var(--gray50);border-radius:var(--radius-sm);padding:12px;">
-              <div style="font-size:12px;color:var(--gray500);margin-bottom:4px;">상담 방식</div>
-              <div style="font-size:14px;font-weight:700;">💬 채팅 + 📹 화상</div>
-            </div>
-            <div style="background:var(--gray50);border-radius:var(--radius-sm);padding:12px;">
-              <div style="font-size:12px;color:var(--gray500);margin-bottom:4px;">자격증 번호</div>
-              <div style="font-size:14px;font-weight:700;">공인노무사 제 34567호</div>
-            </div>
-            <div style="background:var(--gray50);border-radius:var(--radius-sm);padding:12px;">
-              <div style="font-size:12px;color:var(--gray500);margin-bottom:4px;">활동 지역</div>
-              <div style="font-size:14px;font-weight:700;">서울 전역 · 전국 비대면</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 자격증 검토 -->
-        <div class="card">
-          <div class="card-title">📜 자격증 서류 검토</div>
-          <div style="display:flex;flex-direction:column;gap:10px;">
-            <div style="display:flex;align-items:center;gap:12px;padding:14px;border-radius:var(--radius-sm);border:1px solid var(--gray200);">
-              <div style="width:48px;height:48px;border-radius:12px;background:var(--amber-l);display:flex;align-items:center;justify-content:center;font-size:24px;">📄</div>
-              <div style="flex:1;">
-                <div style="font-size:14px;font-weight:700;">공인노무사_자격증.pdf</div>
-                <div style="font-size:12px;color:var(--gray500);">2.1MB · 2026.03.10 업로드</div>
-              </div>
-              <div style="display:flex;gap:6px;">
-                <button class="btn btn-secondary btn-sm" onclick="showToast('파일 보기')">👁 보기</button>
-                <button class="btn btn-success btn-sm" id="cert1Btn" onclick="verifyCert('cert1Btn','공인노무사 자격증')">✓ 확인</button>
-              </div>
-            </div>
-            <div style="display:flex;align-items:center;gap:12px;padding:14px;border-radius:var(--radius-sm);border:1px solid var(--gray200);">
-              <div style="width:48px;height:48px;border-radius:12px;background:var(--light);display:flex;align-items:center;justify-content:center;font-size:24px;">🗂️</div>
-              <div style="flex:1;">
-                <div style="font-size:14px;font-weight:700;">경력증명서_이노무법인.pdf</div>
-                <div style="font-size:12px;color:var(--gray500);">1.4MB · 2026.03.10 업로드</div>
-              </div>
-              <div style="display:flex;gap:6px;">
-                <button class="btn btn-secondary btn-sm" onclick="showToast('파일 보기')">👁 보기</button>
-                <button class="btn btn-success btn-sm" id="cert2Btn" onclick="verifyCert('cert2Btn','경력증명서')">✓ 확인</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- 자격증 번호 조회 -->
-          <div style="background:var(--light);border-radius:var(--radius-sm);padding:14px;margin-top:12px;display:flex;align-items:center;justify-content:space-between;">
-            <div>
-              <div style="font-size:13px;font-weight:700;color:var(--blue);">🔍 자격증 번호 실시간 조회</div>
-              <div style="font-size:12px;color:var(--gray500);">공인노무사 제 34567호 · 한국공인노무사회</div>
-            </div>
-            <button class="btn btn-blue btn-sm" onclick="showToast('✅ 조회 완료: 정상 등록된 자격증입니다.')">조회하기</button>
-          </div>
-        </div>
-
-        <!-- 소개글 -->
-        <div class="card">
-          <div class="card-title">📝 신청자 자기소개</div>
-          <p style="font-size:14px;color:var(--gray700);line-height:1.8;">안녕하세요. 저는 5년간 외식업 소상공인의 노무 문제를 전문적으로 다루어온 공인노무사 이노무입니다. 근로계약서 작성부터 퇴직금 계산, 4대보험 신고까지 외식업에 특화된 실무 중심 상담을 제공합니다.</p>
-        </div>
-
-        <!-- 관리자 메모 및 승인/반려 -->
-        <div class="card" style="background:var(--gray50);border:1.5px solid var(--gray200);">
-          <div class="card-title">✍️ 심사 결과 처리</div>
-          <div class="form-group">
-            <label class="form-label">관리자 메모</label>
-            <textarea class="form-textarea" placeholder="심사 의견을 입력하세요 (신청자에게 전달되지 않는 내부 메모)"></textarea>
-          </div>
-          <div class="form-group">
-            <label class="form-label">반려 사유 <span style="color:var(--gray500);font-weight:400;">(반려 시 필수)</span></label>
-            <select class="form-select">
-              <option>-</option>
-              <option>자격증 불일치</option>
-              <option>서류 미비</option>
-              <option>자격증 만료</option>
-              <option>경력 부족</option>
-              <option>기타</option>
-            </select>
-          </div>
-          <div style="display:flex;gap:10px;">
-            <button class="btn btn-danger" style="flex:1;justify-content:center;">✗ 반려</button>
-            <button class="btn btn-warn" style="flex:1;justify-content:center;">📎 서류 추가 요청</button>
-            <button class="btn btn-success" style="flex:1;justify-content:center;background:var(--green);color:white;">✓ 승인</button>
-          </div>
-        </div>
-
-      </div>
     </div>
   </div>
-</main>
+</div>
 
-<div id="toast"></div>
-<script src="admin.js"></script>
+<!-- PANEL OVERLAY -->
+<div class="panel-overlay" id="panelOverlay" onclick="closePanel()"></div>
+
+<!-- DETAIL PANEL -->
+<div class="detail-panel" id="detailPanel">
+  <div class="panel-header">
+    <div class="panel-title" id="panelTitle">신청서 상세</div>
+    <button class="panel-close" onclick="closePanel()">✕</button>
+  </div>
+  <div class="panel-body" id="panelBody"></div>
+  <div class="panel-footer" id="panelFooter"></div>
+</div>
+
+<!-- REJECT MODAL -->
+<div class="modal-overlay" id="rejectModal">
+  <div class="modal">
+    <div class="modal-icon" style="background:var(--red-lt)">❌</div>
+    <div class="modal-title">신청 반려 처리</div>
+    <div class="modal-desc"><strong id="rejectTarget"></strong> 전문가 신청을 반려하시겠습니까? 신청자에게 반려 사유가 이메일로 전송됩니다.</div>
+    <div class="modal-label">반려 사유 선택</div>
+    <select class="modal-select" id="rejectReason">
+      <option>자격증 사본 불명확 / 재제출 필요</option>
+      <option>자격증 유효기간 만료</option>
+      <option>경력 증명 서류 미첨부</option>
+      <option>전문 분야와 자격증 불일치</option>
+      <option>중복 계정 의심</option>
+      <option>기타 (직접 입력)</option>
+    </select>
+    <div class="modal-label">상세 메모</div>
+    <textarea class="modal-textarea" id="rejectNote" placeholder="반려 사유에 대한 상세 내용을 입력하세요…"></textarea>
+    <div class="modal-actions">
+      <button class="m-btn m-cancel" onclick="closeAllModals()">취소</button>
+      <button class="m-btn m-reject" onclick="confirmReject()">반려 처리</button>
+    </div>
+  </div>
+</div>
+
+<!-- APPROVE MODAL -->
+<div class="modal-overlay" id="approveModal">
+  <div class="modal">
+    <div class="modal-icon" style="background:var(--green-lt)">✅</div>
+    <div class="modal-title">승인 전 최종 확인</div>
+    <div class="modal-desc"><strong id="approveTarget"></strong> 전문가 신청을 승인합니다. 아래 항목을 모두 확인했는지 체크해주세요.</div>
+    <div class="approve-checklist">
+      <label class="check-row"><input type="checkbox" id="chk1"/><span>자격증 원본 진위 확인 완료</span></label>
+      <label class="check-row"><input type="checkbox" id="chk2"/><span>경력 기간 및 소속 기관 확인 완료</span></label>
+      <label class="check-row"><input type="checkbox" id="chk3"/><span>중복 계정 여부 조회 완료</span></label>
+      <label class="check-row"><input type="checkbox" id="chk4"/><span>프로필 사진 및 소개글 적합성 확인</span></label>
+    </div>
+    <div class="modal-actions">
+      <button class="m-btn m-cancel" onclick="closeAllModals()">취소</button>
+      <button class="m-btn m-approve" onclick="confirmApprove()" id="approveConfirmBtn">승인 완료</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
 <script>
-function selectApplicant(el, idx) {
-  document.querySelectorAll('.applicant-item').forEach(i => {
-    i.style.background = '';
-    i.style.borderLeft = '';
-    i.classList.remove('active');
+// ── DATA ─────────────────────────────────────────────────────────────────────
+const FILENAMES = {
+  "C-01": "c01-dashboard.html",
+  "C-02": "c02-users.html",
+  "C-03": "c03-experts.html",
+  "C-04": "c04-matching.html",
+  "C-05": "c05-settlement.html",
+  "C-06": "c06-stats.html"
+};
+const NAV_ITEMS = [
+  { id:"C-01", label:"관리자 홈",    icon:"🏠" },
+  { id:"C-02", label:"소상공인 관리", icon:"🏪" },
+  { id:"C-03", label:"전문가 심사",   icon:"🔍", badge:14, active:true },
+  { id:"C-04", label:"매칭 현황",    icon:"🔗" },
+  { id:"C-05", label:"정산 관리",    icon:"💳" },
+  { id:"C-06", label:"플랫폼 통계",  icon:"📊" },
+];
+
+const AVATAR_COLORS = ["#3B6FFF","#10B981","#F59E0B","#8B5CF6","#EF4444","#06B6D4","#EC4899","#84CC16"];
+
+const APPLICANTS = [
+  {
+    id:"EX-0041", name:"김민준", role:"세무사 · 조세 전문", field:"세무",
+    career:"15년", region:"서울 강남", appliedAt:"2026-03-07", waitHours:71,
+    status:"pending",
+    certs:[
+      { name:"세무사 자격증", issuer:"한국세무사회", date:"2011.06", verified:true,  thumb:"📜" },
+      { name:"공인회계사 (CPA)", issuer:"금융위원회", date:"2010.03", verified:true,  thumb:"📋" },
+    ],
+    careers:[
+      { title:"대표 세무사", org:"민준 세무법인", period:"2018.01 – 현재" },
+      { title:"세무 팀장",   org:"삼일 회계법인", period:"2014.03 – 2017.12" },
+      { title:"세무 주임",   org:"국세청",       period:"2011.07 – 2014.02" },
+    ],
+    intro:"소상공인 및 법인 세무 신고, 세무조사 대응, 조세 불복 등 15년 이상의 풍부한 경험을 보유하고 있습니다. 특히 요식업·소매업 업종의 세무 특수성에 정통하여 실질적인 절세 전략을 제공합니다.",
+    email:"kim.minjun@taxpro.kr", phone:"010-1234-5678",
+    prevReview:null,
+  },
+  {
+    id:"EX-0042", name:"이수현", role:"노무사 · 인사노무 전문", field:"노무",
+    career:"9년", region:"서울 마포", appliedAt:"2026-03-06", waitHours:88,
+    status:"pending",
+    certs:[
+      { name:"공인노무사 자격증", issuer:"고용노동부", date:"2015.09", verified:true,  thumb:"📜" },
+      { name:"HR 전문가 자격증", issuer:"한국인사관리협회", date:"2016.02", verified:false, thumb:"🎓" },
+    ],
+    careers:[
+      { title:"공인노무사",   org:"수현 노무법인", period:"2019.03 – 현재" },
+      { title:"노무 컨설턴트", org:"중소기업중앙회", period:"2015.10 – 2019.02" },
+    ],
+    intro:"임금 체불, 해고 분쟁, 4대 보험 관리, 취업규칙 작성 등 소상공인에게 꼭 필요한 노무 서비스를 제공합니다. 상시근로자 10인 미만 사업장 전문 컨설팅 경험 다수 보유.",
+    email:"lee.soohyun@labor.kr", phone:"010-2345-6789",
+    prevReview:null,
+  },
+  {
+    id:"EX-0043", name:"박지훈", role:"변호사 · 계약·상사법 전문", field:"법률",
+    career:"12년", region:"서울 서초", appliedAt:"2026-03-05", waitHours:109,
+    status:"pending",
+    certs:[
+      { name:"변호사 자격증", issuer:"대한변호사협회", date:"2013.04", verified:true,  thumb:"⚖️" },
+      { name:"法學博士 (상사법)", issuer:"서울대학교",  date:"2013.02", verified:true,  thumb:"🎓" },
+    ],
+    careers:[
+      { title:"파트너 변호사", org:"박앤파트너스 법률사무소", period:"2020.01 – 현재" },
+      { title:"어소시에이트",  org:"김앤장 법률사무소",       period:"2013.05 – 2019.12" },
+    ],
+    intro:"프랜차이즈 계약, 임대차 분쟁, 사업양도, 상표권 침해 등 소상공인이 자주 겪는 법률 문제를 신속하고 합리적인 비용으로 해결해드립니다.",
+    email:"park.jihoon@lawfirm.kr", phone:"010-3456-7890",
+    prevReview:{ type:"reject", reason:"이전 신청 시 자격증 사본 불명확으로 반려. 재제출 확인 필요." },
+  },
+  {
+    id:"EX-0044", name:"최나영", role:"회계사 · 재무관리 전문", field:"회계",
+    career:"7년", region:"경기 성남", appliedAt:"2026-03-08", waitHours:55,
+    status:"pending",
+    certs:[
+      { name:"공인회계사 (CPA)", issuer:"금융위원회", date:"2018.06", verified:true,  thumb:"📊" },
+    ],
+    careers:[
+      { title:"공인회계사",   org:"최나영 회계사무소", period:"2021.01 – 현재" },
+      { title:"회계 감사팀",  org:"딜로이트 안진",     period:"2018.07 – 2020.12" },
+    ],
+    intro:"중소기업 및 소상공인 대상 재무제표 작성, 외부감사, 자금조달 컨설팅을 전문으로 합니다. 특히 창업 초기 기업의 회계 시스템 구축 경험이 풍부합니다.",
+    email:"choi.nayoung@cpa.kr", phone:"010-4567-8901",
+    prevReview:null,
+  },
+  {
+    id:"EX-0045", name:"정우성", role:"경영 컨설턴트 · 스타트업 전문", field:"경영",
+    career:"10년", region:"서울 강서", appliedAt:"2026-03-09", waitHours:36,
+    status:"pending",
+    certs:[
+      { name:"경영지도사 자격증", issuer:"중소벤처기업부", date:"2016.08", verified:true,  thumb:"💼" },
+      { name:"MBA (KAIST)",      issuer:"KAIST 경영대학", date:"2014.02", verified:true,  thumb:"🎓" },
+    ],
+    careers:[
+      { title:"수석 컨설턴트", org:"정우성 경영컨설팅", period:"2019.06 – 현재" },
+      { title:"전략 기획팀장",  org:"삼성전자",         period:"2014.03 – 2019.05" },
+    ],
+    intro:"사업계획서 작성, 경영전략 수립, 정부지원사업 컨설팅 분야에서 200개 이상의 소상공인·스타트업을 지원한 실전 경험 보유.",
+    email:"jung.woosung@biz.kr", phone:"010-5678-9012",
+    prevReview:null,
+  },
+  {
+    id:"EX-0046", name:"한소희", role:"마케팅 전문가 · SNS·광고", field:"마케팅",
+    career:"6년", region:"서울 용산", appliedAt:"2026-03-09", waitHours:38,
+    status:"pending",
+    certs:[
+      { name:"구글 애즈 자격증",    issuer:"Google",            date:"2024.01", verified:true,  thumb:"🎯" },
+      { name:"메타 블루프린트",     issuer:"Meta",              date:"2023.06", verified:false, thumb:"📱" },
+      { name:"디지털마케팅 전문가", issuer:"한국디지털마케팅협회", date:"2020.03", verified:true,  thumb:"📣" },
+    ],
+    careers:[
+      { title:"마케팅 디렉터", org:"한소희 마케팅스튜디오", period:"2022.01 – 현재" },
+      { title:"퍼포먼스 마케터", org:"카카오",              period:"2018.07 – 2021.12" },
+    ],
+    intro:"소상공인 맞춤형 SNS 마케팅, 검색광고, 바이럴 콘텐츠 제작 전략을 통해 매출 증대를 지원합니다. 평균 ROI 320% 달성 사례 다수 보유.",
+    email:"han.sohee@marketing.kr", phone:"010-6789-0123",
+    prevReview:null,
+  },
+  // Approved
+  {
+    id:"EX-0031", name:"강현우", role:"세무사 · 양도소득세 전문", field:"세무",
+    career:"11년", region:"서울 강동", appliedAt:"2026-02-20", waitHours:0,
+    status:"approved",
+    certs:[{ name:"세무사 자격증", issuer:"한국세무사회", date:"2012.06", verified:true, thumb:"📜" }],
+    careers:[{ title:"대표 세무사", org:"강현우 세무법인", period:"2016.01 – 현재" }],
+    intro:"양도소득세 및 상속세 전문.",
+    email:"kang.hw@tax.kr", phone:"010-7777-8888",
+    prevReview:null,
+  },
+  {
+    id:"EX-0032", name:"윤지영", role:"노무사 · 외국계 기업 전문", field:"노무",
+    career:"8년", region:"서울 여의도", appliedAt:"2026-02-18", waitHours:0,
+    status:"approved",
+    certs:[{ name:"공인노무사 자격증", issuer:"고용노동부", date:"2016.03", verified:true, thumb:"📜" }],
+    careers:[{ title:"공인노무사", org:"윤지영 노무법인", period:"2018.01 – 현재" }],
+    intro:"외국계 기업 노무 및 인사 컨설팅 전문.",
+    email:"yoon.jy@labor.kr", phone:"010-8888-9999",
+    prevReview:null,
+  },
+  // Rejected
+  {
+    id:"EX-0021", name:"조태현", role:"세무사 신청", field:"세무",
+    career:"3년", region:"경기 의정부", appliedAt:"2026-02-10", waitHours:0,
+    status:"rejected",
+    certs:[{ name:"세무사 자격증", issuer:"한국세무사회", date:"2023.07", verified:false, thumb:"📜" }],
+    careers:[{ title:"세무 보조", org:"개인 사무소", period:"2023.08 – 현재" }],
+    intro:"세무 서비스 제공 희망.",
+    email:"jo.th@tax.kr", phone:"010-1111-2222",
+    prevReview:{ type:"reject", reason:"자격증 사본 불명확. 원본 재제출 요청." },
+  },
+];
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let applicants   = [...APPLICANTS];
+let activeTab    = "pending";
+let selectedId   = null;
+let actionTarget = null;
+
+// ── KPI ──────────────────────────────────────────────────────────────────────
+const KPIS = [
+  { label:"심사 대기",      val:() => applicants.filter(a=>a.status==="pending").length + "건",
+    delta:"긴급 3건", up:false, icon:"⏳", ib:"#FEF3C7", ac:"#F59E0B" },
+  { label:"이번 달 승인",   val:() => applicants.filter(a=>a.status==="approved").length + "명",
+    delta:"+2 오늘", up:true, icon:"✅", ib:"#D1FAE5", ac:"#10B981" },
+  { label:"이번 달 반려",   val:() => applicants.filter(a=>a.status==="rejected").length + "건",
+    delta:"반려율 12%", up:false, icon:"❌", ib:"#FEE2E2", ac:"#EF4444" },
+  { label:"평균 심사 시간", val:() => "58h",
+    delta:"목표 48h", up:false, icon:"⏱", ib:"#EDE9FE", ac:"#8B5CF6" },
+];
+
+function renderKPIs() {
+  document.getElementById("kpiStrip").innerHTML = KPIS.map(k=>`
+    <div class="kpi-card">
+      <div class="kpi-accent" style="background:${k.ac}"></div>
+      <div class="kpi-row">
+        <div class="kpi-icon" style="background:${k.ib}">${k.icon}</div>
+        <span class="kpi-delta" style="color:${k.up?"#059669":"#D97706"};background:${k.up?"#D1FAE5":"#FEF3C7"}">${k.delta}</span>
+      </div>
+      <div class="kpi-val">${k.val()}</div>
+      <div class="kpi-lbl">${k.label}</div>
+    </div>`).join("");
+}
+
+// ── TABS ──────────────────────────────────────────────────────────────────────
+const TABS = [
+  { key:"pending",  label:"심사 대기",  colorClass:"orange" },
+  { key:"approved", label:"승인 완료",  colorClass:"green"  },
+  { key:"rejected", label:"반려",       colorClass:"red"    },
+];
+
+function renderTabs() {
+  const counts = {
+    pending:  applicants.filter(a=>a.status==="pending").length,
+    approved: applicants.filter(a=>a.status==="approved").length,
+    rejected: applicants.filter(a=>a.status==="rejected").length,
+  };
+  const tabsHtml = TABS.map(t=>`
+    <button class="tab-btn${activeTab===t.key?" active "+t.colorClass:""}" onclick="setTab('${t.key}')">
+      ${t.label}
+      <span class="tab-count">${counts[t.key]}</span>
+    </button>`).join("");
+  document.getElementById("tabsBar").innerHTML =
+    tabsHtml +
+    `<div class="tabs-right">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input class="search-input" id="searchInput" type="text" placeholder="이름, 분야, 자격증 검색…" oninput="renderCards()"/>
+      </div>
+      <select class="filter-select" id="filterField" onchange="renderCards()">
+        <option value="">분야 전체</option>
+        <option value="세무">세무</option>
+        <option value="노무">노무</option>
+        <option value="법률">법률</option>
+        <option value="회계">회계</option>
+        <option value="경영">경영 컨설팅</option>
+        <option value="마케팅">마케팅</option>
+      </select>
+      <select class="filter-select" id="filterUrgency" onchange="renderCards()">
+        <option value="">긴급도 전체</option>
+        <option value="urgent">긴급 (72h+)</option>
+        <option value="normal">일반</option>
+      </select>
+      <span class="result-count" id="resultCount"></span>
+    </div>`;
+}
+
+function setTab(key) {
+  activeTab = key;
+  selectedId = null;
+  closePanel();
+  renderTabs();
+  renderCards();
+}
+
+// ── CARDS ─────────────────────────────────────────────────────────────────────
+function getFiltered() {
+  const q  = (document.getElementById("searchInput")?.value || "").toLowerCase();
+  const fd = document.getElementById("filterField")?.value   || "";
+  const ug = document.getElementById("filterUrgency")?.value || "";
+
+  return applicants.filter(a => {
+    if(a.status !== activeTab) return false;
+    if(q  && !a.name.includes(q) && !a.field.includes(q) && !a.role.toLowerCase().includes(q)) return false;
+    if(fd && a.field !== fd) return false;
+    if(ug === "urgent" && a.waitHours < 72) return false;
+    if(ug === "normal" && a.waitHours >= 72) return false;
+    return true;
   });
-  el.style.background = 'var(--admin-l)';
-  el.style.borderLeft = '3px solid var(--admin)';
-  el.classList.add('active');
-  
-  // 데이터 연동 시뮬레이션
-  const name = el.querySelector('div div').textContent;
-  document.getElementById('detailName').textContent = name;
 }
-function verifyCert(btnId, name) {
-  const btn = document.getElementById(btnId);
-  btn.textContent = '✓ 확인됨';
-  btn.style.background = 'var(--green)';
-  btn.style.color = 'white';
-  btn.disabled = true;
-  showToast('✅ ' + name + ' 확인 완료');
+
+const FIELD_COLOR = {
+  "세무":   { bg:"#EEF2FF", color:"#3B6FFF" },
+  "노무":   { bg:"#D1FAE5", color:"#059669" },
+  "법률":   { bg:"#EDE9FE", color:"#7C3AED" },
+  "회계":   { bg:"#FEF3C7", color:"#D97706" },
+  "경영":   { bg:"#CFFAFE", color:"#0891B2" },
+  "마케팅": { bg:"#FCE7F3", color:"#DB2777" },
+};
+
+function urgencyLabel(h) {
+  if(h >= 96) return { text:"⚠️ " + h + "h 경과", urgent:true };
+  if(h >= 72) return { text:"🟡 " + h + "h 경과", urgent:true };
+  return { text:"🕐 " + h + "h 경과", urgent:false };
 }
+
+function renderCards() {
+  const list = getFiltered();
+  document.getElementById("resultCount").innerHTML = `<strong>${list.length}</strong>건`;
+  const grid = document.getElementById("cardGrid");
+
+  if(!list.length) {
+    grid.innerHTML = `
+      <div class="empty-state" style="grid-column:1/-1">
+        <div class="empty-icon">${activeTab==="pending"?"📋":activeTab==="approved"?"✅":"❌"}</div>
+        <div class="empty-text">${activeTab==="pending"?"대기 중인 신청서가 없습니다":activeTab==="approved"?"승인된 전문가가 없습니다":"반려된 신청서가 없습니다"}</div>
+        <div class="empty-sub">다른 필터를 선택해보세요</div>
+      </div>`;
+    return;
+  }
+
+  grid.innerHTML = list.map(a => {
+    const ac   = AVATAR_COLORS[parseInt(a.id.slice(-2)) % AVATAR_COLORS.length];
+    const fc   = FIELD_COLOR[a.field] || { bg:"#F3F4F6", color:"#6B7280" };
+    const urg  = urgencyLabel(a.waitHours);
+    const isSelected = selectedId === a.id;
+
+    const statusBar = activeTab==="pending"
+      ? (a.waitHours>=72 ? "#EF4444" : "#F59E0B")
+      : activeTab==="approved" ? "#10B981" : "#9CA3AF";
+
+    const certChips = a.certs.slice(0,2).map(c =>
+      `<span class="cert-chip ${c.verified?"cert-verified":"cert-unverified"}">${c.verified?"✓":"⚠"} ${c.name.length>10?c.name.slice(0,10)+"…":c.name}</span>`
+    ).join("");
+
+    const actionBtns = activeTab==="pending" ? `
+      <button class="c-btn c-btn-approve" onclick="event.stopPropagation();openApproveModal('${a.id}')">승인</button>
+      <button class="c-btn c-btn-reject"  onclick="event.stopPropagation();openRejectModal('${a.id}')">반려</button>
+    ` : activeTab==="approved" ? `
+      <button class="c-btn c-btn-detail"  onclick="event.stopPropagation();openPanel('${a.id}')">상세</button>
+    ` : `
+      <button class="c-btn c-btn-detail"  onclick="event.stopPropagation();openPanel('${a.id}')">상세</button>
+      <button class="c-btn c-btn-approve" onclick="event.stopPropagation();reopenApp('${a.id}')">재심사</button>
+    `;
+
+    return `
+      <div class="app-card${isSelected?" selected":""}" onclick="openPanel('${a.id}')">
+        <div class="card-urgent-bar" style="background:${statusBar}"></div>
+
+        <div class="card-header">
+          <div class="card-avatar" style="background:${ac}">${a.name.slice(0,1)}</div>
+          <div class="card-meta">
+            <div class="card-name">${a.name}</div>
+            <div class="card-title-role">${a.role}</div>
+            <div class="card-id">${a.id}</div>
+          </div>
+          <div>
+            <span class="badge" style="background:${fc.bg};color:${fc.color}">${a.field}</span>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="card-row">
+            <span class="card-row-label">📍 지역</span>
+            <span class="card-row-val">${a.region}</span>
+          </div>
+          <div class="card-row">
+            <span class="card-row-label">💼 경력</span>
+            <span class="card-row-val">${a.career}</span>
+          </div>
+          <div class="card-row">
+            <span class="card-row-label">📜 자격증</span>
+            <div class="cert-chips">${certChips}</div>
+          </div>
+          ${a.prevReview ? `
+          <div class="card-row">
+            <span class="card-row-label">⚠️ 이력</span>
+            <span class="card-row-val" style="color:var(--orange);font-size:11px">이전 반려 기록 있음</span>
+          </div>` : ""}
+        </div>
+
+        <div class="card-footer">
+          <span class="card-time${urg.urgent?" urgent":""}">${activeTab==="pending"?urg.text:`신청일: ${a.appliedAt}`}</span>
+          <div class="card-actions">${actionBtns}</div>
+        </div>
+      </div>`;
+  }).join("");
+}
+
+// ── DETAIL PANEL ─────────────────────────────────────────────────────────────
+function openPanel(id) {
+  const a = applicants.find(x=>x.id===id);
+  if(!a) return;
+  selectedId = id;
+  renderCards();
+
+  const ac  = AVATAR_COLORS[parseInt(a.id.slice(-2)) % AVATAR_COLORS.length];
+  const fc  = FIELD_COLOR[a.field] || { bg:"#F3F4F6", color:"#6B7280" };
+  const stBadge = a.status==="pending"
+    ? `<span class="badge" style="background:#FEF3C7;color:#D97706"><span class="badge-dot" style="background:#F59E0B"></span>심사 대기</span>`
+    : a.status==="approved"
+    ? `<span class="badge" style="background:#D1FAE5;color:#059669"><span class="badge-dot" style="background:#10B981"></span>승인 완료</span>`
+    : `<span class="badge" style="background:#FEE2E2;color:#DC2626"><span class="badge-dot" style="background:#EF4444"></span>반려</span>`;
+
+  document.getElementById("panelTitle").textContent = a.name + " · 신청서";
+
+  document.getElementById("panelBody").innerHTML = `
+    <!-- 프로필 -->
+    <div class="p-section">
+      <div class="p-profile-row">
+        <div class="p-avatar" style="background:${ac}">${a.name.slice(0,1)}</div>
+        <div>
+          <div class="p-name">${a.name}</div>
+          <div class="p-role">${a.role}</div>
+          <div class="p-uid">${a.id}</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        ${stBadge}
+        <span class="badge" style="background:${fc.bg};color:${fc.color}">${a.field}</span>
+        <span class="badge" style="background:var(--surface2);color:var(--text2)">📍 ${a.region}</span>
+        <span class="badge" style="background:var(--surface2);color:var(--text2)">💼 ${a.career}</span>
+      </div>
+    </div>
+
+    <!-- 연락처 -->
+    <div class="p-section">
+      <div class="p-sec-title">연락처</div>
+      <div class="info-grid2">
+        <div class="info-item"><div class="info-label">📧 이메일</div><div class="info-val" style="font-size:11px">${a.email}</div></div>
+        <div class="info-item"><div class="info-label">📱 연락처</div><div class="info-val" style="font-size:11px">${a.phone}</div></div>
+        <div class="info-item"><div class="info-label">🗓 신청일</div><div class="info-val" style="font-size:11px">${a.appliedAt}</div></div>
+        <div class="info-item"><div class="info-label">⏱ 대기 시간</div><div class="info-val" style="font-size:11px;color:${a.waitHours>=72?"var(--red)":"var(--text0)"}">${a.waitHours > 0 ? a.waitHours + "시간" : "–"}</div></div>
+      </div>
+    </div>
+
+    <!-- 자격증 -->
+    <div class="p-section">
+      <div class="p-sec-title">자격증 · 면허 (${a.certs.length}건)</div>
+      <div class="cert-list">
+        ${a.certs.map(c=>`
+          <div class="cert-row">
+            <div class="cert-thumb">${c.thumb}</div>
+            <div class="cert-info">
+              <div class="cert-name">${c.name}</div>
+              <div class="cert-issuer">${c.issuer}</div>
+              <div class="cert-date">취득일: ${c.date}</div>
+            </div>
+            <span class="cert-status-badge" style="background:${c.verified?"#D1FAE5":"#FEF3C7"};color:${c.verified?"#059669":"#D97706"}">
+              ${c.verified?"✓ 확인됨":"⚠ 미확인"}
+            </span>
+          </div>`).join("")}
+      </div>
+    </div>
+
+    <!-- 경력 -->
+    <div class="p-section">
+      <div class="p-sec-title">경력 사항</div>
+      <div class="career-list">
+        ${a.careers.map((c,i)=>`
+          <div class="career-item">
+            <div class="career-dot" style="${i===0?"background:var(--blue);box-shadow:0 0 0 2px var(--blue)":"background:var(--border2);box-shadow:none"}"></div>
+            <div class="career-body">
+              <div class="career-title">${c.title}</div>
+              <div class="career-org">${c.org}</div>
+              <div class="career-period">${c.period}</div>
+            </div>
+          </div>`).join("")}
+      </div>
+    </div>
+
+    <!-- 소개글 -->
+    <div class="p-section">
+      <div class="p-sec-title">전문가 소개</div>
+      <div class="intro-box">${a.intro}</div>
+    </div>
+
+    <!-- 이전 심사 이력 -->
+    ${a.prevReview ? `
+    <div class="p-section">
+      <div class="p-sec-title">이전 심사 이력</div>
+      <div class="review-box">
+        <div class="review-box-title">⚠️ ${a.prevReview.type==="reject"?"이전 반려 기록":""}</div>
+        <div class="review-box-text">${a.prevReview.reason}</div>
+      </div>
+    </div>` : ""}
+  `;
+
+  // Footer buttons
+  const footer = document.getElementById("panelFooter");
+  if(a.status === "pending") {
+    footer.innerHTML = `
+      <button class="p-btn p-btn-ghost" onclick="closePanel()">닫기</button>
+      <button class="p-btn p-btn-reject" onclick="openRejectModal('${a.id}')">반려</button>
+      <button class="p-btn p-btn-approve" onclick="openApproveModal('${a.id}')">승인</button>`;
+  } else if(a.status === "approved") {
+    footer.innerHTML = `
+      <button class="p-btn p-btn-ghost" onclick="closePanel()">닫기</button>
+      <button class="p-btn p-btn-reject" onclick="openRejectModal('${a.id}')">승인 취소</button>`;
+  } else {
+    footer.innerHTML = `
+      <button class="p-btn p-btn-ghost" onclick="closePanel()">닫기</button>
+      <button class="p-btn p-btn-approve" onclick="reopenApp('${a.id}')">재심사 처리</button>`;
+  }
+
+  document.getElementById("detailPanel").classList.add("open");
+  document.getElementById("panelOverlay").classList.add("open");
+}
+
+function closePanel() {
+  selectedId = null;
+  document.getElementById("detailPanel").classList.remove("open");
+  document.getElementById("panelOverlay").classList.remove("open");
+  renderCards();
+}
+
+// ── APPROVE / REJECT MODALS ───────────────────────────────────────────────────
+function openApproveModal(id) {
+  actionTarget = id;
+  const a = applicants.find(x=>x.id===id);
+  document.getElementById("approveTarget").textContent = a ? a.name : id;
+  ["chk1","chk2","chk3","chk4"].forEach(id => document.getElementById(id).checked = false);
+  document.getElementById("approveModal").classList.add("open");
+}
+function openRejectModal(id) {
+  actionTarget = id;
+  const a = applicants.find(x=>x.id===id);
+  document.getElementById("rejectTarget").textContent = a ? a.name : id;
+  document.getElementById("rejectNote").value = "";
+  document.getElementById("rejectModal").classList.add("open");
+}
+function closeAllModals() {
+  document.getElementById("approveModal").classList.remove("open");
+  document.getElementById("rejectModal").classList.remove("open");
+}
+
+function confirmApprove() {
+  const allChecked = ["chk1","chk2","chk3","chk4"].every(id => document.getElementById(id).checked);
+  if(!allChecked) { showToast("⚠️ 모든 확인 항목을 체크해주세요."); return; }
+  const a = applicants.find(x=>x.id===actionTarget);
+  if(a) a.status = "approved";
+  closeAllModals();
+  renderTabs();
+  renderKPIs();
+  if(selectedId===actionTarget) { closePanel(); setTab("approved"); } else renderCards();
+  showToast("✅ " + (a?a.name:"") + " 전문가 승인이 완료됐습니다.");
+}
+function confirmReject() {
+  const a = applicants.find(x=>x.id===actionTarget);
+  if(a) {
+    a.status = "rejected";
+    a.prevReview = { type:"reject", reason: document.getElementById("rejectReason").value };
+  }
+  closeAllModals();
+  renderTabs();
+  renderKPIs();
+  if(selectedId===actionTarget) { closePanel(); setTab("rejected"); } else renderCards();
+  showToast("❌ " + (a?a.name:"") + " 신청이 반려 처리됐습니다.");
+}
+function reopenApp(id) {
+  const a = applicants.find(x=>x.id===id);
+  if(a) { a.status = "pending"; a.waitHours = 0; }
+  closePanel();
+  renderTabs();
+  renderKPIs();
+  setTab("pending");
+  showToast("🔄 " + (a?a.name:"") + " 재심사 처리됐습니다.");
+}
+
+// ── SIDEBAR ──────────────────────────────────────────────────────────────────
+function renderNav() {
+  document.getElementById("nav").innerHTML =
+    `<div class="nav-section">메뉴</div>` +
+    NAV_ITEMS.map(n=>`
+      <a href="${FILENAMES[n.id] || '#'}" class="nav-item${n.active?" active":""}">
+        <div class="nav-icon">${n.icon}</div>
+        <span class="nav-label">${n.label}</span>
+        ${n.badge?`<span class="nav-badge">${n.badge}</span>`:`<span class="nav-id">${n.id}</span>`}
+      </a>`).join("");
+}
+
+// ── TOAST ────────────────────────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg; t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"), 3200);
+}
+
+// ── CLOCK ─────────────────────────────────────────────────────────────────────
+function startClock() {
+  const el=document.getElementById("clock"), pad=n=>String(n).padStart(2,"0");
+  function tick(){const d=new Date();el.textContent=`${d.getFullYear()}.${pad(d.getMonth()+1)}.${pad(d.getDate())}  ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;}
+  tick(); setInterval(tick,1000);
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+renderNav();
+renderKPIs();
+renderTabs();
+renderCards();
+startClock();
 </script>
 </body>
 </html>
