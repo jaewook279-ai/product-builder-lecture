@@ -112,7 +112,7 @@
                 <td>
                   <div style="display:flex;gap:6px;">
                     <button class="btn btn-secondary btn-sm" onclick="showToast('정산 상세 보기')">상세</button>
-                    <button class="btn btn-primary btn-sm" onclick="showToast('✅ 박상훈 정산 완료')">정산</button>
+                    <button class="btn btn-primary btn-sm">정산</button>
                   </div>
                 </td>
               </tr>
@@ -170,7 +170,7 @@
                 <td>
                   <div style="display:flex;gap:6px;">
                     <button class="btn btn-secondary btn-sm" onclick="showToast('정산 상세 보기')">상세</button>
-                    <button class="btn btn-primary btn-sm" onclick="showToast('✅ 장혜원 정산 완료')">정산</button>
+                    <button class="btn btn-primary btn-sm">정산</button>
                   </div>
                 </td>
               </tr>
@@ -238,177 +238,14 @@
                 <div style="font-size:20px;font-weight:700;color:var(--navy);">₩126,000</div>
                 <div style="font-size:12px;color:var(--gray500);margin-bottom:10px;">부분 환불 계산 필요</div>
                 <div style="display:flex;gap:6px;justify-content:flex-end;">
-                  <button class="btn btn-secondary btn-sm" onclick="openRefundModal('한지수','189000')">계산</button>
+                  <button class="btn btn-secondary btn-sm" onclick="openRefundModal('한지수', 189000)">계산</button>
                   <button class="btn btn-success btn-sm" onclick="showToast('✅ 부분 환불 승인')">승인</button>
                 </div>
               </div>
             </div>
           </div>
-
-          <div style="border:1.5px solid var(--gray200);border-radius:var(--radius-sm);padding:16px;">
-            <div style="display:flex;align-items:flex-start;justify-content:space-between;">
-              <div style="flex:1;">
-                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-                  <span style="font-weight:700;font-size:15px;">오세민</span>
-                  <span class="badge badge-blue">분쟁 연계</span>
-                  <span style="font-size:12px;color:var(--gray500);">2026.03.03 요청</span>
-                </div>
-                <div style="font-size:13px;color:var(--gray500);margin-bottom:8px;">강동구 중식당 · 베이직 플랜 (₩49,000/월)</div>
-                <div style="font-size:13px;background:var(--gray50);padding:10px;border-radius:8px;">
-                  <strong>환불 사유:</strong> 분쟁 #D-039 처리 결과에 따라 환불 여부 결정 예정. 분쟁 처리 완료 대기 중.
-                </div>
-              </div>
-              <div style="margin-left:16px;text-align:right;">
-                <div style="font-size:20px;font-weight:700;color:var(--navy);">₩49,000</div>
-                <div style="font-size:12px;color:var(--gray500);margin-bottom:10px;">분쟁 처리 후 결정</div>
-                <div style="display:flex;gap:6px;justify-content:flex-end;">
-                  <button class="btn btn-secondary btn-sm" onclick="showToast('분쟁 처리 페이지로 이동')">분쟁 보기</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div style="border:1.5px solid var(--gray200);border-radius:var(--radius-sm);padding:16px;opacity:.6;">
-            <div style="display:flex;align-items:flex-start;justify-content:space-between;">
-              <div style="flex:1;">
-                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-                  <span style="font-weight:700;font-size:15px;">이동혁</span>
-                  <span class="badge badge-gray">거부됨</span>
-                  <span style="font-size:12px;color:var(--gray500);">2026.03.01 요청 → 2026.03.02 처리</span>
-                </div>
-                <div style="font-size:13px;color:var(--gray500);margin-bottom:8px;">송파구 치킨집 · 스탠다드 플랜 (₩89,000/월)</div>
-                <div style="font-size:13px;background:var(--gray50);padding:10px;border-radius:8px;">
-                  <strong>처리 결과:</strong> 가입 후 30일 초과 사용, 환불 정책 해당 없음. 환불 거부 처리됨.
-                </div>
-              </div>
-              <div style="margin-left:16px;text-align:right;">
-                <div style="font-size:20px;font-weight:700;color:var(--gray500);">₩0</div>
-                <div style="font-size:12px;color:var(--gray500);">환불 거부</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 정산 이력 탭 -->
-    <div data-tab-content="history" style="display:none;">
-      <div class="card">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-          <div class="card-title" style="margin:0;">📋 정산 이력</div>
-          <div style="display:flex;gap:8px;align-items:center;">
-            <select class="form-select" style="width:auto;padding:8px 12px;font-size:13px;">
-              <option>2026년 3월</option>
-              <option>2026년 2월</option>
-              <option>2026년 1월</option>
-              <option>2025년 12월</option>
-            </select>
-            <button class="btn btn-secondary btn-sm" onclick="showToast('CSV 다운로드')">📥 내보내기</button>
-          </div>
-        </div>
-
-        <div style="overflow-x:auto;">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>정산 ID</th>
-                <th>전문가</th>
-                <th>정산 월</th>
-                <th>상담 건수</th>
-                <th>정산 금액</th>
-                <th>처리일</th>
-                <th>은행</th>
-                <th>상태</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td style="font-family:monospace;font-size:12px;color:var(--gray500);">#S-0318</td>
-                <td style="font-weight:700;">최민준</td>
-                <td style="font-size:13px;">2026년 2월</td>
-                <td>15회</td>
-                <td style="font-weight:700;color:var(--green);">₩1,260,000</td>
-                <td style="font-size:13px;">2026.02.25</td>
-                <td style="font-size:13px;">신한은행 ****8821</td>
-                <td><span class="badge badge-green">✓ 완료</span></td>
-              </tr>
-              <tr>
-                <td style="font-family:monospace;font-size:12px;color:var(--gray500);">#S-0317</td>
-                <td style="font-weight:700;">박상훈</td>
-                <td style="font-size:13px;">2026년 2월</td>
-                <td>19회</td>
-                <td style="font-weight:700;color:var(--green);">₩1,596,000</td>
-                <td style="font-size:13px;">2026.02.25</td>
-                <td style="font-size:13px;">국민은행 ****4432</td>
-                <td><span class="badge badge-green">✓ 완료</span></td>
-              </tr>
-              <tr>
-                <td style="font-family:monospace;font-size:12px;color:var(--gray500);">#S-0316</td>
-                <td style="font-weight:700;">장혜원</td>
-                <td style="font-size:13px;">2026년 2월</td>
-                <td>9회</td>
-                <td style="font-weight:700;color:var(--green);">₩756,000</td>
-                <td style="font-size:13px;">2026.02.25</td>
-                <td style="font-size:13px;">우리은행 ****2290</td>
-                <td><span class="badge badge-green">✓ 완료</span></td>
-              </tr>
-              <tr>
-                <td style="font-family:monospace;font-size:12px;color:var(--gray500);">#S-0315</td>
-                <td style="font-weight:700;">이수진</td>
-                <td style="font-size:13px;">2026년 2월</td>
-                <td>27회</td>
-                <td style="font-weight:700;color:var(--green);">₩2,268,000</td>
-                <td style="font-size:13px;">2026.02.25</td>
-                <td style="font-size:13px;">하나은행 ****6601</td>
-                <td><span class="badge badge-green">✓ 완료</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</main>
-
-<!-- 환불 계산 모달 -->
-<div class="modal-overlay" id="refundModal">
+...
   <div class="modal-box" style="width:520px;">
     <div class="modal-title">🧮 부분 환불 계산</div>
     <div class="modal-sub" id="refundTarget">사용량 기반 부분 환불 금액을 계산합니다.</div>
-    <div style="background:var(--gray50);border-radius:var(--radius-sm);padding:16px;margin-bottom:16px;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:14px;">
-        <div><span style="color:var(--gray500);">월 구독료</span><div style="font-weight:700;font-size:16px;">₩189,000</div></div>
-        <div><span style="color:var(--gray500);">가입일</span><div style="font-weight:700;">2026.03.01</div></div>
-        <div><span style="color:var(--gray500);">해지 요청일</span><div style="font-weight:700;">2026.03.05</div></div>
-        <div><span style="color:var(--gray500);">사용 일수</span><div style="font-weight:700;">4일 / 31일</div></div>
-        <div><span style="color:var(--gray500);">사용한 상담</span><div style="font-weight:700;">2건 (₩30,000 상당)</div></div>
-        <div><span style="color:var(--gray500);">환불 예정액</span><div style="font-weight:700;font-size:18px;color:var(--green);">₩135,677</div></div>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="form-label">환불 금액 조정</label>
-      <input class="form-input" type="number" value="135677" placeholder="환불 금액 입력">
-    </div>
-    <div class="form-group">
-      <label class="form-label">처리 메모</label>
-      <textarea class="form-textarea" placeholder="환불 처리 사유 메모..."></textarea>
-    </div>
-    <div style="display:flex;gap:10px;">
-      <button class="btn btn-secondary" style="flex:1;justify-content:center;" onclick="document.getElementById('refundModal').classList.remove('open')">취소</button>
-      <button class="btn btn-success" style="flex:1;justify-content:center;" onclick="document.getElementById('refundModal').classList.remove('open');showToast('✅ 부분 환불 처리 완료')">환불 승인</button>
-    </div>
-  </div>
-</div>
-
-<div id="toast"></div>
-<script src="admin.js"></script>
-<script>
-function openRefundModal(name, amount) {
-  document.getElementById('refundTarget').textContent = name + ' 회원의 부분 환불 금액을 계산합니다.';
-  document.getElementById('refundModal').classList.add('open');
-}
-function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2800); }
-</script>
-</body>
-</html>
+...

@@ -236,17 +236,5 @@
 
 <div id="toast"></div>
 <script src="admin.js"></script>
-<script>
-const months = ['1월','2월','3월'];
-const vals   = [7200, 7800, 9200];
-const max = Math.max(...vals);
-const chart = document.getElementById('revenueChart');
-months.forEach((m,i) => {
-  const g = document.createElement('div'); g.className = 'bar-group';
-  const pct = (vals[i]/max*100);
-  g.innerHTML = `<div class="bar-val">${(vals[i]/100)}만</div><div class="bar-fill${i===2?' current':''}" style="height:${pct}%;${i===2?'background:linear-gradient(180deg,#F39C12,#E67E22);':''}"></div><div class="bar-label">${m}</div>`;
-  chart.appendChild(g);
-});
-</script>
 </body>
 </html>

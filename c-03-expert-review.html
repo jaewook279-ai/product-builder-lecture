@@ -59,7 +59,7 @@
 
         <div id="applicantList" style="overflow-y:auto;max-height:calc(100vh - 240px);">
           <!-- 신청 카드들 -->
-          <div class="applicant-item active" onclick="selectApplicant(this,0)" style="padding:14px 16px;border-bottom:1px solid var(--gray100);cursor:pointer;background:var(--admin-l);border-left:3px solid var(--admin);">
+          <div class="applicant-item active" onclick="selectApplicant(this,0)" style="padding:14px 16px;border-bottom:1px solid var(--gray100);cursor:pointer;background:var(--admin-l);border-left:3px solid var(--admin); transition: all 0.3s ease;">
             <div style="display:flex;align-items:center;gap:10px;">
               <div style="width:42px;height:42px;border-radius:12px;background:var(--amber-l);display:flex;align-items:center;justify-content:center;font-size:22px;">👨‍💼</div>
               <div style="flex:1;">
@@ -69,7 +69,7 @@
               </div>
             </div>
           </div>
-          <div class="applicant-item" onclick="selectApplicant(this,1)" style="padding:14px 16px;border-bottom:1px solid var(--gray100);cursor:pointer;">
+          <div class="applicant-item" onclick="selectApplicant(this,1)" style="padding:14px 16px;border-bottom:1px solid var(--gray100);cursor:pointer; transition: all 0.3s ease;">
             <div style="display:flex;align-items:center;gap:10px;">
               <div style="width:42px;height:42px;border-radius:12px;background:var(--light);display:flex;align-items:center;justify-content:center;font-size:22px;">👩‍💼</div>
               <div style="flex:1;">
@@ -79,7 +79,7 @@
               </div>
             </div>
           </div>
-          <div class="applicant-item" onclick="selectApplicant(this,2)" style="padding:14px 16px;border-bottom:1px solid var(--gray100);cursor:pointer;">
+          <div class="applicant-item" onclick="selectApplicant(this,2)" style="padding:14px 16px;border-bottom:1px solid var(--gray100);cursor:pointer; transition: all 0.3s ease;">
             <div style="display:flex;align-items:center;gap:10px;">
               <div style="width:42px;height:42px;border-radius:12px;background:var(--green-l);display:flex;align-items:center;justify-content:center;font-size:22px;">👨‍💼</div>
               <div style="flex:1;">
@@ -89,7 +89,7 @@
               </div>
             </div>
           </div>
-          <div class="applicant-item" onclick="selectApplicant(this,3)" style="padding:14px 16px;border-bottom:1px solid var(--gray100);cursor:pointer;">
+          <div class="applicant-item" onclick="selectApplicant(this,3)" style="padding:14px 16px;border-bottom:1px solid var(--gray100);cursor:pointer; transition: all 0.3s ease;">
             <div style="display:flex;align-items:center;gap:10px;">
               <div style="width:42px;height:42px;border-radius:12px;background:var(--purple-l);display:flex;align-items:center;justify-content:center;font-size:22px;">👩‍💼</div>
               <div style="flex:1;">
@@ -111,7 +111,7 @@
             <div style="width:64px;height:64px;border-radius:16px;background:var(--amber-l);display:flex;align-items:center;justify-content:center;font-size:32px;">👨‍💼</div>
             <div style="flex:1;">
               <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
-                <div style="font-family:var(--font-display);font-size:20px;font-weight:700;">이노무 노무사</div>
+                <div style="font-family:var(--font-display);font-size:20px;font-weight:700;" id="detailName">이노무 노무사</div>
                 <span class="badge badge-amber">⏳ 심사 대기</span>
               </div>
               <div style="font-size:14px;color:var(--gray500);">👥 노무 전문가 · 경력 5년 · 신청일: 2026.03.10 10:42</div>
@@ -204,9 +204,9 @@
             </select>
           </div>
           <div style="display:flex;gap:10px;">
-            <button class="btn btn-danger" style="flex:1;justify-content:center;" onclick="showToast('❌ 반려 처리되었습니다. 신청자에게 이메일이 발송됩니다.')">✗ 반려</button>
-            <button class="btn btn-warn" style="flex:1;justify-content:center;" onclick="showToast('📧 추가 서류 제출 요청을 발송했습니다.')">📎 서류 추가 요청</button>
-            <button class="btn btn-success" style="flex:1;justify-content:center;background:var(--green);color:white;" onclick="showToast('✅ 승인 완료! 전문가로 등록되었습니다.')">✓ 승인</button>
+            <button class="btn btn-danger" style="flex:1;justify-content:center;">✗ 반려</button>
+            <button class="btn btn-warn" style="flex:1;justify-content:center;">📎 서류 추가 요청</button>
+            <button class="btn btn-success" style="flex:1;justify-content:center;background:var(--green);color:white;">✓ 승인</button>
           </div>
         </div>
 
@@ -222,9 +222,15 @@ function selectApplicant(el, idx) {
   document.querySelectorAll('.applicant-item').forEach(i => {
     i.style.background = '';
     i.style.borderLeft = '';
+    i.classList.remove('active');
   });
   el.style.background = 'var(--admin-l)';
   el.style.borderLeft = '3px solid var(--admin)';
+  el.classList.add('active');
+  
+  // 데이터 연동 시뮬레이션
+  const name = el.querySelector('div div').textContent;
+  document.getElementById('detailName').textContent = name;
 }
 function verifyCert(btnId, name) {
   const btn = document.getElementById(btnId);
@@ -234,7 +240,6 @@ function verifyCert(btnId, name) {
   btn.disabled = true;
   showToast('✅ ' + name + ' 확인 완료');
 }
-function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000); }
 </script>
 </body>
 </html>
