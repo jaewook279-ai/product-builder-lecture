@@ -1,453 +1,871 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>외식전문가 관리자 — 매칭 현황 (C-04)</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Gmarket+Sans:wght@300;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="admin.css">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MATCHPRO — 매칭 현황 C-04</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F5F6FA; --surface:#FFFFFF; --surface2:#F9FAFB;
+  --border:#E8EAF0; --border2:#D1D5E0;
+  --text0:#111827; --text1:#374151; --text2:#6B7280; --text3:#9CA3AF; --text4:#C4C9D4;
+  --blue:#3B6FFF; --blue-lt:#EEF2FF;
+  --green:#10B981; --green-lt:#D1FAE5;
+  --orange:#F59E0B; --orange-lt:#FEF3C7;
+  --red:#EF4444; --red-lt:#FEE2E2;
+  --purple:#8B5CF6; --purple-lt:#EDE9FE;
+  --teal:#06B6D4; --teal-lt:#CFFAFE;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  --shadow:0 4px 12px rgba(0,0,0,.08),0 1px 3px rgba(0,0,0,.05);
+  --shadow-lg:0 12px 32px rgba(0,0,0,.12),0 4px 10px rgba(0,0,0,.06);
+  --radius:12px; --radius-sm:8px;
+  --mono:'DM Mono','Courier New',monospace;
+  --sans:'DM Sans','Helvetica Neue',sans-serif;
+}
+html,body{height:100%;background:var(--bg);color:var(--text1);font-family:var(--sans);overflow:hidden}
+
+/* ── LAYOUT ── */
+.app{display:flex;height:100vh}
+
+/* ── SIDEBAR ── */
+.sidebar{width:232px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:20}
+.logo { padding:22px 20px 18px; border-bottom: 1px solid var(--border); cursor: pointer; text-decoration: none; }
+.logo-inner{display:flex;align-items:center;gap:11px}
+.logo-mark{width:34px;height:34px;border-radius:9px;flex-shrink:0;background:linear-gradient(135deg,var(--blue) 0%,var(--purple) 100%);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;box-shadow:0 3px 10px rgba(59,111,255,.35)}
+.logo-name{font-size:14px;font-weight:700;color:var(--text0);letter-spacing: -.01em;}
+.logo-sub{font-size:9px;color:var(--text3);letter-spacing:.1em;margin-top:2px;text-transform:uppercase}
+nav{flex:1;padding:14px 10px; overflow-y: auto;}
+.nav-section{font-size:9px;font-weight:600;color:var(--text4);letter-spacing:.12em;text-transform:uppercase;padding:0 10px;margin:0 0 6px}
+.nav-item{display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:var(--radius-sm);cursor:pointer;transition:background .15s;margin-bottom:2px; text-decoration: none;}
+.nav-item:hover{background:var(--bg)}
+.nav-item.active{background:var(--blue-lt)}
+.nav-icon{width:28px;height:28px;border-radius:7px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;background:var(--bg); transition: background .15s;}
+.nav-item.active .nav-icon{background:var(--blue)}
+.nav-label{font-size:12.5px;color:var(--text2);flex:1}
+.nav-item.active .nav-label{color:var(--blue);font-weight:600}
+.nav-badge{background:var(--red);color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:10px}
+.nav-id{font-size:9px;color:var(--text4)}
+.sidebar-footer{padding:14px 16px;border-top:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.s-avatar{width:32px;height:32px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff}
+.user-name{font-size:12px;font-weight:600;color:var(--text0)}
+.user-email{font-size:10px;color:var(--text3);margin-top:1px}
+.logout-btn { margin-left:auto; background:none; border:1px solid var(--border); cursor:pointer; color:var(--text3); font-size:13px; width:26px; height:26px; border-radius:6px; display:flex; align-items:center; justify-content:center; }
+
+/* ── MAIN ── */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+
+/* ── TOPBAR ── */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:15px 28px;flex-shrink:0;background:rgba(255,255,255,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3);margin-bottom:4px}
+.breadcrumb .current{color:var(--text1);font-weight:500}
+.page-title{font-size:17px;font-weight:700;color:var(--text0);letter-spacing:-.02em}
+.page-code{font-size:10px;color:var(--text3);letter-spacing:.1em;margin-left:8px}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.live-pill{display:flex;align-items:center;gap:5px;background:var(--green-lt);border-radius:20px;padding:4px 10px}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+ @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.live-text{font-size:10px;font-weight:600;color:var(--green);letter-spacing:.06em}
+#clock{font-family:var(--mono);font-size:11px;color:var(--text2);background:var(--surface);border:1px solid var(--border);padding:5px 11px;border-radius:7px}
+.icon-btn{width:34px;height:34px;border-radius:8px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;position:relative}
+.notif-dot{position:absolute;top:5px;right:5px;width:7px;height:7px;border-radius:50%;background:var(--red);border:1.5px solid #fff}
+
+/* ── CONTENT ── */
+.content{flex:1;overflow-y:auto;padding:24px 28px;display:flex;flex-direction:column;gap:20px}
+
+/* ── KPI STRIP ── */
+.kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden;transition:box-shadow .2s,transform .2s;cursor:default}
+.kpi-card:hover{box-shadow:var(--shadow);transform:translateY(-1px)}
+.kpi-accent{position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--radius) var(--radius) 0 0}
+.kpi-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.kpi-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px}
+.kpi-delta{font-size:11px;font-weight:600;padding:2px 7px;border-radius:5px}
+.kpi-val{font-size:22px;font-weight:700;color:var(--text0);font-family:var(--mono);letter-spacing:-.02em}
+.kpi-lbl{font-size:11px;color:var(--text2);margin-top:3px}
+
+/* ── TOOLBAR ── */
+.toolbar{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;box-shadow:var(--shadow-sm);flex-wrap:wrap}
+.search-wrap{position:relative;flex:1;min-width:200px;max-width:300px}
+.search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--text3);pointer-events:none}
+.search-input{width:100%;padding:8px 12px 8px 32px;font-size:12.5px;font-family:var(--sans);background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text0);outline:none;transition:border-color .15s,box-shadow .15s}
+.search-input::placeholder{color:var(--text3)}
+.search-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(59,111,255,.1)}
+.filter-select{padding:8px 28px 8px 10px;font-size:12px;font-family:var(--sans);background:var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%239CA3AF'/%3E%3C/svg%3E") no-repeat right 10px center;border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text1);outline:none;cursor:pointer;appearance:none}
+.filter-select:focus{border-color:var(--blue)}
+.divider{width:1px;height:24px;background:var(--border);flex-shrink:0}
+.result-count{font-size:12px;color:var(--text2);white-space:nowrap}
+.result-count strong{color:var(--text0);font-weight:600}
+.btn{display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:var(--radius-sm);font-size:12px;font-weight:600;font-family:var(--sans);cursor:pointer;border:none;transition:opacity .15s;white-space:nowrap}
+.btn:hover{opacity:.82}
+.btn-primary{background:var(--blue);color:#fff;box-shadow:0 2px 8px rgba(59,111,255,.3)}
+.btn-ghost{background:var(--bg);color:var(--text1);border:1px solid var(--border)}
+.btn-red{background:var(--red-lt);color:var(--red);border:1px solid #FECACA}
+
+/* ── TABLE ── */
+.table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);overflow:hidden}
+.table-scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:980px}
+thead tr{background:var(--surface2);border-bottom:1px solid var(--border)}
+th{padding:11px 14px;text-align:left;font-size:10.5px;font-weight:600;color:var(--text2);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;cursor:pointer;user-select:none;transition:color .15s}
+th:hover{color:var(--text0)}
+th.sorted{color:var(--blue)}
+th .si{margin-left:3px;font-size:9px;color:var(--text4)}
+th.sorted .si{color:var(--blue)}
+td{padding:13px 14px;font-size:12.5px;color:var(--text1);border-bottom:1px solid var(--border);vertical-align:middle}
+tbody tr{transition:background .12s;cursor:pointer}
+tbody tr:hover{background:#F0F4FF}
+tbody tr.selected{background:var(--blue-lt)}
+tbody tr:last-child td{border-bottom:none}
+
+/* match pair cell */
+.pair-cell{display:flex;align-items:center;gap:6px}
+.pair-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
+.pair-name{font-size:12.5px;font-weight:600;color:var(--text0);line-height:1.2}
+.pair-sub{font-size:10.5px;color:var(--text3)}
+.pair-arrow{font-size:14px;color:var(--text4);flex-shrink:0;margin:0 2px}
+
+/* progress bar in cell */
+.prog-wrap{min-width:100px}
+.prog-label{display:flex;justify-content:space-between;margin-bottom:4px}
+.prog-pct{font-size:11px;font-weight:600;font-family:var(--mono);color:var(--text0)}
+.prog-step{font-size:10px;color:var(--text3)}
+.prog-track{height:5px;background:var(--border);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;border-radius:3px;transition:width .6s ease}
+
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:600;padding:3px 9px;border-radius:20px;white-space:nowrap}
+.badge-dot{width:5px;height:5px;border-radius:50%}
+
+.mono-cell{font-family:var(--mono);font-size:11.5px;color:var(--text2)}
+.action-btns{display:flex;gap:5px}
+.tbl-btn{font-size:11px;font-weight:500;padding:4px 10px;border-radius:5px;cursor:pointer;border:1px solid var(--border);background:#fff;color:var(--text1);transition:background .12s;font-family:var(--sans)}
+.tbl-btn:hover{background:var(--bg)}
+.tbl-btn.warn{color:var(--orange);border-color:#FDE68A}
+.tbl-btn.warn:hover{background:var(--orange-lt)}
+.tbl-btn.danger{color:var(--red);border-color:#FECACA}
+.tbl-btn.danger:hover{background:var(--red-lt)}
+.tbl-btn.primary{color:var(--blue);border-color:#BFDBFE}
+.tbl-btn.primary:hover{background:var(--blue-lt)}
+
+/* ── PAGINATION ── */
+.pagination{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-top:1px solid var(--border);background:var(--surface2)}
+.page-info{font-size:12px;color:var(--text2)}
+.page-info strong{color:var(--text0);font-weight:600}
+.page-btns{display:flex;gap:4px}
+.page-btn{width:30px;height:30px;border-radius:6px;font-size:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid var(--border);background:#fff;color:var(--text1);font-family:var(--sans);transition:background .12s}
+.page-btn:hover{background:var(--bg)}
+.page-btn.active{background:var(--blue);color:#fff;border-color:var(--blue);font-weight:600}
+.page-btn:disabled{opacity:.4;cursor:not-allowed}
+
+/* ── DETAIL PANEL ── */
+.panel-overlay{position:fixed;inset:0;background:rgba(17,24,39,.3);backdrop-filter:blur(3px);z-index:40;opacity:0;pointer-events:none;transition:opacity .25s}
+.panel-overlay.open{opacity:1;pointer-events:all}
+.detail-panel{position:fixed;top:0;right:0;bottom:0;width:480px;background:var(--surface);box-shadow:var(--shadow-lg);z-index:50;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1)}
+.detail-panel.open{transform:translateX(0)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid var(--border);flex-shrink:0}
+.panel-title{font-size:15px;font-weight:700;color:var(--text0)}
+.panel-subtitle{font-size:11px;color:var(--text3);margin-top:2px}
+.panel-close{width:30px;height:30px;border-radius:7px;background:var(--bg);border:1px solid var(--border);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;color:var(--text2)}
+.panel-close:hover{background:var(--border)}
+.panel-body{flex:1;overflow-y:auto}
+.p-section{padding:20px 24px;border-bottom:1px solid var(--border)}
+.p-section:last-child{border-bottom:none}
+.p-sec-title{font-size:10px;font-weight:700;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px}
+
+/* match viz */
+.match-viz{display:flex;align-items:center;gap:0;margin-bottom:16px}
+.match-side{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;text-align:center}
+.match-side-avatar{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#fff;margin:0 auto 8px}
+.match-side-name{font-size:13px;font-weight:700;color:var(--text0)}
+.match-side-role{font-size:11px;color:var(--text2);margin-top:2px}
+.match-connector{display:flex;flex-direction:column;align-items:center;padding:0 10px;flex-shrink:0}
+.match-conn-line{flex:1;width:1px;background:var(--border)}
+.match-conn-icon{width:32px;height:32px;border-radius:50%;background:var(--blue-lt);border:1px solid #BFDBFE;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--blue)}
+
+.info-grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.info-item{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px}
+.info-label{font-size:10px;color:var(--text3);margin-bottom:4px}
+.info-val{font-size:13px;font-weight:600;color:var(--text0)}
+
+/* step timeline */
+.steps{display:flex;flex-direction:column;gap:0;position:relative}
+.steps::before{content:'';position:absolute;left:11px;top:12px;bottom:12px;width:2px;background:var(--border)}
+.step-item{display:flex;gap:16px;padding-bottom:18px;position:relative}
+.step-item:last-child{padding-bottom:0}
+.step-dot{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;border:2px solid #fff;position:relative;z-index:1}
+.step-dot.done{background:var(--green);color:#fff;box-shadow:0 0 0 3px var(--green-lt)}
+.step-dot.current{background:var(--blue);color:#fff;box-shadow:0 0 0 3px var(--blue-lt)}
+.step-dot.pending{background:var(--surface2);color:var(--text3);border-color:var(--border);box-shadow:none}
+.step-body{flex:1;padding-top:2px}
+.step-title{font-size:12.5px;font-weight:600;color:var(--text0)}
+.step-dot.pending ~ .step-body .step-title{color:var(--text3)}
+.step-desc{font-size:11px;color:var(--text2);margin-top:2px}
+.step-date{font-size:10px;font-family:var(--mono);color:var(--text3);margin-top:3px}
+
+/* message log */
+.msg-list{display:flex;flex-direction:column;gap:10px}
+.msg-item{display:flex;gap:10px}
+.msg-avatar{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff}
+.msg-bubble{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:10px;border-top-left-radius:2px;padding:10px 12px}
+.msg-sender{font-size:10px;font-weight:600;color:var(--text2);margin-bottom:4px}
+.msg-text{font-size:12.5px;color:var(--text1);line-height:1.5}
+.msg-time{font-size:10px;font-family:var(--mono);color:var(--text3);margin-top:4px}
+
+/* reassign */
+.reassign-wrap{display:flex;flex-direction:column;gap:10px}
+.expert-option{display:flex;align-items:center;gap:10px;padding:12px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;transition:border-color .15s,background .15s;background:var(--surface2)}
+.expert-option:hover{border-color:var(--blue);background:var(--blue-lt)}
+.expert-option.chosen{border-color:var(--blue);background:var(--blue-lt)}
+.exp-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0}
+.exp-name{font-size:13px;font-weight:600;color:var(--text0)}
+.exp-sub{font-size:11px;color:var(--text2);margin-top:1px}
+.exp-score{margin-left:auto;font-size:12px;font-weight:700;color:var(--orange)}
+
+.panel-footer{padding:16px 24px;border-top:1px solid var(--border);display:flex;gap:10px;flex-shrink:0}
+.p-btn{flex:1;padding:11px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;font-family:var(--sans);cursor:pointer;border:none;transition:opacity .15s}
+.p-btn:hover{opacity:.82}
+.p-btn-primary{background:var(--blue);color:#fff;box-shadow:0 2px 8px rgba(59,111,255,.3)}
+.p-btn-danger{background:var(--red-lt);color:var(--red);border:1px solid #FECACA}
+.p-btn-warn{background:var(--orange-lt);color:#D97706;border:1px solid #FDE68A}
+.p-btn-ghost{background:var(--bg);color:var(--text1);border:1px solid var(--border)}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(17,24,39,.45);backdrop-filter:blur(4px);z-index:60;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--surface);border-radius:14px;width:460px;box-shadow:var(--shadow-lg);padding:28px;transform:scale(.95) translateY(8px);transition:transform .2s}
+.modal-overlay.open .modal{transform:scale(1) translateY(0)}
+.modal-icon{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:16px}
+.modal-title{font-size:16px;font-weight:700;color:var(--text0);margin-bottom:8px}
+.modal-desc{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:20px}
+.modal-label{font-size:12px;font-weight:600;color:var(--text1);margin-bottom:6px}
+.modal-select{width:100%;padding:9px 12px;font-size:13px;font-family:var(--sans);background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text0);outline:none;margin-bottom:12px}
+.modal-select:focus{border-color:var(--blue)}
+.modal-textarea{width:100%;padding:9px 12px;font-size:13px;font-family:var(--sans);background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text0);outline:none;resize:vertical;min-height:80px;margin-bottom:20px}
+.modal-textarea:focus{border-color:var(--blue)}
+.modal-textarea::placeholder{color:var(--text3)}
+.modal-actions{display:flex;gap:10px}
+.m-btn{flex:1;padding:10px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;font-family:var(--sans);cursor:pointer;border:none;transition:opacity .15s}
+.m-btn:hover{opacity:.82}
+.m-cancel{background:var(--bg);color:var(--text1);border:1px solid var(--border)}
+.m-confirm-red{background:var(--red);color:#fff;box-shadow:0 2px 8px rgba(239,68,68,.3)}
+.m-confirm-orange{background:var(--orange);color:#fff;box-shadow:0 2px 8px rgba(245,158,11,.3)}
+.m-confirm-blue{background:var(--blue);color:#fff;box-shadow:0 2px 8px rgba(59,111,255,.3)}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--text0);color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:500;z-index:99;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;display:flex;align-items:center;gap:8px;box-shadow:var(--shadow-lg)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* scrollbar */
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:10px}
+</style>
 </head>
 <body>
-<div id="sidebarOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99;"></div>
+<div class="app">
 
-<aside class="sidebar">
-  <a href="index.html" class="sidebar-logo">
-    <div class="sidebar-logo-icon">⚙️</div>
-    <div><div class="sidebar-logo-text">외식전문가</div><div class="sidebar-logo-sub">관리자 포털</div><span class="admin-badge-pill">ADMIN</span></div>
-  </a>
-  <nav class="sidebar-nav">
-    <div class="nav-label">개요</div>
-    <a href="c-01-home.html" class="nav-item"><span class="nav-icon">🏠</span> 관리자 홈</a>
-    <div class="nav-label">회원</div>
-    <a href="c-02-members.html" class="nav-item"><span class="nav-icon">👥</span> 소상공인 관리</a>
-    <a href="c-03-expert-review.html" class="nav-item"><span class="nav-icon">📋</span> 전문가 심사<span class="nav-badge warn">7</span></a>
-    <div class="nav-label">매칭</div>
-    <a href="c-04-matching.html" class="nav-item active"><span class="nav-icon">🔗</span> 매칭 현황<span class="nav-badge">3</span></a>
-    <div class="nav-label">수익</div>
-    <a href="c-05-settlement.html" class="nav-item"><span class="nav-icon">💰</span> 정산 관리</a>
-    <div class="nav-label">통계</div>
-    <a href="c-06-stats.html" class="nav-item"><span class="nav-icon">📊</span> 플랫폼 통계</a>
-  </nav>
-  <div class="sidebar-footer"><a href="index.html">🌐 서비스 홈</a><a href="index.html">🚪 로그아웃</a></div>
-</aside>
-
-<main class="main">
-  <header class="topbar">
-    <div class="topbar-left">
-      <button class="hamburger-btn" id="hamburgerBtn">☰</button>
-      <div><div class="topbar-title">매칭 현황</div><div class="topbar-sub">전체 매칭 · 수동 재배정 · 분쟁 처리</div></div>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <a href="../index.html" class="logo">
+      <div class="logo-inner">
+        <div class="logo-mark">M</div>
+        <div><div class="logo-name">MatchPro</div><div class="logo-sub">Admin Console</div></div>
+      </div>
+    </a>
+    <nav id="nav"></nav>
+    <div class="sidebar-footer">
+      <div class="s-avatar">관</div>
+      <div><div class="user-name">슈퍼 관리자</div><div class="user-email">admin@matchpro.kr</div></div>
+      <button class="logout-btn" title="로그아웃" onclick="location.href='../index.html'">↪</button>
     </div>
-    <div class="topbar-right">
-      <button class="btn btn-blue btn-sm" onclick="showToast('보고서 생성 중...')">📊 보고서</button>
-      <div class="topbar-notif">🔔<div class="notif-dot"></div></div>
-    </div>
-  </header>
+  </aside>
 
-  <div class="content">
+  <!-- MAIN -->
+  <div class="main">
+    <header class="topbar">
+      <div>
+        <div class="breadcrumb"><span>홈</span><span>›</span><span class="current">매칭 현황</span></div>
+        <div><span class="page-title">매칭 현황</span><span class="page-code">C-04 · MATCHING</span></div>
+      </div>
+      <div class="topbar-right">
+        <div class="live-pill"><div class="live-dot"></div><span class="live-text">LIVE</span></div>
+        <div id="clock"></div>
+        <div class="icon-btn">🔔<div class="notif-dot"></div></div>
+        <div class="icon-btn">⚙️</div>
+      </div>
+    </header>
 
-    <!-- KPI -->
-    <div class="kpi-grid" style="margin-bottom:20px;">
-      <div class="kpi-card blue"><div class="kpi-icon">🔗</div><div class="kpi-label">전체 매칭</div><div class="kpi-value">1,204</div><div class="kpi-change up">▲ 23 오늘</div></div>
-      <div class="kpi-card green"><div class="kpi-icon">✅</div><div class="kpi-label">완료 상담</div><div class="kpi-value">938</div><div class="kpi-change" style="color:var(--gray500);">78% 완료율</div></div>
-      <div class="kpi-card amber"><div class="kpi-icon">⏳</div><div class="kpi-label">진행 중</div><div class="kpi-value">233</div><div class="kpi-change up">▲ 5 신규</div></div>
-      <div class="kpi-card purple"><div class="kpi-icon">⚠️</div><div class="kpi-label">분쟁 처리</div><div class="kpi-value">3</div><div class="kpi-change down">즉시 처리 필요</div></div>
-    </div>
+    <div class="content">
 
-    <!-- 탭 -->
-    <div class="tab-nav" style="margin-bottom:20px;">
-      <button class="tab-btn active" data-tab="all">전체 매칭</button>
-      <button class="tab-btn" data-tab="reassign">수동 재배정</button>
-      <button class="tab-btn" data-tab="dispute">분쟁 처리 <span style="background:#EF4444;color:#fff;font-size:10px;padding:1px 6px;border-radius:100px;margin-left:4px;">3</span></button>
-    </div>
+      <!-- KPI -->
+      <div class="kpi-strip" id="kpiStrip"></div>
 
-    <!-- 전체 매칭 탭 -->
-    <div data-tab-content="all">
-      <div class="card">
-        <div class="search-bar">
-          <input class="search-input" type="text" placeholder="🔍 소상공인명, 전문가명, 매칭 ID 검색...">
-          <span class="filter-chip active">전체</span>
-          <span class="filter-chip">⏳ 진행 중</span>
-          <span class="filter-chip">✅ 완료</span>
-          <span class="filter-chip">❌ 취소됨</span>
-          <select class="form-select" style="width:auto;padding:8px 12px;font-size:13px;"><option>최신순</option><option>분야별</option><option>전문가별</option></select>
+      <!-- TOOLBAR -->
+      <div class="toolbar">
+        <div class="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input class="search-input" id="searchInput" type="text" placeholder="이름, 분야, 매칭 ID 검색…"/>
         </div>
+        <div class="divider"></div>
+        <select class="filter-select" id="filterStatus">
+          <option value="">상태 전체</option>
+          <option value="진행중">진행중</option>
+          <option value="완료">완료</option>
+          <option value="분쟁">분쟁</option>
+          <option value="취소">취소</option>
+        </select>
+        <select class="filter-select" id="filterField">
+          <option value="">분야 전체</option>
+          <option value="세무">세무</option>
+          <option value="노무">노무</option>
+          <option value="법률">법률</option>
+          <option value="회계">회계</option>
+          <option value="경영">경영</option>
+          <option value="마케팅">마케팅</option>
+        </select>
+        <select class="filter-select" id="filterPeriod">
+          <option value="">기간 전체</option>
+          <option value="today">오늘</option>
+          <option value="week">이번 주</option>
+          <option value="month">이번 달</option>
+        </select>
+        <div class="divider"></div>
+        <span class="result-count" id="resultCount"></span>
+        <button class="btn btn-ghost" onclick="showToast('📥 CSV 내보내기가 시작됩니다.')">📥 내보내기</button>
+      </div>
 
-        <div style="overflow-x:auto;">
-          <table class="data-table">
+      <!-- TABLE -->
+      <div class="table-wrap">
+        <div class="table-scroll">
+          <table>
             <thead>
               <tr>
-                <th>매칭 ID</th>
-                <th>소상공인</th>
-                <th>전문가</th>
-                <th>분야</th>
-                <th>매칭 일시</th>
-                <th>상태</th>
-                <th>평점</th>
+                <th data-sort="id">매칭 ID <span class="si">↕</span></th>
+                <th>소상공인 ↔ 전문가</th>
+                <th data-sort="field">분야 <span class="si">↕</span></th>
+                <th data-sort="status">상태 <span class="si">↕</span></th>
+                <th data-sort="progress">진행률 <span class="si">↕</span></th>
+                <th data-sort="startDate">시작일 <span class="si">↕</span></th>
+                <th data-sort="amount">금액 <span class="si">↕</span></th>
                 <th>액션</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td style="font-size:12px;color:var(--gray500);font-family:monospace;">#M-2847</td>
-                <td>
-                  <div style="font-weight:700;font-size:14px;">김철수</div>
-                  <div style="font-size:12px;color:var(--gray500);">마포구 삼겹살집</div>
-                </td>
-                <td>
-                  <div style="font-weight:700;font-size:14px;">박상훈 전문가</div>
-                  <div style="font-size:12px;color:var(--gray500);">위생·안전 전문</div>
-                </td>
-                <td><span class="badge badge-blue">위생</span></td>
-                <td style="font-size:13px;">2026.03.10 14:23</td>
-                <td><span class="badge badge-green">✓ 완료</span></td>
-                <td style="font-weight:700;color:var(--amber);">★ 4.8</td>
-                <td><button class="btn btn-secondary btn-sm" onclick="showToast('매칭 상세 보기')">상세</button></td>
-              </tr>
-              <tr>
-                <td style="font-size:12px;color:var(--gray500);font-family:monospace;">#M-2846</td>
-                <td>
-                  <div style="font-weight:700;font-size:14px;">박미영</div>
-                  <div style="font-size:12px;color:var(--gray500);">강남구 카페</div>
-                </td>
-                <td>
-                  <div style="font-weight:700;font-size:14px;">이수진 전문가</div>
-                  <div style="font-size:12px;color:var(--gray500);">마케팅·SNS 전문</div>
-                </td>
-                <td><span class="badge badge-purple">마케팅</span></td>
-                <td style="font-size:13px;">2026.03.10 11:05</td>
-                <td><span class="badge badge-amber">⏳ 진행 중</span></td>
-                <td style="color:var(--gray300);">—</td>
-                <td>
-                  <div style="display:flex;gap:6px;">
-                    <button class="btn btn-secondary btn-sm" onclick="showToast('매칭 상세 보기')">상세</button>
-                    <button class="btn btn-warn btn-sm" onclick="openReassignModal('#M-2846','박미영')">재배정</button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td style="font-size:12px;color:var(--gray500);font-family:monospace;">#M-2845</td>
-                <td>
-                  <div style="font-weight:700;font-size:14px;">이동혁</div>
-                  <div style="font-size:12px;color:var(--gray500);">송파구 치킨집</div>
-                </td>
-                <td>
-                  <div style="font-weight:700;font-size:14px;">최민준 전문가</div>
-                  <div style="font-size:12px;color:var(--gray500);">원가·수익 전문</div>
-                </td>
-                <td><span class="badge badge-green">원가</span></td>
-                <td style="font-size:13px;">2026.03.09 16:44</td>
-                <td><span class="badge badge-green">✓ 완료</span></td>
-                <td style="font-weight:700;color:var(--amber);">★ 5.0</td>
-                <td><button class="btn btn-secondary btn-sm" onclick="showToast('매칭 상세 보기')">상세</button></td>
-              </tr>
-              <tr>
-                <td style="font-size:12px;color:var(--gray500);font-family:monospace;">#M-2844</td>
-                <td>
-                  <div style="font-weight:700;font-size:14px;">정수연</div>
-                  <div style="font-size:12px;color:var(--gray500);">용산구 일식집</div>
-                </td>
-                <td>
-                  <div style="font-weight:700;font-size:14px;">김태영 전문가</div>
-                  <div style="font-size:12px;color:var(--gray500);">메뉴개발 전문</div>
-                </td>
-                <td><span class="badge badge-orange">메뉴</span></td>
-                <td style="font-size:13px;">2026.03.09 09:12</td>
-                <td><span class="badge badge-red">⚠️ 분쟁</span></td>
-                <td style="color:var(--gray300);">—</td>
-                <td>
-                  <div style="display:flex;gap:6px;">
-                    <button class="btn btn-secondary btn-sm" onclick="showToast('상세 보기')">상세</button>
-                    <button class="btn btn-danger btn-sm" onclick="openDisputeModal('#M-2844')">분쟁처리</button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td style="font-size:12px;color:var(--gray500);font-family:monospace;">#M-2843</td>
-                <td>
-                  <div style="font-weight:700;font-size:14px;">최정민</div>
-                  <div style="font-size:12px;color:var(--gray500);">종로구 한식당</div>
-                </td>
-                <td>
-                  <div style="font-weight:700;font-size:14px;">장혜원 전문가</div>
-                  <div style="font-size:12px;color:var(--gray500);">홀·서비스 전문</div>
-                </td>
-                <td><span class="badge badge-blue">서비스</span></td>
-                <td style="font-size:13px;">2026.03.08 14:30</td>
-                <td><span class="badge badge-gray">❌ 취소</span></td>
-                <td style="color:var(--gray300);">—</td>
-                <td><button class="btn btn-secondary btn-sm" onclick="showToast('취소 사유 보기')">사유</button></td>
-              </tr>
-            </tbody>
+            <tbody id="tableBody"></tbody>
           </table>
         </div>
-
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:16px;padding-top:16px;border-top:1px solid var(--gray100);">
-          <div style="font-size:13px;color:var(--gray500);">총 1,204건 중 1~20건 표시</div>
-          <div style="display:flex;gap:6px;">
-            <button class="btn btn-secondary btn-sm">‹ 이전</button>
-            <button class="btn btn-primary btn-sm">1</button>
-            <button class="btn btn-secondary btn-sm">2</button>
-            <button class="btn btn-secondary btn-sm">3</button>
-            <span style="padding:6px 8px;font-size:13px;">...</span>
-            <button class="btn btn-secondary btn-sm">61</button>
-            <button class="btn btn-secondary btn-sm">다음 ›</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 수동 재배정 탭 -->
-    <div data-tab-content="reassign" style="display:none;">
-      <div class="card" style="margin-bottom:20px;">
-        <div class="card-title">🔄 수동 재배정 대기</div>
-        <p style="font-size:14px;color:var(--gray500);margin-bottom:16px;">자동 매칭에 실패하거나 전문가가 수락을 거부한 케이스입니다.</p>
-
-        <div style="display:flex;flex-direction:column;gap:12px;">
-          <div style="border:1.5px solid var(--amber-l);border-radius:var(--radius-sm);padding:16px;background:var(--amber-l);">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-              <div>
-                <span style="font-family:monospace;font-size:12px;color:var(--gray500);">#M-2841</span>
-                <span class="badge badge-amber" style="margin-left:8px;">재배정 대기 2일</span>
-              </div>
-              <button class="btn btn-primary btn-sm" onclick="openReassignModal('#M-2841','한지수')">전문가 배정</button>
-            </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-              <div>
-                <div style="font-size:12px;color:var(--gray500);margin-bottom:4px;">소상공인</div>
-                <div style="font-weight:700;">한지수 · 마포구 파스타집</div>
-                <div style="font-size:12px;color:var(--gray500);">메뉴개발 상담 요청</div>
-              </div>
-              <div>
-                <div style="font-size:12px;color:var(--gray500);margin-bottom:4px;">거부 이력</div>
-                <div style="font-size:13px;">김○○ 전문가 — 일정 불가<br>이○○ 전문가 — 전문 분야 미일치</div>
-              </div>
-            </div>
-          </div>
-
-          <div style="border:1.5px solid var(--red-l);border-radius:var(--radius-sm);padding:16px;background:var(--red-l);">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-              <div>
-                <span style="font-family:monospace;font-size:12px;color:var(--gray500);">#M-2839</span>
-                <span class="badge badge-red" style="margin-left:8px;">재배정 대기 5일 ⚠️</span>
-              </div>
-              <button class="btn btn-danger btn-sm" onclick="openReassignModal('#M-2839','오세민')">긴급 배정</button>
-            </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-              <div>
-                <div style="font-size:12px;color:var(--gray500);margin-bottom:4px;">소상공인</div>
-                <div style="font-weight:700;">오세민 · 강동구 중식당</div>
-                <div style="font-size:12px;color:var(--gray500);">위생 점검 긴급 상담</div>
-              </div>
-              <div>
-                <div style="font-size:12px;color:var(--gray500);margin-bottom:4px;">거부 이력</div>
-                <div style="font-size:13px;">박○○ 전문가 — 거부<br>최○○ 전문가 — 거부<br>강○○ 전문가 — 무응답</div>
-              </div>
-            </div>
-          </div>
+        <div class="pagination">
+          <div class="page-info" id="pageInfo"></div>
+          <div class="page-btns" id="pageBtns"></div>
         </div>
       </div>
 
-      <!-- 가용 전문가 -->
-      <div class="card">
-        <div class="card-title">👨‍💼 지금 매칭 가능한 전문가</div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
-          <div style="border:1px solid var(--gray200);border-radius:var(--radius-sm);padding:14px;">
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-              <div style="width:40px;height:40px;border-radius:50%;background:var(--light);display:flex;align-items:center;justify-content:center;font-size:20px;">👨‍🍳</div>
-              <div><div style="font-weight:700;font-size:14px;">박상훈</div><div style="font-size:12px;color:var(--green);font-weight:700;">● 온라인</div></div>
-            </div>
-            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;">
-              <span class="badge badge-blue">위생</span>
-              <span class="badge badge-green">안전</span>
-            </div>
-            <div style="font-size:12px;color:var(--gray500);margin-bottom:10px;">오늘 가능 슬롯 3개 · ★ 4.9</div>
-            <button class="btn btn-primary btn-sm" style="width:100%;justify-content:center;" onclick="showToast('박상훈 전문가에게 배정 요청 전송')">배정 요청</button>
-          </div>
-          <div style="border:1px solid var(--gray200);border-radius:var(--radius-sm);padding:14px;">
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-              <div style="width:40px;height:40px;border-radius:50%;background:var(--purple-l);display:flex;align-items:center;justify-content:center;font-size:20px;">👩‍🍳</div>
-              <div><div style="font-weight:700;font-size:14px;">이수진</div><div style="font-size:12px;color:var(--green);font-weight:700;">● 온라인</div></div>
-            </div>
-            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;">
-              <span class="badge badge-purple">마케팅</span>
-              <span class="badge badge-orange">SNS</span>
-            </div>
-            <div style="font-size:12px;color:var(--gray500);margin-bottom:10px;">오늘 가능 슬롯 2개 · ★ 4.7</div>
-            <button class="btn btn-primary btn-sm" style="width:100%;justify-content:center;" onclick="showToast('이수진 전문가에게 배정 요청 전송')">배정 요청</button>
-          </div>
-          <div style="border:1px solid var(--gray200);border-radius:var(--radius-sm);padding:14px;">
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-              <div style="width:40px;height:40px;border-radius:50%;background:var(--green-l);display:flex;align-items:center;justify-content:center;font-size:20px;">🧑‍🍳</div>
-              <div><div style="font-weight:700;font-size:14px;">최민준</div><div style="font-size:12px;color:var(--gray300);">● 오프라인</div></div>
-            </div>
-            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;">
-              <span class="badge badge-green">원가</span>
-              <span class="badge badge-blue">수익</span>
-            </div>
-            <div style="font-size:12px;color:var(--gray500);margin-bottom:10px;">내일 가능 슬롯 4개 · ★ 5.0</div>
-            <button class="btn btn-secondary btn-sm" style="width:100%;justify-content:center;" onclick="showToast('내일 일정으로 배정 요청 전송')">내일 배정</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 분쟁 처리 탭 -->
-    <div data-tab-content="dispute" style="display:none;">
-      <div style="display:flex;flex-direction:column;gap:16px;">
-
-        <div class="card" style="border-left:4px solid var(--red);">
-          <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;">
-            <div>
-              <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-                <span style="font-family:monospace;font-size:13px;color:var(--gray500);">#D-041</span>
-                <span class="badge badge-red">🔥 긴급</span>
-                <span style="font-size:12px;color:var(--gray500);">접수 3일 전</span>
-              </div>
-              <div style="font-size:16px;font-weight:700;margin-bottom:4px;">환불 요청 — 상담 품질 불만</div>
-              <div style="font-size:13px;color:var(--gray500);">소상공인 정수연 (용산구 일식집) vs 전문가 김태영</div>
-            </div>
-            <div style="display:flex;gap:8px;">
-              <button class="btn btn-secondary btn-sm" onclick="showToast('채팅 내역 열람')">채팅 열람</button>
-              <button class="btn btn-danger btn-sm" onclick="openDisputeModal('#D-041')">분쟁 처리</button>
-            </div>
-          </div>
-          <div style="background:var(--red-l);border-radius:var(--radius-sm);padding:12px;font-size:13px;color:var(--gray700);">
-            <strong>소상공인 주장:</strong> 전문가가 메뉴 개발 상담 중 전문 지식 없이 일반적인 조언만 했으며, 약속한 레시피 제공을 하지 않았습니다. 전액 환불을 요청합니다.
-          </div>
-          <div style="display:flex;gap:20px;margin-top:12px;font-size:13px;">
-            <div><span style="color:var(--gray500);">상담 금액</span> <strong style="margin-left:6px;">₩120,000</strong></div>
-            <div><span style="color:var(--gray500);">매칭 ID</span> <strong style="margin-left:6px;">#M-2844</strong></div>
-            <div><span style="color:var(--gray500);">상담 날짜</span> <strong style="margin-left:6px;">2026.03.09</strong></div>
-          </div>
-        </div>
-
-        <div class="card" style="border-left:4px solid var(--amber);">
-          <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;">
-            <div>
-              <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-                <span style="font-family:monospace;font-size:13px;color:var(--gray500);">#D-040</span>
-                <span class="badge badge-amber">⚠️ 검토 중</span>
-                <span style="font-size:12px;color:var(--gray500);">접수 5일 전</span>
-              </div>
-              <div style="font-size:16px;font-weight:700;margin-bottom:4px;">무단 개인 연락처 교환 신고</div>
-              <div style="font-size:13px;color:var(--gray500);">소상공인 한지수 (마포구 파스타집) → 전문가 이○○</div>
-            </div>
-            <div style="display:flex;gap:8px;">
-              <button class="btn btn-secondary btn-sm" onclick="showToast('신고 내역 보기')">신고 내역</button>
-              <button class="btn btn-warn btn-sm" onclick="openDisputeModal('#D-040')">조치</button>
-            </div>
-          </div>
-          <div style="background:var(--amber-l);border-radius:var(--radius-sm);padding:12px;font-size:13px;color:var(--gray700);">
-            <strong>신고 내용:</strong> 전문가가 플랫폼 외부 채널로 상담을 유도하며 개인 카카오톡 ID를 공유했습니다. 이용약관 제15조 위반 사항입니다.
-          </div>
-          <div style="display:flex;gap:20px;margin-top:12px;font-size:13px;">
-            <div><span style="color:var(--gray500);">신고 유형</span> <strong style="margin-left:6px;">이용약관 위반</strong></div>
-            <div><span style="color:var(--gray500);">매칭 ID</span> <strong style="margin-left:6px;">#M-2838</strong></div>
-          </div>
-        </div>
-
-        <div class="card" style="border-left:4px solid var(--gray300);">
-          <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;">
-            <div>
-              <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-                <span style="font-family:monospace;font-size:13px;color:var(--gray500);">#D-039</span>
-                <span class="badge badge-blue">📄 증거 수집 중</span>
-                <span style="font-size:12px;color:var(--gray500);">접수 7일 전</span>
-              </div>
-              <div style="font-size:16px;font-weight:700;margin-bottom:4px;">상담 시간 미준수 분쟁</div>
-              <div style="font-size:13px;color:var(--gray500);">소상공인 오세민 (강동구 중식당) vs 전문가 장○○</div>
-            </div>
-            <div style="display:flex;gap:8px;">
-              <button class="btn btn-secondary btn-sm" onclick="showToast('증거 자료 보기')">자료 보기</button>
-              <button class="btn btn-secondary btn-sm" onclick="openDisputeModal('#D-039')">조치</button>
-            </div>
-          </div>
-          <div style="background:var(--gray100);border-radius:var(--radius-sm);padding:12px;font-size:13px;color:var(--gray700);">
-            <strong>분쟁 내용:</strong> 약속된 60분 상담 중 전문가가 40분 후 연결을 일방적으로 종료했습니다. 부분 환불(30%) 요청 중입니다.
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</main>
-
-<!-- 재배정 모달 -->
-<div class="modal-overlay" id="reassignModal">
-  <div class="modal-box">
-    <div class="modal-title">🔄 전문가 수동 재배정</div>
-    <div class="modal-sub" id="reassignTarget">매칭에 새 전문가를 배정합니다.</div>
-    <div class="form-group">
-      <label class="form-label">재배정 전문가 선택</label>
-      <select class="form-select">
-        <option>박상훈 — 위생·안전 (★4.9, 오늘 가능)</option>
-        <option>이수진 — 마케팅·SNS (★4.7, 오늘 가능)</option>
-        <option>최민준 — 원가·수익 (★5.0, 내일 가능)</option>
-        <option>장혜원 — 홀·서비스 (★4.6, 내일 가능)</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label class="form-label">재배정 사유</label>
-      <select class="form-select">
-        <option>전문가 수락 거부</option>
-        <option>전문가 무응답</option>
-        <option>고객 요청</option>
-        <option>전문 분야 미일치</option>
-        <option>일정 충돌</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label class="form-label">관리자 메모</label>
-      <textarea class="form-textarea" placeholder="재배정 사유 상세 입력..."></textarea>
-    </div>
-    <div style="display:flex;gap:10px;">
-      <button class="btn btn-secondary" style="flex:1;justify-content:center;" onclick="document.getElementById('reassignModal').classList.remove('open')">취소</button>
-      <button class="btn btn-primary" style="flex:1;justify-content:center;" onclick="document.getElementById('reassignModal').classList.remove('open');showToast('✅ 재배정 요청이 전송되었습니다.')">재배정 요청</button>
     </div>
   </div>
 </div>
 
-<!-- 분쟁 처리 모달 -->
+<!-- PANEL OVERLAY -->
+<div class="panel-overlay" id="panelOverlay" onclick="closePanel()"></div>
+
+<!-- DETAIL PANEL -->
+<div class="detail-panel" id="detailPanel">
+  <div class="panel-header">
+    <div>
+      <div class="panel-title" id="panelTitle">매칭 상세</div>
+      <div class="panel-subtitle" id="panelSubtitle"></div>
+    </div>
+    <button class="panel-close" onclick="closePanel()">✕</button>
+  </div>
+  <div class="panel-body" id="panelBody"></div>
+  <div class="panel-footer" id="panelFooter"></div>
+</div>
+
+<!-- DISPUTE MODAL -->
 <div class="modal-overlay" id="disputeModal">
-  <div class="modal-box" style="width:540px;">
-    <div class="modal-title">⚖️ 분쟁 처리</div>
-    <div class="modal-sub" id="disputeTarget">분쟁 사례를 검토하고 조치를 취합니다.</div>
-    <div class="form-group">
-      <label class="form-label">처리 유형</label>
-      <select class="form-select">
-        <option>전액 환불 — 소상공인 귀책 없음</option>
-        <option>부분 환불 (50%) — 쌍방 과실</option>
-        <option>환불 거부 — 전문가 정상 이행</option>
-        <option>전문가 경고 조치</option>
-        <option>전문가 이용 정지</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label class="form-label">처리 결과 메모</label>
-      <textarea class="form-textarea" placeholder="처리 결과 및 사유를 입력하세요..."></textarea>
-    </div>
-    <div style="background:var(--amber-l);border-radius:var(--radius-sm);padding:12px;margin-bottom:16px;font-size:13px;color:var(--amber);font-weight:600;">
-      ⚠️ 처리 결과는 양측 모두에게 이메일로 발송됩니다.
-    </div>
-    <div style="display:flex;gap:10px;">
-      <button class="btn btn-secondary" style="flex:1;justify-content:center;" onclick="document.getElementById('disputeModal').classList.remove('open')">취소</button>
-      <button class="btn btn-danger" style="flex:1;justify-content:center;" onclick="document.getElementById('disputeModal').classList.remove('open');showToast('⚖️ 분쟁 처리가 완료되었습니다.')">처리 완료</button>
+  <div class="modal">
+    <div class="modal-icon" style="background:#FEE2E2">⚖️</div>
+    <div class="modal-title">분쟁 처리</div>
+    <div class="modal-desc">매칭 <strong id="dispTarget"></strong>에 대한 분쟁을 처리합니다. 처리 방식을 선택하고 사유를 입력해주세요.</div>
+    <div class="modal-label">처리 방식</div>
+    <select class="modal-select" id="dispAction">
+      <option value="refund">전액 환불 처리</option>
+      <option value="partial">부분 환불 처리</option>
+      <option value="reassign">전문가 재배정</option>
+      <option value="mediate">중재 조정 완료</option>
+      <option value="dismiss">신고 기각</option>
+    </select>
+    <div class="modal-label">처리 메모</div>
+    <textarea class="modal-textarea" id="dispNote" placeholder="분쟁 내용 및 처리 경위를 상세히 기록해주세요…"></textarea>
+    <div class="modal-actions">
+      <button class="m-btn m-cancel" onclick="closeAllModals()">취소</button>
+      <button class="m-btn m-confirm-red" onclick="confirmDispute()">처리 완료</button>
     </div>
   </div>
 </div>
 
-<div id="toast"></div>
-<script src="admin.js"></script>
+<!-- CANCEL MODAL -->
+<div class="modal-overlay" id="cancelModal">
+  <div class="modal">
+    <div class="modal-icon" style="background:#FEF3C7">🚫</div>
+    <div class="modal-title">매칭 강제 취소</div>
+    <div class="modal-desc">매칭 <strong id="cancelTarget"></strong>을 관리자 권한으로 취소합니다. 이 작업은 되돌릴 수 없습니다.</div>
+    <div class="modal-label">취소 사유</div>
+    <select class="modal-select" id="cancelReason">
+      <option>전문가 연락 두절</option>
+      <option>소상공인 요청</option>
+      <option>분쟁 해결 불가</option>
+      <option>시스템 오류</option>
+      <option>기타</option>
+    </select>
+    <div class="modal-label">메모</div>
+    <textarea class="modal-textarea" id="cancelNote" placeholder="추가 메모…"></textarea>
+    <div class="modal-actions">
+      <button class="m-btn m-cancel" onclick="closeAllModals()">취소</button>
+      <button class="m-btn m-confirm-orange" onclick="confirmCancel()">강제 취소</button>
+    </div>
+  </div>
+</div>
+
+<!-- REASSIGN MODAL -->
+<div class="modal-overlay" id="reassignModal">
+  <div class="modal" style="width:500px">
+    <div class="modal-icon" style="background:var(--blue-lt)">🔄</div>
+    <div class="modal-title">전문가 재배정</div>
+    <div class="modal-desc">매칭 <strong id="reassignTarget"></strong>의 전문가를 재배정합니다. 아래 추천 전문가 목록에서 선택하세요.</div>
+    <div class="reassign-wrap" id="reassignList"></div>
+    <div style="margin-top:16px" class="modal-actions">
+      <button class="m-btn m-cancel" onclick="closeAllModals()">취소</button>
+      <button class="m-btn m-confirm-blue" onclick="confirmReassign()">재배정 완료</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
 <script>
-function openReassignModal(id, name) {
-  document.getElementById('reassignTarget').textContent = id + ' — ' + name + ' 소상공인의 매칭에 새 전문가를 배정합니다.';
-  document.getElementById('reassignModal').classList.add('open');
+// ── DATA ─────────────────────────────────────────────────────────────────────
+const FILENAMES = {
+  "C-01": "c01-dashboard.html",
+  "C-02": "c02-users.html",
+  "C-03": "c03-experts.html",
+  "C-04": "c04-matching.html",
+  "C-05": "c05-settlement.html",
+  "C-06": "c06-stats.html"
+};
+const NAV_ITEMS=[
+  {id:"C-01",label:"관리자 홈",icon:"🏠"},
+  {id:"C-02",label:"소상공인 관리",icon:"🏪"},
+  {id:"C-03",label:"전문가 심사",icon:"🔍",badge:14},
+  {id:"C-04",label:"매칭 현황",icon:"🔗",active:true},
+  {id:"C-05",label:"정산 관리",icon:"💳"},
+  {id:"C-06",label:"플랫폼 통계",icon:"📊"},
+];
+
+// ── MOCK DATA ─────────────────────────────────────────────────────────────────
+const AC=["#3B6FFF","#10B981","#F59E0B","#8B5CF6","#EF4444","#06B6D4","#EC4899","#84CC16"];
+const color=i=>AC[((i*3)+1)%AC.length];
+const color2=i=>AC[((i*5)+3)%AC.length];
+
+const STEPS_DEF=[
+  {key:"matched",   label:"매칭 성사",    desc:"AI 자동 매칭 완료"},
+  {key:"confirmed", label:"상담 확정",     desc:"일정 및 방식 협의"},
+  {key:"inprogress",label:"상담 진행",     desc:"전문가 서비스 제공 중"},
+  {key:"review",    label:"결과 검토",     desc:"소상공인 검토 중"},
+  {key:"done",      label:"완료 & 결제",   desc:"서비스 완료 및 정산"},
+];
+
+const MSGS={
+  "M-2847":[
+    {sender:"김철수",role:"소상공인",color:"#3B6FFF",text:"세무 신고 관련해서 빠르게 진행 부탁드립니다.",time:"3/8 14:22"},
+    {sender:"이세무",role:"전문가",color:"#10B981",text:"네, 필요한 서류 목록 보내드리겠습니다. 내일 오전 중으로 1차 검토 가능합니다.",time:"3/8 15:01"},
+    {sender:"김철수",role:"소상공인",text:"감사합니다. 서류 준비해두겠습니다.",color:"#3B6FFF",time:"3/8 15:18"},
+  ],
+  "M-2801":[
+    {sender:"박민준",role:"소상공인",color:"#8B5CF6",text:"임금 체불 문제로 직원이 신고를 넣겠다고 합니다. 긴급합니다.",time:"3/5 09:11"},
+    {sender:"이수현",role:"전문가",color:"#10B981",text:"먼저 침착하게 대응하세요. 고용노동부 신고 전 우선 내용증명 발송을 권장합니다.",time:"3/5 09:45"},
+  ],
+};
+
+const EXPERTS_POOL=[
+  {id:"EX-031",name:"강현우",field:"세무",score:4.9,cases:42,color:"#3B6FFF"},
+  {id:"EX-007",name:"윤미래",field:"세무",score:4.7,cases:31,color:"#06B6D4"},
+  {id:"EX-019",name:"송지안",field:"세무",score:4.6,cases:28,color:"#8B5CF6"},
+];
+
+const MATCHINGS=[
+  {id:"M-2847",owner:{name:"김철수",biz:"김철수 분식",color:"#3B6FFF"},expert:{name:"이세무",role:"세무사",color:"#10B981"},field:"세무",status:"진행중",progress:60,stepIdx:2,startDate:"2026-03-05",amount:"₩180,000",region:"서울",urgent:false,
+   steps:[{s:"done"},{s:"done"},{s:"current"},{s:"pending"},{s:"pending"}]},
+  {id:"M-2846",owner:{name:"임소연",biz:"소연 의류",color:"#EC4899"},expert:{name:"박법률",role:"변호사",color:"#8B5CF6"},field:"법률",status:"분쟁",progress:75,stepIdx:3,startDate:"2026-03-01",amount:"₩320,000",region:"서울",urgent:true,
+   steps:[{s:"done"},{s:"done"},{s:"done"},{s:"current"},{s:"pending"}]},
+  {id:"M-2845",owner:{name:"홍길동",biz:"길동 농장",color:"#F59E0B"},expert:{name:"정회계",role:"회계사",color:"#06B6D4"},field:"회계",status:"완료",progress:100,stepIdx:4,startDate:"2026-02-28",amount:"₩250,000",region:"경기",urgent:false,
+   steps:[{s:"done"},{s:"done"},{s:"done"},{s:"done"},{s:"done"}]},
+  {id:"M-2844",owner:{name:"최수진",biz:"수진 베이커리",color:"#EF4444"},expert:{name:"김노무",role:"노무사",color:"#84CC16"},field:"노무",status:"진행중",progress:30,stepIdx:1,startDate:"2026-03-07",amount:"₩150,000",region:"서울",urgent:false,
+   steps:[{s:"done"},{s:"current"},{s:"pending"},{s:"pending"},{s:"pending"}]},
+  {id:"M-2843",owner:{name:"정대호",biz:"대호 자동차",color:"#06B6D4"},expert:{name:"한마케팅",role:"마케터",color:"#EC4899"},field:"마케팅",status:"완료",progress:100,stepIdx:4,startDate:"2026-02-20",amount:"₩200,000",region:"부산",urgent:false,
+   steps:[{s:"done"},{s:"done"},{s:"done"},{s:"done"},{s:"done"}]},
+  {id:"M-2842",owner:{name:"서준혁",biz:"준혁 전자",color:"#3B6FFF"},expert:{name:"최경영",role:"경영컨설턴트",color:"#F59E0B"},field:"경영",status:"분쟁",progress:45,stepIdx:2,startDate:"2026-03-03",amount:"₩400,000",region:"서울",urgent:true,
+   steps:[{s:"done"},{s:"done"},{s:"current"},{s:"pending"},{s:"pending"}]},
+  {id:"M-2841",owner:{name:"윤상호",biz:"상호 목공소",color:"#8B5CF6"},expert:{name:"이세무",role:"세무사",color:"#10B981"},field:"세무",status:"취소",progress:15,stepIdx:0,startDate:"2026-03-02",amount:"₩0",region:"경기",urgent:false,
+   steps:[{s:"done"},{s:"pending"},{s:"pending"},{s:"pending"},{s:"pending"}]},
+  {id:"M-2840",owner:{name:"배혜진",biz:"혜진 스튜디오",color:"#84CC16"},expert:{name:"박법률",role:"변호사",color:"#8B5CF6"},field:"법률",status:"진행중",progress:50,stepIdx:2,startDate:"2026-03-06",amount:"₩280,000",region:"경기",urgent:false,
+   steps:[{s:"done"},{s:"done"},{s:"current"},{s:"pending"},{s:"pending"}]},
+  {id:"M-2839",owner:{name:"신유철",biz:"유철 건설",color:"#EF4444"},expert:{name:"정회계",role:"회계사",color:"#06B6D4"},field:"회계",status:"완료",progress:100,stepIdx:4,startDate:"2026-02-15",amount:"₩350,000",region:"인천",urgent:false,
+   steps:[{s:"done"},{s:"done"},{s:"done"},{s:"done"},{s:"done"}]},
+  {id:"M-2838",owner:{name:"오다은",biz:"다은 카페",color:"#F59E0B"},expert:{name:"한마케팅",role:"마케터",color:"#EC4899"},field:"마케팅",status:"진행중",progress:20,stepIdx:1,startDate:"2026-03-09",amount:"₩120,000",region:"서울",urgent:false,
+   steps:[{s:"done"},{s:"current"},{s:"pending"},{s:"pending"},{s:"pending"}]},
+  {id:"M-2837",owner:{name:"강미나",biz:"미나 네일샵",color:"#EC4899"},expert:{name:"이수현",role:"노무사",color:"#84CC16"},field:"노무",status:"취소",progress:5,stepIdx:0,startDate:"2026-03-01",amount:"₩0",region:"서울",urgent:false,
+   steps:[{s:"done"},{s:"pending"},{s:"pending"},{s:"pending"},{s:"pending"}]},
+  {id:"M-2836",owner:{name:"이영희",biz:"영희 꽃집",color:"#10B981"},expert:{name:"최경영",role:"경영컨설턴트",color:"#F59E0B"},field:"경영",status:"완료",progress:100,stepIdx:4,startDate:"2026-02-10",amount:"₩180,000",region:"서울",urgent:false,
+   steps:[{s:"done"},{s:"done"},{s:"done"},{s:"done"},{s:"done"}]},
+];
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let matchings_data=JSON.parse(JSON.stringify(MATCHINGS));
+let filtered=[...matchings_data];
+let sortKey="id", sortAsc=false;
+let page=1; const PAGE=8;
+let selectedId=null, actionTarget=null, chosenExpert=null;
+
+// ── KPI ───────────────────────────────────────────────────────────────────────
+function renderKPIs(){
+  const total=matchings_data.length;
+  const active=matchings_data.filter(m=>m.status==="진행중").length;
+  const done=matchings_data.filter(m=>m.status==="완료").length;
+  const dispute=matchings_data.filter(m=>m.status==="분쟁").length;
+  const KPIS_DATA=[
+    {label:"전체 매칭",    val:total+"건",  delta:"+80 오늘",up:true, icon:"🔗",ib:"#EEF2FF",ac:"#3B6FFF"},
+    {label:"진행중",       val:active+"건", delta:total>0?Math.round(active/total*100)+"%":"0%",up:true, icon:"⚡",ib:"#D1FAE5",ac:"#10B981"},
+    {label:"완료",         val:done+"건",   delta:"이번 달",up:true, icon:"✅",ib:"#CFFAFE",ac:"#06B6D4"},
+    {label:"분쟁 처리 중", val:dispute+"건",delta:"72h 초과",up:false,icon:"⚖️",ib:"#FEE2E2",ac:"#EF4444"},
+  ];
+  document.getElementById("kpiStrip").innerHTML=KPIS_DATA.map(k=>`
+    <div class="kpi-card">
+      <div class="kpi-accent" style="background:${k.ac}"></div>
+      <div class="kpi-row">
+        <div class="kpi-icon" style="background:${k.ib}">${k.icon}</div>
+        <span class="kpi-delta" style="color:${k.up?"#059669":"#DC2626"};background:${k.up?"#D1FAE5":"#FEE2E2"}">${k.delta}</span>
+      </div>
+      <div class="kpi-val">${k.val}</div>
+      <div class="kpi-lbl">${k.label}</div>
+    </div>`).join("");
 }
-function openDisputeModal(id) {
-  document.getElementById('disputeTarget').textContent = id + ' 분쟁 사례를 검토하고 조치를 취합니다.';
-  document.getElementById('disputeModal').classList.add('open');
+
+// ── STATUS BADGE ─────────────────────────────────────────────────────────────
+const ST={
+  "진행중":{bg:"#D1FAE5",color:"#059669",dot:"#10B981"},
+  "완료":  {bg:"#CFFAFE",color:"#0891B2",dot:"#06B6D4"},
+  "분쟁":  {bg:"#FEE2E2",color:"#DC2626",dot:"#EF4444"},
+  "취소":  {bg:"#F3F4F6",color:"#6B7280",dot:"#9CA3AF"},
+};
+const FIELD_C={
+  "세무":{bg:"#EEF2FF",c:"#3B6FFF"},"노무":{bg:"#D1FAE5",c:"#059669"},
+  "법률":{bg:"#EDE9FE",c:"#7C3AED"},"회계":{bg:"#FEF3C7",c:"#D97706"},
+  "경영":{bg:"#CFFAFE",c:"#0891B2"},"마케팅":{bg:"#FCE7F3",c:"#DB2777"},
+};
+
+// ── FILTER/SORT ───────────────────────────────────────────────────────────────
+function applyFilters(){
+  const q=document.getElementById("searchInput").value.toLowerCase();
+  const st=document.getElementById("filterStatus").value;
+  const fd=document.getElementById("filterField").value;
+  filtered=matchings_data.filter(m=>{
+    if(q&&!m.id.toLowerCase().includes(q)&&!m.owner.name.includes(q)&&!m.expert.name.includes(q)&&!m.field.includes(q))return false;
+    if(st&&m.status!==st)return false;
+    if(fd&&m.field!==fd)return false;
+    return true;
+  });
+  filtered.sort((a,b)=>{
+    let va=a[sortKey],vb=b[sortKey];
+    if(typeof va==="string"){va=va.toLowerCase();vb=vb.toLowerCase();}
+    return sortAsc?(va>vb?1:-1):(va<vb?1:-1);
+  });
+  page=1; renderTable();
 }
-function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2800); }
+
+// ── TABLE ─────────────────────────────────────────────────────────────────────
+function progColor(pct,status){
+  if(status==="분쟁")return"#EF4444";
+  if(status==="취소")return"#9CA3AF";
+  if(pct===100)return"#06B6D4";
+  return"#3B6FFF";
+}
+
+function renderTable(){
+  document.getElementById("resultCount").innerHTML=`<strong>${filtered.length}</strong>건`;
+  const total=filtered.length;
+  const start=(page-1)*PAGE;
+  const slice=filtered.slice(start,start+PAGE);
+
+  document.getElementById("tableBody").innerHTML=slice.map(m=>{
+    const st=ST[m.status]||ST["취소"];
+    const fc=FIELD_C[m.field]||{bg:"#F3F4F6",c:"#6B7280"};
+    const pc=progColor(m.progress,m.status);
+
+    const actionBtns=`<div class="action-btns" onclick="event.stopPropagation()">
+      <button class="tbl-btn primary" onclick="openPanel('${m.id}')">상세</button>
+      ${m.status==="진행중"?`<button class="tbl-btn warn" onclick="openReassignModal('${m.id}')">재배정</button>`:""}
+      ${m.status==="분쟁"?`<button class="tbl-btn danger" onclick="openDisputeModal('${m.id}')">분쟁처리</button>`:""}
+      ${m.status==="진행중"||m.status==="분쟁"?`<button class="tbl-btn danger" onclick="openCancelModal('${m.id}')">취소</button>`:""}
+    </div>`;
+
+    return`<tr class="${selectedId===m.id?"selected":""}" onclick="openPanel('${m.id}')">
+      <td class="mono-cell" style="font-weight:600;color:var(--blue)">${m.id}</td>
+      <td>
+        <div class="pair-cell">
+          <div class="pair-avatar" style="background:${m.owner.color}">${m.owner.name[0]}</div>
+          <div>
+            <div class="pair-name">${m.owner.name}</div>
+            <div class="pair-sub">${m.owner.biz}</div>
+          </div>
+          <span class="pair-arrow">↔</span>
+          <div class="pair-avatar" style="background:${m.expert.color}">${m.expert.name[0]}</div>
+          <div>
+            <div class="pair-name">${m.expert.name}</div>
+            <div class="pair-sub">${m.expert.role}</div>
+          </div>
+        </div>
+      </td>
+      <td><span class="badge" style="background:${fc.bg};color:${fc.c}">${m.field}</span></td>
+      <td><span class="badge" style="background:${st.bg};color:${st.color}"><span class="badge-dot" style="background:${st.dot}"></span>${m.status}</span></td>
+      <td>
+        <div class="prog-wrap">
+          <div class="prog-label">
+            <span class="prog-pct">${m.progress}%</span>
+            <span class="prog-step">${STEPS_DEF[Math.min(m.stepIdx,4)].label}</span>
+          </div>
+          <div class="prog-track"><div class="prog-fill" style="width:${m.progress}%;background:${pc}"></div></div>
+        </div>
+      </td>
+      <td class="mono-cell">${m.startDate}</td>
+      <td class="mono-cell" style="font-weight:600;color:var(--text0)">${m.amount}</td>
+      <td>${actionBtns}</td>
+    </tr>`;
+  }).join("");
+
+  document.querySelectorAll("th[data-sort]").forEach(th=>{
+    th.classList.toggle("sorted",th.dataset.sort===sortKey);
+    const si=th.querySelector(".si");
+    if(si)si.textContent=th.dataset.sort===sortKey?(sortAsc?"↑":"↓"):"↕";
+  });
+
+  // pagination
+  const totalPages=Math.ceil(total/PAGE)||1;
+  document.getElementById("pageInfo").innerHTML=`총 <strong>${total}</strong>건 중 ${start+1}–${Math.min(start+PAGE,total)} 표시`;
+  let pHtml=`<button class="page-btn" onclick="changePage(${page-1})" ${page===1?"disabled":""}>‹</button>`;
+  for(let i=1;i<=totalPages;i++)pHtml+=`<button class="page-btn${i===page?" active":""}" onclick="changePage(${i})">${i}</button>`;
+  pHtml+=`<button class="page-btn" onclick="changePage(${page+1})" ${page>=totalPages?"disabled":""}>›</button>`;
+  document.getElementById("pageBtns").innerHTML=pHtml;
+}
+
+function changePage(p){
+  const max=Math.ceil(filtered.length/PAGE)||1;
+  if(p<1||p>max)return;
+  page=p; renderTable();
+}
+
+// ── DETAIL PANEL ─────────────────────────────────────────────────────────────
+function openPanel(id){
+  const m=matchings_data.find(x=>x.id===id);
+  if(!m)return;
+  selectedId=id; renderTable();
+
+  const st=ST[m.status]||ST["취소"];
+  const fc=FIELD_C[m.field]||{bg:"#F3F4F6",c:"#6B7280"};
+  const pc=progColor(m.progress,m.status);
+  const msgs=MSGS[id]||[];
+
+  document.getElementById("panelTitle").textContent=m.id+" 매칭 상세";
+  document.getElementById("panelSubtitle").textContent=`${m.owner.name} ↔ ${m.expert.name} · ${m.field}`;
+
+  // steps HTML
+  const stepsHtml=STEPS_DEF.map((s,i)=>{
+    const ss=m.steps[i].s;
+    return`<div class="step-item">
+      <div class="step-dot ${ss}">${ss==="done"?"✓":ss==="current"?i+1:i+1}</div>
+      <div class="step-body">
+        <div class="step-title">${s.label}</div>
+        <div class="step-desc">${s.desc}</div>
+        ${ss==="done"?`<div class="step-date">완료</div>`:""}
+        ${ss==="current"?`<div class="step-date" style="color:var(--blue)">진행 중</div>`:""}
+      </div>
+    </div>`;
+  }).join("");
+
+  // messages
+  const msgsHtml=msgs.length?`
+    <div class="msg-list">
+      ${msgs.map(msg=>`
+        <div class="msg-item">
+          <div class="msg-avatar" style="background:${msg.color}">${msg.sender[0]}</div>
+          <div class="msg-bubble">
+            <div class="msg-sender">${msg.sender} · ${msg.role}</div>
+            <div class="msg-text">${msg.text}</div>
+            <div class="msg-time">${msg.time}</div>
+          </div>
+        </div>`).join("")}
+    </div>`:`<div style="color:var(--text3);font-size:12px;text-align:center;padding:12px">메시지 없음</div>`;
+
+  document.getElementById("panelBody").innerHTML=`
+    <!-- 매칭 비주얼 -->
+    <div class="p-section">
+      <div class="match-viz" style="min-height:90px;display:flex;align-items:stretch">
+        <div class="match-side" style="flex:1">
+          <div class="match-side-avatar" style="background:${m.owner.color}">${m.owner.name[0]}</div>
+          <div class="match-side-name">${m.owner.name}</div>
+          <div class="match-side-role">${m.owner.biz}</div>
+        </div>
+        <div class="match-connector" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 12px">
+          <div class="match-conn-icon">🔗</div>
+        </div>
+        <div class="match-side" style="flex:1">
+          <div class="match-side-avatar" style="background:${m.expert.color}">${m.expert.name[0]}</div>
+          <div class="match-side-name">${m.expert.name}</div>
+          <div class="match-side-role">${m.expert.role}</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+        <span class="badge" style="background:${st.bg};color:${st.color}"><span class="badge-dot" style="background:${st.dot}"></span>${m.status}</span>
+        <span class="badge" style="background:${fc.bg};color:${fc.c}">${m.field}</span>
+        <span class="badge" style="background:var(--surface2);color:var(--text2)">📍 ${m.region}</span>
+        <span class="badge" style="background:var(--surface2);color:var(--text2)">💰 ${m.amount}</span>
+      </div>
+    </div>
+
+    <!-- 진행 정보 -->
+    <div class="p-section">
+      <div class="p-sec-title">매칭 정보</div>
+      <div class="info-grid2">
+        <div class="info-item"><div class="info-label">📅 시작일</div><div class="info-val">${m.startDate}</div></div>
+        <div class="info-item"><div class="info-label">💰 거래 금액</div><div class="info-val">${m.amount}</div></div>
+        <div class="info-item"><div class="info-label">📊 진행률</div><div class="info-val" style="color:${pc}">${m.progress}%</div></div>
+        <div class="info-item"><div class="info-label">📍 지역</div><div class="info-val">${m.region}</div></div>
+      </div>
+    </div>
+
+    <!-- 진행 단계 -->
+    <div class="p-section">
+      <div class="p-sec-title">진행 단계</div>
+      <div class="steps">${stepsHtml}</div>
+    </div>
+
+    <!-- 메시지 로그 -->
+    <div class="p-section">
+      <div class="p-sec-title">최근 대화 로그</div>
+      ${msgsHtml}
+    </div>
+  `;
+
+  // footer
+  let footerHtml=`<button class="p-btn p-btn-ghost" onclick="closePanel()">닫기</button>`;
+  if(m.status==="진행중"){
+    footerHtml+=`<button class="p-btn p-btn-warn" onclick="openReassignModal('${m.id}')">🔄 재배정</button>`;
+    footerHtml+=`<button class="p-btn p-btn-danger" onclick="openCancelModal('${m.id}')">취소</button>`;
+  }
+  if(m.status==="분쟁"){
+    footerHtml+=`<button class="p-btn p-btn-danger" onclick="openDisputeModal('${m.id}')">⚖️ 분쟁 처리</button>`;
+  }
+  document.getElementById("panelFooter").innerHTML=footerHtml;
+
+  document.getElementById("detailPanel").classList.add("open");
+  document.getElementById("panelOverlay").classList.add("open");
+}
+
+function closePanel(){
+  selectedId=null;
+  document.getElementById("detailPanel").classList.remove("open");
+  document.getElementById("panelOverlay").classList.remove("open");
+  renderTable();
+}
+
+// ── MODALS ────────────────────────────────────────────────────────────────────
+function openDisputeModal(id){
+  actionTarget=id;
+  document.getElementById("dispTarget").textContent=id;
+  document.getElementById("dispNote").value="";
+  document.getElementById("disputeModal").classList.add("open");
+}
+function openCancelModal(id){
+  actionTarget=id;
+  document.getElementById("cancelTarget").textContent=id;
+  document.getElementById("cancelNote").value="";
+  document.getElementById("cancelModal").classList.add("open");
+}
+function openReassignModal(id){
+  actionTarget=id;
+  chosenExpert=null;
+  document.getElementById("reassignTarget").textContent=id;
+  document.getElementById("reassignList").innerHTML=EXPERTS_POOL.map(e=>`
+    <div class="expert-option" id="exp-${e.id}" onclick="chooseExpert('${e.id}')">
+      <div class="exp-avatar" style="background:${e.color}">${e.name[0]}</div>
+      <div>
+        <div class="exp-name">${e.name} · ${e.field}사</div>
+        <div class="exp-sub">${e.cases}건 완료</div>
+      </div>
+      <div class="exp-score">★ ${e.score}</div>
+    </div>`).join("");
+  document.getElementById("reassignModal").classList.add("open");
+}
+function chooseExpert(id){
+  chosenExpert=id;
+  document.querySelectorAll(".expert-option").forEach(el=>el.classList.remove("chosen"));
+  document.getElementById("exp-"+id)?.classList.add("chosen");
+}
+function closeAllModals(){
+  ["disputeModal","cancelModal","reassignModal"].forEach(id=>document.getElementById(id).classList.remove("open"));
+}
+function confirmDispute(){
+  const m=matchings_data.find(x=>x.id===actionTarget);
+  if(m){m.status="완료";m.progress=100;m.steps.forEach(s=>s.s="done");}
+  closeAllModals(); applyFilters(); renderKPIs();
+  if(selectedId===actionTarget)openPanel(actionTarget);
+  showToast("⚖️ "+actionTarget+" 분쟁 처리가 완료됐습니다.");
+}
+function confirmCancel(){
+  const m=matchings_data.find(x=>x.id===actionTarget);
+  if(m){m.status="취소";m.amount="₩0";}
+  closeAllModals(); applyFilters(); renderKPIs();
+  if(selectedId===actionTarget)closePanel();
+  showToast("🚫 "+actionTarget+" 매칭이 취소됐습니다.");
+}
+function confirmReassign(){
+  if(!chosenExpert){showToast("⚠️ 전문가를 선택해주세요.");return;}
+  const exp=EXPERTS_POOL.find(e=>e.id===chosenExpert);
+  const m=matchings_data.find(x=>x.id===actionTarget);
+  if(m&&exp){m.expert={name:exp.name,role:exp.field+"사",color:exp.color};}
+  closeAllModals(); applyFilters();
+  if(selectedId===actionTarget)openPanel(actionTarget);
+  showToast("🔄 "+actionTarget+" 전문가가 "+exp?.name+"으로 재배정됐습니다.");
+}
+
+// ── SIDEBAR ───────────────────────────────────────────────────────────────────
+function renderNav(){
+  document.getElementById("nav").innerHTML=
+    `<div class="nav-section">메뉴</div>`+
+    NAV_ITEMS.map(n=>`
+      <a href="${FILENAMES[n.id] || '#'}" class="nav-item${n.active?" active":""}">
+        <div class="nav-icon">${n.icon}</div>
+        <span class="nav-label">${n.label}</span>
+        ${n.badge?`<span class="nav-badge">${n.badge}</span>`:`<span class="nav-id">${n.id}</span>`}
+      </a>`).join("");
+}
+
+// ── TOAST / CLOCK ─────────────────────────────────────────────────────────────
+function showToast(msg){
+  const t=document.getElementById("toast");
+  t.textContent=msg;t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),3200);
+}
+function startClock(){
+  const el=document.getElementById("clock"),pad=n=>String(n).padStart(2,"0");
+  function tick(){const d=new Date();el.textContent=`${d.getFullYear()}.${pad(d.getMonth()+1)}.${pad(d.getDate())}  ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;}
+  tick();setInterval(tick,1000);
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+renderNav();
+renderKPIs();
+applyFilters();
+startClock();
 </script>
 </body>
 </html>
