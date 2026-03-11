@@ -42,7 +42,7 @@ document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
 // Number Count Up Animation
 function animateCount(el, target, suffix = '+') {
-    const duration = 1800;
+    const duration = 2000;
     const start = performance.now();
     
     const update = (time) => {
@@ -64,8 +64,10 @@ if (statsEl) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 document.querySelectorAll('[data-count]').forEach(el => {
-                    const target = parseInt(el.getAttribute('data-count'));
-                    animateCount(el, target);
+                    const countStr = el.getAttribute('data-count').replace(/[^0-9]/g, '');
+                    const target = parseInt(countStr);
+                    const suffix = el.getAttribute('data-count').replace(/[0-9,]/g, '');
+                    animateCount(el, target, suffix);
                 });
                 statsObserver.disconnect();
             }
@@ -75,7 +77,7 @@ if (statsEl) {
 }
 
 // FAQ Accordion
-document.querySelectorAll('.faq-q').forEach(question => {
+document.querySelectorAll('.faq-question').forEach(question => {
     question.addEventListener('click', () => {
         const item = question.parentElement;
         const isOpen = item.classList.contains('open');
@@ -86,65 +88,11 @@ document.querySelectorAll('.faq-q').forEach(question => {
         });
         
         item.classList.toggle('open', !isOpen);
-    });
-});
-
-// Pricing Toggle (Monthly/Yearly)
-let isYearly = false;
-const toggleSwitch = document.getElementById('toggleSwitch');
-const monthlyLabel = document.getElementById('monthlyLabel');
-const yearlyLabel = document.getElementById('yearlyLabel');
-const saveBadge = document.getElementById('saveBadge');
-
-const prices = {
-    monthly: [29900, 59900, 99900],
-    yearly: [24900, 49900, 82900]
-};
-
-if (toggleSwitch) {
-    toggleSwitch.addEventListener('click', () => {
-        isYearly = !isYearly;
         
-        toggleSwitch.classList.toggle('yearly', isYearly);
-        monthlyLabel.classList.toggle('active', !isYearly);
-        yearlyLabel.classList.toggle('active', isYearly);
-        
-        if (saveBadge) {
-            saveBadge.style.display = isYearly ? 'inline-flex' : 'none';
+        const span = question.querySelector('span');
+        if (span) {
+            span.textContent = item.classList.contains('open') ? '−' : '+';
         }
-        
-        const currentPrices = isYearly ? prices.yearly : prices.monthly;
-        ['price1', 'price2', 'price3'].forEach((id, i) => {
-            const el = document.getElementById(id);
-            if (el) {
-                el.textContent = currentPrices[i].toLocaleString();
-            }
-        });
-    });
-}
-
-// Expert Fields Filtering
-function filterFields(cat, btn) {
-    // Update active button
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    if (btn) btn.classList.add('active');
-
-    // Filter cards
-    document.querySelectorAll('.field-card').forEach(card => {
-        if (cat === 'all' || card.dataset.cat === cat) {
-            card.classList.remove('hidden');
-            card.style.animation = 'fadeUp 0.35s ease both';
-        } else {
-            card.classList.add('hidden');
-        }
-    });
-}
-
-// Attach filter listeners
-document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        const category = btn.getAttribute('data-filter');
-        filterFields(category, btn);
     });
 });
 
